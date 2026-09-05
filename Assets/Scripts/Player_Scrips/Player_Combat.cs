@@ -5,23 +5,38 @@ using UnityEngine.InputSystem;
 public class Player_Combat : MonoBehaviour {
 	[Header("Combat Settings")]
 	[SerializeField] private float slashRadius;
-	[SerializeField] private int slashDamage;
-	[SerializeField] private int slashCooldown;
+	[SerializeField] private float slashDistance;
+	[SerializeField] private float slashCooldown;
+	[SerializeField] private int   slashDamage;
 
 	[Header("Drag and Drop")]
-	[SerializeField] private Transform slashPoint;
+	[SerializeField] private GameObject slashVFX;
 
+	//Private floats
 	private float slashTimer;
 
+	//Private vectors
+	[SerializeField] private Vector2 lookVector;
 
+	//Private layers
 	private LayerMask enemyLayer;
 
 	private void Awake() {
 		enemyLayer = LayerMask.GetMask("Enemy");
 	}
 
+	private void Update() {
+		slashTimer -= Time.deltaTime;
+	}
+
 	private void SlashAttack() {
-		var enemies = Physics2D.OverlapCircleAll(slashPoint.position, slashRadius, enemyLayer);
+		var slashPosition = new Vector2(lookVector.x * slashDistance + transform.position.x,
+		                                lookVector.y * slashDistance + transform.position.y);
+		var enemies    = Physics2D.OverlapCircleAll(slashPosition, slashRadius, enemyLayer);
+		var spawnedVfx = Instantiate(slashVFX, slashPosition, slashVFX.transform.rotation);
+		spawnedVfx.transform.parent = transform;
+		spawnedVfx.SetActive(true);
+		Destroy(spawnedVfx, 0.2f);
 
 		if (enemies == null) return;
 		foreach (var enemy in enemies) {
@@ -34,5 +49,17 @@ public class Player_Combat : MonoBehaviour {
 
 		slashTimer = slashCooldown;
 		SlashAttack();
+	}
+
+	private void OnLook(InputValue value) {
+		lookVector = value.Get<Vector2>();
+		lookVector.Normalize();
+	}
+
+	private void OnDrawGizmos() {
+		Gizmos.color = Color.red;
+		var slashPosition = new Vector2(lookVector.x * slashDistance + transform.position.x,
+		                                lookVector.y * slashDistance + transform.position.y);
+		Gizmos.DrawWireSphere(slashPosition, slashRadius);
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,19 +10,26 @@ public class Player_Controller : MonoBehaviour {
 	[Header("Misc settings")]
 	[SerializeField] private float groundCheckDistance;
 
-	//Bools
+	//Private ints
+	private int facingDirection = 1;
+
+	//Private bools
 	private bool jumpPressed;
 
 	//Components
 	private Rigidbody2D       playerRb;
 	private CapsuleCollider2D playerCollider;
 
-	//Vectors
+	//Private vectors
 	private Vector2 moveVector;
 
 	private void Awake() {
 		playerRb       = GetComponent<Rigidbody2D>();
 		playerCollider = GetComponent<CapsuleCollider2D>();
+	}
+
+	private void Update() {
+		SpriteFlip();
 	}
 
 	private void FixedUpdate() {
@@ -34,6 +42,15 @@ public class Player_Controller : MonoBehaviour {
 		if (!jumpPressed || !IsGrounded()) return;
 		playerRb.linearVelocityY = jumpForce;
 		jumpPressed              = false;
+	}
+
+	private void SpriteFlip() {
+		facingDirection = moveVector.x switch {
+			> 0 => 1,
+			< 0 => -1,
+			_   => facingDirection
+		};
+		transform.localScale = new Vector3(facingDirection, 1f, 1f);
 	}
 
 	private bool IsGrounded() {
