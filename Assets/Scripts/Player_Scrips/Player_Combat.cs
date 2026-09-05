@@ -16,7 +16,7 @@ public class Player_Combat : MonoBehaviour {
 	private float slashTimer;
 
 	//Private vectors
-	[SerializeField] private Vector2 lookVector;
+	private Vector2 lookVector;
 
 	//Private layers
 	private LayerMask enemyLayer;

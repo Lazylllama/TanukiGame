@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,14 +8,28 @@ public class Player_Controller : MonoBehaviour {
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpForce;
 
+	[Header("Dash settings")]
+	[SerializeField] private float dashForce;
+	[SerializeField] private float dashCooldown;
+	[SerializeField] private float   dashLength;
+
 	[Header("Misc settings")]
 	[SerializeField] private float groundCheckDistance;
+	[SerializeField] private Camera mainCamera;
+
+
+	[SerializeField] private MovingStates movingStates;
+
+	//Private floats
+	private float dashTimer;
 
 	//Private ints
 	private int facingDirection = 1;
 
 	//Private bools
 	private bool jumpPressed;
+	private bool dashPressed;
+	private bool dashActive;
 
 	//Components
 	private Rigidbody2D       playerRb;
@@ -22,6 +37,11 @@ public class Player_Controller : MonoBehaviour {
 
 	//Private vectors
 	private Vector2 moveVector;
+	private Vector2 mousePosition;
+	private Vector2 mousePositionInput;
+	
+	//Coroutines
+	private Coroutine dashCoroutine;
 
 	private void Awake() {
 		playerRb       = GetComponent<Rigidbody2D>();
@@ -30,6 +50,9 @@ public class Player_Controller : MonoBehaviour {
 
 	private void Update() {
 		SpriteFlip();
+		StateChanger();
+		mousePosition =  mainCamera.ScreenToWorldPoint(mousePositionInput).normalized;
+		dashTimer     -= Time.deltaTime;
 	}
 
 	private void FixedUpdate() {
@@ -37,11 +60,29 @@ public class Player_Controller : MonoBehaviour {
 	}
 
 	private void MovementHandler() {
+		if (dashActive) return;
 		playerRb.linearVelocityX = moveVector.x * moveSpeed;
 
 		if (!jumpPressed || !IsGrounded()) return;
 		playerRb.linearVelocityY = jumpForce;
 		jumpPressed              = false;
+	}
+	
+
+	private IEnumerator Dash() {
+		dashPressed = false;
+		dashActive = true;
+		var dashLengthTimer = dashLength;
+		var dashDirection   = mousePosition;
+
+		while (dashLengthTimer > 0) {
+			dashLengthTimer -= Time.deltaTime;
+
+			playerRb.linearVelocity = dashDirection * dashForce;
+			yield return null;
+		}
+		dashActive = false;
+		dashCoroutine = null;
 	}
 
 	private void SpriteFlip() {
@@ -61,6 +102,23 @@ public class Player_Controller : MonoBehaviour {
 		return hit.collider;
 	}
 
+	private void StateChanger() {
+		if (playerRb.linearVelocity.x == 0f && IsGrounded()) movingStates  = MovingStates.Idle;
+		if (playerRb.linearVelocity.x != 0f && IsGrounded()) movingStates  = MovingStates.Moving;
+		if (playerRb.linearVelocity.y > 0f  && !IsGrounded()) movingStates = MovingStates.Jumping;
+		if (playerRb.linearVelocity.y < 0f  && !IsGrounded()) movingStates = MovingStates.Falling;
+		if (dashActive) movingStates = MovingStates.Dashing;
+	}
+
+	private enum MovingStates {
+		Idle,
+		Moving,
+		Jumping,
+		Falling,
+		Dashing
+	}
+
+
 	private void OnMove(InputValue value) {
 		moveVector = value.Get<Vector2>();
 		moveVector.Normalize();
@@ -68,5 +126,21 @@ public class Player_Controller : MonoBehaviour {
 
 	private void OnJump(InputValue value) {
 		jumpPressed = value.isPressed;
+	}
+
+	private void OnDash(InputValue value) {
+		dashPressed = value.isPressed;
+		if (!dashPressed || dashTimer > 0 || dashCoroutine != null) return;
+		dashTimer = dashCooldown;
+		dashCoroutine = StartCoroutine(Dash());
+	}
+
+	private void OnMousePosition(InputValue value) {
+		mousePositionInput = value.Get<Vector2>();
+	}
+
+	private void OnDrawGizmos() {
+		Gizmos.color = Color.green;
+		Gizmos.DrawLine(transform.position, mousePosition);
 	}
 }
