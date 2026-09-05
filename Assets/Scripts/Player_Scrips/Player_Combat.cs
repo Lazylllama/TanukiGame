@@ -32,14 +32,16 @@ public class Player_Combat : MonoBehaviour {
 	private void SlashAttack() {
 		var slashPosition = new Vector2(lookVector.x * slashDistance + transform.position.x,
 		                                lookVector.y * slashDistance + transform.position.y);
-		var enemies    = Physics2D.OverlapCircleAll(slashPosition, slashRadius, enemyLayer);
+
 		var spawnedVfx = Instantiate(slashVFX, slashPosition, slashVFX.transform.rotation);
 		spawnedVfx.transform.parent = transform;
 		spawnedVfx.SetActive(true);
 		Destroy(spawnedVfx, 0.2f);
 
+		var enemies = Physics2D.OverlapCircleAll(slashPosition, slashRadius, enemyLayer);
 		if (enemies == null) return;
 		foreach (var enemy in enemies) {
+			enemy.GetComponent<Enemy_Health>().ChangeHealth(-slashDamage);
 		}
 	}
 

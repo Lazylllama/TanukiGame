@@ -55,8 +55,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 7
-  m_Material: {fileID: 0}
+  m_GravityScale: 10
+  m_Material: {fileID: 6200000, guid: 71d45da887dd47a4abdcb00ceb8ece4a, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -148,7 +148,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player_Controller
   moveSpeed: 15
   jumpForce: 25
+  dashForce: 30
+  dashCooldown: 0.5
+  dashLength: 0.2
   groundCheckDistance: 0.001
+  mainCamera: {fileID: 0}
+  movingStates: 0
 --- !u!114 &8124614188786182174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,9 +169,8 @@ MonoBehaviour:
   slashRadius: 1
   slashDistance: 2
   slashCooldown: 0.5
-  slashDamage: 0
+  slashDamage: 1
   slashVFX: {fileID: 3125316258531813285}
-  lookVector: {x: 0, y: 0}
 --- !u!1 &3125316258531813285
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,7 +342,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 0, g: 0.644956, b: 1, a: 1}

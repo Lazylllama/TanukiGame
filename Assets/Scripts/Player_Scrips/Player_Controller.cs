@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +10,7 @@ public class Player_Controller : MonoBehaviour {
 	[Header("Dash settings")]
 	[SerializeField] private float dashForce;
 	[SerializeField] private float dashCooldown;
-	[SerializeField] private float   dashLength;
+	[SerializeField] private float dashLength;
 
 	[Header("Misc settings")]
 	[SerializeField] private float groundCheckDistance;
@@ -39,8 +38,8 @@ public class Player_Controller : MonoBehaviour {
 	private Vector2 moveVector;
 	private Vector2 mousePosition;
 	private Vector2 mousePositionInput;
-	
-	//Coroutines
+
+	//Private coroutines
 	private Coroutine dashCoroutine;
 
 	private void Awake() {
@@ -51,7 +50,7 @@ public class Player_Controller : MonoBehaviour {
 	private void Update() {
 		SpriteFlip();
 		StateChanger();
-		mousePosition =  mainCamera.ScreenToWorldPoint(mousePositionInput).normalized;
+		mousePosition =  mainCamera.ScreenToWorldPoint(mousePositionInput);
 		dashTimer     -= Time.deltaTime;
 	}
 
@@ -67,13 +66,13 @@ public class Player_Controller : MonoBehaviour {
 		playerRb.linearVelocityY = jumpForce;
 		jumpPressed              = false;
 	}
-	
+
 
 	private IEnumerator Dash() {
 		dashPressed = false;
-		dashActive = true;
+		dashActive  = true;
 		var dashLengthTimer = dashLength;
-		var dashDirection   = mousePosition;
+		var dashDirection   = mousePosition.normalized;
 
 		while (dashLengthTimer > 0) {
 			dashLengthTimer -= Time.deltaTime;
@@ -81,12 +80,13 @@ public class Player_Controller : MonoBehaviour {
 			playerRb.linearVelocity = dashDirection * dashForce;
 			yield return null;
 		}
-		dashActive = false;
+
+		dashActive    = false;
 		dashCoroutine = null;
 	}
 
 	private void SpriteFlip() {
-		facingDirection = moveVector.x switch {
+		facingDirection = playerRb.linearVelocity.x switch {
 			> 0 => 1,
 			< 0 => -1,
 			_   => facingDirection
@@ -107,7 +107,7 @@ public class Player_Controller : MonoBehaviour {
 		if (playerRb.linearVelocity.x != 0f && IsGrounded()) movingStates  = MovingStates.Moving;
 		if (playerRb.linearVelocity.y > 0f  && !IsGrounded()) movingStates = MovingStates.Jumping;
 		if (playerRb.linearVelocity.y < 0f  && !IsGrounded()) movingStates = MovingStates.Falling;
-		if (dashActive) movingStates = MovingStates.Dashing;
+		if (dashActive) movingStates                                       = MovingStates.Dashing;
 	}
 
 	private enum MovingStates {
@@ -117,7 +117,6 @@ public class Player_Controller : MonoBehaviour {
 		Falling,
 		Dashing
 	}
-
 
 	private void OnMove(InputValue value) {
 		moveVector = value.Get<Vector2>();
@@ -131,16 +130,11 @@ public class Player_Controller : MonoBehaviour {
 	private void OnDash(InputValue value) {
 		dashPressed = value.isPressed;
 		if (!dashPressed || dashTimer > 0 || dashCoroutine != null) return;
-		dashTimer = dashCooldown;
+		dashTimer     = dashCooldown;
 		dashCoroutine = StartCoroutine(Dash());
 	}
 
 	private void OnMousePosition(InputValue value) {
 		mousePositionInput = value.Get<Vector2>();
-	}
-
-	private void OnDrawGizmos() {
-		Gizmos.color = Color.green;
-		Gizmos.DrawLine(transform.position, mousePosition);
 	}
 }

@@ -273,7 +273,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 9.48
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -421,7 +421,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -4.02, z: 0}
-  m_LocalScale: {x: 17.74, y: 1, z: 1}
+  m_LocalScale: {x: 33.705997, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 321680567}
@@ -537,29 +537,9 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: dashForce
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: dashLength
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 564864226}
-    - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: dashCooldown
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8737501552401132132, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 71d45da887dd47a4abdcb00ceb8ece4a, type: 2}
-    - target: {fileID: 8737501552401132132, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: m_GravityScale
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
