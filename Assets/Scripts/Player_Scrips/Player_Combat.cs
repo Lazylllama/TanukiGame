@@ -18,6 +18,7 @@ public class Player_Combat : MonoBehaviour {
 	[SerializeField] private float parryCooldown;
 	[SerializeField] private float parryRadius;
 	[SerializeField] private float parryRecoilForce;
+	[SerializeField] private float parryRecoilDuration;
 
 
 	[Header("Drag and Drop")]
@@ -32,17 +33,21 @@ public class Player_Combat : MonoBehaviour {
 
 	//Private layers
 	private LayerMask enemyLayer;
-	
+
 	//Components
 	private Rigidbody2D playerRb;
 
+	//Coroutines
+	private Coroutine parryCoroutine;
+
 	private void Awake() {
 		enemyLayer = LayerMask.GetMask("Enemy");
-		playerRb = GetComponent<Rigidbody2D>();
+		playerRb   = GetComponent<Rigidbody2D>();
 	}
 
 	private void Update() {
 		slashTimer -= Time.deltaTime;
+		parryTimer -= Time.deltaTime;
 	}
 
 	private void SlashAttack() {
@@ -59,7 +64,7 @@ public class Player_Combat : MonoBehaviour {
 
 		if (enemies.Length == 0f) return;
 
-		var recoilDirection = new Vector2(Player_Controller.Instance.FacingDirection * -1, playerRb.linearVelocity.y);  
+		var recoilDirection = new Vector2(Player_Controller.Instance.FacingDirection * -1, playerRb.linearVelocity.y);
 		StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
 		foreach (var enemy in enemies) {
@@ -71,7 +76,7 @@ public class Player_Combat : MonoBehaviour {
 		while (duration > 0) {
 			duration -= Time.deltaTime;
 
-			
+
 			Player_Controller.Instance.ExtraForce = force * direction;
 
 			yield return null;
@@ -82,7 +87,14 @@ public class Player_Combat : MonoBehaviour {
 	}
 
 	private IEnumerator Parry() {
-		
+		var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius);
+
+		if (parriedColliders.Length > 0) {
+			Debug.Log("Parried");
+			StartCoroutine(ExtraForce(parryRecoilForce, Vector2.up, parryRecoilDuration));
+		}
+
+		yield return null;
 	}
 
 
@@ -94,8 +106,9 @@ public class Player_Combat : MonoBehaviour {
 	}
 
 	private void OnParry(InputValue value) {
-		if (!value.isPressed || !(parryRadius <= 0f)) return;
-		parryTimer = parryCooldown;
+		if (!value.isPressed || !(parryTimer <= 0f)) return;
+		parryCoroutine = StartCoroutine(Parry());
+		parryTimer     = parryCooldown;
 	}
 
 	private void OnLook(InputValue value) {
