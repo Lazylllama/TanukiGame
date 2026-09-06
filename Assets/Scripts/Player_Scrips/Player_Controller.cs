@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player_Controller : MonoBehaviour {
+	public static Player_Controller Instance;
 	[Header("Movement settings")]
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpForce;
@@ -17,13 +18,17 @@ public class Player_Controller : MonoBehaviour {
 	[SerializeField] private Camera mainCamera;
 
 
-	[SerializeField] private MovingStates movingStates;
+	// Getters and setters
+	public MovingStates MovingState     { get;         private set; }
+	public int          FacingDirection { get;         private set; }
+	public Vector2      ExtraForce      { private get; set; }
+
 
 	//Private floats
 	private float dashTimer;
 
 	//Private ints
-	private int facingDirection = 1;
+
 
 	//Private bools
 	private bool jumpPressed;
@@ -43,6 +48,14 @@ public class Player_Controller : MonoBehaviour {
 	private Coroutine dashCoroutine;
 
 	private void Awake() {
+		if (Instance != null) {
+			Destroy(this.gameObject);
+		} else {
+			Instance = this;
+		}
+
+		FacingDirection = 1;
+
 		playerRb       = GetComponent<Rigidbody2D>();
 		playerCollider = GetComponent<CapsuleCollider2D>();
 	}
@@ -60,7 +73,8 @@ public class Player_Controller : MonoBehaviour {
 
 	private void MovementHandler() {
 		if (dashActive) return;
-		playerRb.linearVelocityX = moveVector.x * moveSpeed;
+		if (ExtraForce.magnitude > 0) playerRb.linearVelocity = new Vector2(moveVector.x + ExtraForce.x, ExtraForce.y);
+		else playerRb.linearVelocityX                         = moveVector.x * moveSpeed;
 
 		if (!jumpPressed || !IsGrounded()) return;
 		playerRb.linearVelocityY = jumpForce;
@@ -77,7 +91,8 @@ public class Player_Controller : MonoBehaviour {
 		while (dashLengthTimer > 0) {
 			dashLengthTimer -= Time.deltaTime;
 
-			playerRb.linearVelocity = dashDirection * dashForce;
+			//playerRb.linearVelocity = dashDirection * dashForce; //Vilket håll som helst
+			playerRb.linearVelocityX = FacingDirection * dashForce; //Bara åt sidan
 			yield return null;
 		}
 
@@ -86,12 +101,12 @@ public class Player_Controller : MonoBehaviour {
 	}
 
 	private void SpriteFlip() {
-		facingDirection = playerRb.linearVelocity.x switch {
+		FacingDirection = moveVector.x switch {
 			> 0 => 1,
 			< 0 => -1,
-			_   => facingDirection
+			_   => FacingDirection
 		};
-		transform.localScale = new Vector3(facingDirection, 1f, 1f);
+		transform.localScale = new Vector3(FacingDirection, 1f, 1f);
 	}
 
 	private bool IsGrounded() {
@@ -103,14 +118,14 @@ public class Player_Controller : MonoBehaviour {
 	}
 
 	private void StateChanger() {
-		if (playerRb.linearVelocity.x == 0f && IsGrounded()) movingStates  = MovingStates.Idle;
-		if (playerRb.linearVelocity.x != 0f && IsGrounded()) movingStates  = MovingStates.Moving;
-		if (playerRb.linearVelocity.y > 0f  && !IsGrounded()) movingStates = MovingStates.Jumping;
-		if (playerRb.linearVelocity.y < 0f  && !IsGrounded()) movingStates = MovingStates.Falling;
-		if (dashActive) movingStates                                       = MovingStates.Dashing;
+		if (playerRb.linearVelocity.x == 0f && IsGrounded()) MovingState  = MovingStates.Idle;
+		if (playerRb.linearVelocity.x != 0f && IsGrounded()) MovingState  = MovingStates.Moving;
+		if (playerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
+		if (playerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
+		if (dashActive) MovingState                                       = MovingStates.Dashing;
 	}
 
-	private enum MovingStates {
+	public enum MovingStates {
 		Idle,
 		Moving,
 		Jumping,

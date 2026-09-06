@@ -147,13 +147,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Controller
   moveSpeed: 15
-  jumpForce: 25
+  jumpForce: 35
   dashForce: 30
   dashCooldown: 0.5
   dashLength: 0.2
   groundCheckDistance: 0.001
   mainCamera: {fileID: 0}
-  movingStates: 0
 --- !u!114 &8124614188786182174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +167,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player_Combat
   slashRadius: 1
   slashDistance: 2
-  slashCooldown: 0.5
+  slashCooldown: 0.2
+  slashRecoilForce: 10
+  slashRecoilDuration: 0.2
   slashDamage: 1
   slashVFX: {fileID: 3125316258531813285}
 --- !u!1 &3125316258531813285
