@@ -14,9 +14,8 @@ public class Player_Combat : MonoBehaviour {
 	[SerializeField] private int   slashDamage;
 
 	[Header("Parry Settings")]
-	[SerializeField] private float parryLength;
-	[SerializeField] private float parryCooldown;
 	[SerializeField] private float parryRadius;
+	[SerializeField] private float parryCooldown;
 	[SerializeField] private float parryRecoilForce;
 	[SerializeField] private float parryRecoilDuration;
 
@@ -33,6 +32,7 @@ public class Player_Combat : MonoBehaviour {
 
 	//Private layers
 	private LayerMask enemyLayer;
+	private LayerMask parriableLayer;
 
 	//Components
 	private Rigidbody2D playerRb;
@@ -41,8 +41,9 @@ public class Player_Combat : MonoBehaviour {
 	private Coroutine parryCoroutine;
 
 	private void Awake() {
-		enemyLayer = LayerMask.GetMask("Enemy");
-		playerRb   = GetComponent<Rigidbody2D>();
+		enemyLayer     = LayerMask.GetMask("Enemy");
+		parriableLayer = LayerMask.GetMask("Parriable");
+		playerRb       = GetComponent<Rigidbody2D>();
 	}
 
 	private void Update() {
@@ -87,7 +88,7 @@ public class Player_Combat : MonoBehaviour {
 	}
 
 	private IEnumerator Parry() {
-		var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius);
+		var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
 
 		if (parriedColliders.Length > 0) {
 			Debug.Log("Parried");
