@@ -651,9 +651,25 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: moveSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 564864226}
+    - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: dashGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3579560135169989607, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: normalGravity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: parryLength
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
       propertyPath: parryRadius
       value: 2
@@ -667,8 +683,16 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: slashRecoilForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
       propertyPath: parryRecoilDuration
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: slashRecoilDuration
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

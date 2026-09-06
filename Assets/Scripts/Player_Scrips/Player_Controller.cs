@@ -7,11 +7,13 @@ public class Player_Controller : MonoBehaviour {
 	[Header("Movement settings")]
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpForce;
+	[SerializeField] private float normalGravity;
 
 	[Header("Dash settings")]
 	[SerializeField] private float dashForce;
 	[SerializeField] private float dashCooldown;
 	[SerializeField] private float dashLength;
+	[SerializeField] private float dashGravity;
 
 	[Header("Misc settings")]
 	[SerializeField] private float groundCheckDistance;
@@ -19,9 +21,10 @@ public class Player_Controller : MonoBehaviour {
 
 
 	// Getters and setters
-	public MovingStates MovingState     { get;         private set; }
-	public int          FacingDirection { get;         private set; }
-	public Vector2      ExtraForce      { private get; set; }
+	[field: SerializeField] public MovingStates MovingState     { get;         private set; }
+	public                         int          FacingDirection { get;         private set; }
+	public                         Vector2      ExtraForce      { private get; set; }
+	private                        Rigidbody2D  PlayerRb        { get;         set; }
 
 
 	//Private floats
@@ -36,7 +39,6 @@ public class Player_Controller : MonoBehaviour {
 	private bool dashActive;
 
 	//Components
-	private Rigidbody2D       playerRb;
 	private CapsuleCollider2D playerCollider;
 
 	//Private vectors
@@ -56,7 +58,7 @@ public class Player_Controller : MonoBehaviour {
 
 		FacingDirection = 1;
 
-		playerRb       = GetComponent<Rigidbody2D>();
+		PlayerRb       = GetComponent<Rigidbody2D>();
 		playerCollider = GetComponent<CapsuleCollider2D>();
 	}
 
@@ -73,12 +75,13 @@ public class Player_Controller : MonoBehaviour {
 
 	private void MovementHandler() {
 		if (dashActive) return;
-		if (ExtraForce.magnitude > 0) playerRb.linearVelocity = new Vector2(moveVector.x + ExtraForce.x, ExtraForce.y);
-		else playerRb.linearVelocityX                         = moveVector.x * moveSpeed;
+		if (ExtraForce.magnitude > 0) {
+			if (ExtraForce.x != 0f) PlayerRb.linearVelocityX = ExtraForce.x + moveVector.x;
+			if (ExtraForce.y != 0f) PlayerRb.linearVelocityY = ExtraForce.y;
+		} else PlayerRb.linearVelocityX = moveVector.x * moveSpeed;
 
-		if (!jumpPressed || !IsGrounded()) return;
-		playerRb.linearVelocityY = jumpForce;
-		jumpPressed              = false;
+		if (jumpPressed && IsGrounded()) PlayerRb.linearVelocityY = jumpForce;
+		//else if (!jumpPressed && PlayerRb.linearVelocity.y > 0f) PlayerRb.linearVelocityY = PlayerRb.linearVelocity.y * 0.5f; // variable jump height
 	}
 
 
@@ -89,15 +92,17 @@ public class Player_Controller : MonoBehaviour {
 		var dashDirection   = mousePosition.normalized;
 
 		while (dashLengthTimer > 0) {
-			dashLengthTimer -= Time.deltaTime;
+			dashLengthTimer       -= Time.deltaTime;
+			PlayerRb.gravityScale =  dashGravity;
 
 			//playerRb.linearVelocity = dashDirection * dashForce; //Vilket håll som helst
-			playerRb.linearVelocityX = FacingDirection * dashForce; //Bara åt sidan
+			PlayerRb.linearVelocityX = FacingDirection * dashForce; //Bara åt sidan
 			yield return null;
 		}
 
-		dashActive    = false;
-		dashCoroutine = null;
+		PlayerRb.gravityScale = normalGravity;
+		dashActive            = false;
+		dashCoroutine         = null;
 	}
 
 	private void SpriteFlip() {
@@ -118,11 +123,12 @@ public class Player_Controller : MonoBehaviour {
 	}
 
 	private void StateChanger() {
-		if (playerRb.linearVelocity.x == 0f && IsGrounded()) MovingState  = MovingStates.Idle;
-		if (playerRb.linearVelocity.x != 0f && IsGrounded()) MovingState  = MovingStates.Moving;
-		if (playerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
-		if (playerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
+		if (PlayerRb.linearVelocity.x == 0f && IsGrounded()) MovingState  = MovingStates.Idle;
+		if (PlayerRb.linearVelocity.x != 0f && IsGrounded()) MovingState  = MovingStates.Moving;
+		if (PlayerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
+		if (PlayerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
 		if (dashActive) MovingState                                       = MovingStates.Dashing;
+		if (Player_Combat.Instance.isParrying) MovingState                = MovingStates.Parrying;
 	}
 
 	public enum MovingStates {
@@ -130,7 +136,8 @@ public class Player_Controller : MonoBehaviour {
 		Moving,
 		Jumping,
 		Falling,
-		Dashing
+		Dashing,
+		Parrying
 	}
 
 	private void OnMove(InputValue value) {

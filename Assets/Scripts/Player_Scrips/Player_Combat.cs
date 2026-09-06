@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player_Combat : MonoBehaviour {
+	public static Player_Combat Instance;
+
 	[Header("Slash Settings")]
 	[SerializeField] private float slashRadius;
 	[SerializeField] private float slashDistance;
@@ -14,6 +16,7 @@ public class Player_Combat : MonoBehaviour {
 	[SerializeField] private int   slashDamage;
 
 	[Header("Parry Settings")]
+	[SerializeField] private float parryLength;
 	[SerializeField] private float parryRadius;
 	[SerializeField] private float parryCooldown;
 	[SerializeField] private float parryRecoilForce;
@@ -26,6 +29,9 @@ public class Player_Combat : MonoBehaviour {
 	//Private floats
 	private float slashTimer;
 	private float parryTimer;
+
+	//Getters and setters
+	public bool isParrying { get; private set; }
 
 	//Private vectors
 	private Vector2 lookVector;
@@ -41,6 +47,12 @@ public class Player_Combat : MonoBehaviour {
 	private Coroutine parryCoroutine;
 
 	private void Awake() {
+		if (Instance != null) {
+			Destroy(this.gameObject);
+		} else {
+			Instance = this;
+		}
+
 		enemyLayer     = LayerMask.GetMask("Enemy");
 		parriableLayer = LayerMask.GetMask("Parriable");
 		playerRb       = GetComponent<Rigidbody2D>();
@@ -59,13 +71,13 @@ public class Player_Combat : MonoBehaviour {
 		var spawnedVfx = Instantiate(slashVFX, slashPosition, slashVFX.transform.rotation);
 		spawnedVfx.transform.parent = transform;
 		spawnedVfx.SetActive(true);
-		Destroy(spawnedVfx, 0.2f);
+		Destroy(spawnedVfx, 0.1f);
 
 		var enemies = Physics2D.OverlapCircleAll(slashPosition, slashRadius, enemyLayer);
 
 		if (enemies.Length == 0f) return;
 
-		var recoilDirection = new Vector2(Player_Controller.Instance.FacingDirection * -1, playerRb.linearVelocity.y);
+		var recoilDirection = new Vector2(Player_Controller.Instance.FacingDirection * -1, 0f);
 		StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
 		foreach (var enemy in enemies) {
@@ -77,7 +89,6 @@ public class Player_Combat : MonoBehaviour {
 		while (duration > 0) {
 			duration -= Time.deltaTime;
 
-
 			Player_Controller.Instance.ExtraForce = force * direction;
 
 			yield return null;
@@ -88,12 +99,24 @@ public class Player_Combat : MonoBehaviour {
 	}
 
 	private IEnumerator Parry() {
-		var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
+		isParrying = true;
+		var parryHit         = false;
+		var parryLengthTimer = parryLength;
 
-		if (parriedColliders.Length > 0) {
-			Debug.Log("Parried");
-			StartCoroutine(ExtraForce(parryRecoilForce, Vector2.up, parryRecoilDuration));
+		while (parryLengthTimer > 0f) {
+			parryLengthTimer -= Time.deltaTime;
+			var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
+			if (parriedColliders.Length > 0) {
+				parryHit         = true;
+				parryLengthTimer = 0f;
+			}
+
+			yield return null;
 		}
+
+		isParrying = false;
+
+		if (parryHit) StartCoroutine(ExtraForce(parryRecoilForce, Vector2.up, parryRecoilDuration));
 
 		yield return null;
 	}
