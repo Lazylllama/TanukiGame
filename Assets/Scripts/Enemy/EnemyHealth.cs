@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-public class Enemy_Health : MonoBehaviour {
+namespace Enemy { }
+public class EnemyHealth : MonoBehaviour {
 	[Header("General settings")]
 	[SerializeField] private float maxEnemyHealth;
 

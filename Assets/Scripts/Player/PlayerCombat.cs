@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player_Combat : MonoBehaviour {
-	public static Player_Combat Instance;
+namespace Player{}
+	
+public class PlayerCombat : MonoBehaviour {
+	public static PlayerCombat Instance;
 
 	[Header("Slash Settings")]
 	[SerializeField] private float slashRadius;
@@ -65,7 +67,7 @@ public class Player_Combat : MonoBehaviour {
 
 	private void SlashAttack() {
 		var slashPosition =
-			new Vector2(Player_Controller.Instance.FacingDirection * slashDistance + transform.position.x,
+			new Vector2(PlayerController.Instance.FacingDirection * slashDistance + transform.position.x,
 			            transform.position.y);
 
 		var spawnedVfx = Instantiate(slashVFX, slashPosition, slashVFX.transform.rotation);
@@ -77,11 +79,11 @@ public class Player_Combat : MonoBehaviour {
 
 		if (enemies.Length == 0f) return;
 
-		var recoilDirection = new Vector2(Player_Controller.Instance.FacingDirection * -1, 0f);
+		var recoilDirection = new Vector2(PlayerController.Instance.FacingDirection * -1, 0f);
 		StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
 		foreach (var enemy in enemies) {
-			enemy.GetComponent<Enemy_Health>().ChangeHealth(-slashDamage);
+			enemy.GetComponent<EnemyHealth>().ChangeHealth(-slashDamage);
 		}
 	}
 
@@ -89,12 +91,12 @@ public class Player_Combat : MonoBehaviour {
 		while (duration > 0) {
 			duration -= Time.deltaTime;
 
-			Player_Controller.Instance.ExtraForce = force * direction;
+			PlayerController.Instance.ExtraForce = force * direction;
 
 			yield return null;
 		}
 
-		Player_Controller.Instance.ExtraForce = Vector2.zero;
+		PlayerController.Instance.ExtraForce = Vector2.zero;
 		yield return null;
 	}
 
@@ -143,7 +145,7 @@ public class Player_Combat : MonoBehaviour {
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
 		var slashPosition =
-			new Vector2(Player_Controller.Instance.FacingDirection * slashDistance + transform.position.x,
+			new Vector2(PlayerController.Instance.FacingDirection * slashDistance + transform.position.x,
 			            transform.position.y);
 		Gizmos.DrawWireSphere(slashPosition, slashRadius);
 	}

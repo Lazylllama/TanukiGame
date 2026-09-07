@@ -2,8 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player_Controller : MonoBehaviour {
-	public static Player_Controller Instance;
+namespace Player { }
+public class PlayerController : MonoBehaviour {
+	public static PlayerController Instance;
 	[Header("Movement settings")]
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpForce;
@@ -128,7 +129,7 @@ public class Player_Controller : MonoBehaviour {
 		if (PlayerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
 		if (PlayerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
 		if (dashActive) MovingState                                       = MovingStates.Dashing;
-		if (Player_Combat.Instance.isParrying) MovingState                = MovingStates.Parrying;
+		if (PlayerCombat.Instance.isParrying) MovingState                = MovingStates.Parrying;
 	}
 
 	public enum MovingStates {
