@@ -1,8 +1,11 @@
 using System.Collections;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player { }
+namespace Player {
+}
+
 public class PlayerController : MonoBehaviour {
 	public static PlayerController Instance;
 	[Header("Movement settings")]
@@ -22,10 +25,10 @@ public class PlayerController : MonoBehaviour {
 
 
 	// Getters and setters
-	[field: SerializeField] public MovingStates MovingState     { get;         private set; }
-	public                         int          FacingDirection { get;         private set; }
-	public                         Vector2      ExtraForce      { private get; set; }
-	private                        Rigidbody2D  PlayerRb        { get;         set; }
+	[field: SerializeField] public MovingStates MovingState    { get;         private set; }
+	public                         bool         IsLookingRight { get;         private set; }
+	public                         Vector2      ExtraForce     { private get; set; }
+	private                        Rigidbody2D  PlayerRb       { get;         set; }
 
 
 	//Private floats
@@ -33,14 +36,14 @@ public class PlayerController : MonoBehaviour {
 
 	//Private ints
 
-
 	//Private bools
 	private bool jumpPressed;
 	private bool dashPressed;
 	private bool dashActive;
 
 	//Components
-	private CapsuleCollider2D playerCollider;
+	private CapsuleCollider2D  playerCollider;
+	private CameraFollowObject cameraFollowObject;
 
 	//Private vectors
 	private Vector2 moveVector;
@@ -57,20 +60,19 @@ public class PlayerController : MonoBehaviour {
 			Instance = this;
 		}
 
-		FacingDirection = 1;
-
-		PlayerRb       = GetComponent<Rigidbody2D>();
-		playerCollider = GetComponent<CapsuleCollider2D>();
+		PlayerRb           = GetComponent<Rigidbody2D>();
+		playerCollider     = GetComponent<CapsuleCollider2D>();
+		cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
 	}
 
 	private void Update() {
-		SpriteFlip();
 		StateChanger();
 		mousePosition =  mainCamera.ScreenToWorldPoint(mousePositionInput);
 		dashTimer     -= Time.deltaTime;
 	}
 
 	private void FixedUpdate() {
+		SpriteFlip();
 		MovementHandler();
 	}
 
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 			PlayerRb.gravityScale =  dashGravity;
 
 			//playerRb.linearVelocity = dashDirection * dashForce; //Vilket håll som helst
-			PlayerRb.linearVelocityX = FacingDirection * dashForce; //Bara åt sidan
+			PlayerRb.linearVelocityX = IsLookingRight ? dashForce : -dashForce; //Bara åt sidan
 			yield return null;
 		}
 
@@ -107,12 +109,18 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void SpriteFlip() {
-		FacingDirection = moveVector.x switch {
-			> 0 => 1,
-			< 0 => -1,
-			_   => FacingDirection
+		var oldDirection = IsLookingRight;
+		IsLookingRight = moveVector.x switch {
+			> 0 => true,
+			< 0 => false,
+			_   => IsLookingRight
 		};
-		transform.localScale = new Vector3(FacingDirection, 1f, 1f);
+
+		if (oldDirection == IsLookingRight) return;
+		cameraFollowObject.CallTurn();
+
+		var rotator = new Vector3(transform.rotation.x, IsLookingRight ? 0f : 180f, transform.rotation.z);
+		transform.rotation = Quaternion.Euler(rotator);
 	}
 
 	private bool IsGrounded() {
@@ -129,7 +137,7 @@ public class PlayerController : MonoBehaviour {
 		if (PlayerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
 		if (PlayerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
 		if (dashActive) MovingState                                       = MovingStates.Dashing;
-		if (PlayerCombat.Instance.isParrying) MovingState                = MovingStates.Parrying;
+		if (PlayerCombat.Instance.isParrying) MovingState                 = MovingStates.Parrying;
 	}
 
 	public enum MovingStates {
