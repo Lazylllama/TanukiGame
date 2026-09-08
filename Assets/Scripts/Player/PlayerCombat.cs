@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player{}
-	
+namespace Player {
+}
+
 public class PlayerCombat : MonoBehaviour {
 	public static PlayerCombat Instance;
 
@@ -144,9 +145,11 @@ public class PlayerCombat : MonoBehaviour {
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
-		var slashPosition =
-			new Vector2(PlayerController.Instance.FacingDirection * slashDistance + transform.position.x,
-			            transform.position.y);
-		Gizmos.DrawWireSphere(slashPosition, slashRadius);
+
+		//! Du har inte instances när du inte har spelet igång så den skriker i editorn
+		// var slashPosition =
+		// 	new Vector2(PlayerController.Instance.FacingDirection * slashDistance + transform.position.x,
+		// 	            transform.position.y);
+		// Gizmos.DrawWireSphere(slashPosition, slashRadius);
 	}
 }
