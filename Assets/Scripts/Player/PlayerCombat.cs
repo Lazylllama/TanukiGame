@@ -68,9 +68,9 @@ public class PlayerCombat : MonoBehaviour {
 
 	private void SlashAttack() {
 		var slashPosition =
-			new Vector2(PlayerController.Instance.IsLookingRight
-				            ? slashDistance
-				            : -slashDistance + transform.position.x,
+			new Vector2((PlayerController.Instance.IsLookingRight
+				             ? slashDistance
+				             : -slashDistance) + transform.position.x,
 			            transform.position.y);
 
 		var spawnedVfx = Instantiate(slashVFX, slashPosition, slashVFX.transform.rotation);
