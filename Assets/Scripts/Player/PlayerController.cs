@@ -78,28 +78,26 @@ public class PlayerController : MonoBehaviour {
 
 	private void MovementHandler() {
 		if (dashActive) return;
-		if (ExtraForce.magnitude > 0) {
-			if (ExtraForce.x != 0f) PlayerRb.linearVelocityX = ExtraForce.x + moveVector.x;
-			if (ExtraForce.y != 0f) PlayerRb.linearVelocityY = ExtraForce.y;
-		} else PlayerRb.linearVelocityX = moveVector.x * moveSpeed;
 
-		if (jumpPressed && IsGrounded()) PlayerRb.linearVelocityY = jumpForce;
-		//else if (!jumpPressed && PlayerRb.linearVelocity.y > 0f) PlayerRb.linearVelocityY = PlayerRb.linearVelocity.y * 0.5f; // variable jump height
+		PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
+		if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
+
+		if (jumpPressed       && IsGrounded()) PlayerRb.linearVelocityY = jumpForce;
+		else if (!jumpPressed && PlayerRb.linearVelocity.y > 0f)
+			PlayerRb.linearVelocityY = PlayerRb.linearVelocity.y * 0.5f;
 	}
 
 
 	private IEnumerator Dash() {
 		dashPressed = false;
 		dashActive  = true;
-		var dashLengthTimer = dashLength;
-		var dashDirection   = mousePosition.normalized;
+		var currentFacingDirection = IsLookingRight ? 1 : -1;
+		var dashLengthTimer        = dashLength;
 
 		while (dashLengthTimer > 0) {
-			dashLengthTimer       -= Time.deltaTime;
-			PlayerRb.gravityScale =  dashGravity;
+			dashLengthTimer -= Time.deltaTime;
 
-			//playerRb.linearVelocity = dashDirection * dashForce; //Vilket håll som helst
-			PlayerRb.linearVelocityX = IsLookingRight ? dashForce : -dashForce; //Bara åt sidan
+			PlayerRb.linearVelocityX = dashForce * currentFacingDirection;
 			PlayerRb.linearVelocityY = 0f;
 			yield return null;
 		}
