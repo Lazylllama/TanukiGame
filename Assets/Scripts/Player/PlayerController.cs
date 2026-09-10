@@ -82,9 +82,9 @@ public class PlayerController : MonoBehaviour {
 		PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
 		if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
 
-		if (jumpPressed       && IsGrounded()) PlayerRb.linearVelocityY = jumpForce;
-		else if (!jumpPressed && PlayerRb.linearVelocity.y > 0f)
-			PlayerRb.linearVelocityY = PlayerRb.linearVelocity.y * 0.5f;
+		if (jumpPressed && IsGrounded()) PlayerRb.linearVelocityY = jumpForce;
+		/*else if (!jumpPressed && PlayerRb.linearVelocity.y > 0f)
+			PlayerRb.linearVelocityY = PlayerRb.linearVelocity.y * 0.5f;*/
 	}
 
 

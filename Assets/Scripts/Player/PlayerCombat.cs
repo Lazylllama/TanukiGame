@@ -108,6 +108,8 @@ public class PlayerCombat : MonoBehaviour {
 		var parryHit         = false;
 		var parryLengthTimer = parryLength;
 
+		playerRb.linearVelocityX = 0f;
+
 		while (parryLengthTimer > 0f) {
 			parryLengthTimer -= Time.deltaTime;
 			var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
