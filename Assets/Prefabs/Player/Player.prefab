@@ -148,12 +148,11 @@ MonoBehaviour:
   moveSpeed: 12
   jumpForce: 35
   normalGravity: 10
-  dashForce: 30
+  coyoteTime: 0.2
+  dashForce: 40
   dashCooldown: 0.5
   dashLength: 0.2
-  dashGravity: 0
   groundCheckDistance: 0.001
-  mainCamera: {fileID: 0}
   <MovingState>k__BackingField: 0
 --- !u!114 &8124614188786182174
 MonoBehaviour:
