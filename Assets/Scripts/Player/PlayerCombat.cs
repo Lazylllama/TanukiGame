@@ -16,7 +16,10 @@ public class PlayerCombat : MonoBehaviour {
 	[SerializeField] private float slashCooldown;
 	[SerializeField] private float slashRecoilForce;
 	[SerializeField] private float slashRecoilDuration;
+	[SerializeField] private float slashKnockbackForce;
+	[SerializeField] private float slashKnockbackLength;
 	[SerializeField] private int   slashDamage;
+
 
 	[Header("Parry Settings")]
 	[SerializeField] private float parryLength;
@@ -87,6 +90,9 @@ public class PlayerCombat : MonoBehaviour {
 
 		foreach (var enemy in enemies) {
 			enemy.GetComponent<EnemyHealth>().ChangeHealth(-slashDamage);
+			var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
+			StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), knockbackDirection,
+			                                             slashKnockbackForce, slashKnockbackLength));
 		}
 	}
 
