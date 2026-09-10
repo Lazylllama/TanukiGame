@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour {
 
 			//playerRb.linearVelocity = dashDirection * dashForce; //Vilket håll som helst
 			PlayerRb.linearVelocityX = IsLookingRight ? dashForce : -dashForce; //Bara åt sidan
+			PlayerRb.linearVelocityY = 0f;
 			yield return null;
 		}
 
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private bool IsGrounded() {
-		var boxSize   = new Vector2(playerCollider.size.x, playerCollider.size.y * 0.5f);
+		var boxSize   = new Vector2(playerCollider.size.x * 0.5f, playerCollider.size.y * 0.5f);
 		var boxCenter = (Vector2)transform.position + new Vector2(0, -playerCollider.size.y / 2);
 		var hit = Physics2D.BoxCast(boxCenter, boxSize, 0, Vector2.down,
 		                            groundCheckDistance, LayerMask.GetMask("Ground"));
