@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void FixedUpdate() {
-		SpriteFlip();
+		CheckSpriteFlip();
 		MovementHandler();
 	}
 
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour {
 		dashCoroutine         = null;
 	}
 
-	private void SpriteFlip() {
+	private void CheckSpriteFlip() {
 		var oldDirection = IsLookingRight;
 		IsLookingRight = moveVector.x switch {
 			> 0 => true,
