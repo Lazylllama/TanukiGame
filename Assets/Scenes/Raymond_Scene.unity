@@ -681,22 +681,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1847643037}
-    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: parryRecoilForce
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: parryRecoilDuration
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: slashKnockbackForce
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: slashKnockbackLength
-      value: 0.2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

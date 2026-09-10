@@ -172,12 +172,14 @@ MonoBehaviour:
   slashCooldown: 0.2
   slashRecoilForce: 10
   slashRecoilDuration: 0.1
+  slashKnockbackForce: 3
+  slashKnockbackLength: 0.2
   slashDamage: 1
   parryLength: 0.2
   parryRadius: 2
   parryCooldown: 0.5
-  parryRecoilForce: 15
-  parryRecoilDuration: 0.2
+  parryRecoilForce: 30
+  parryRecoilDuration: 0.05
   slashVFX: {fileID: 3125316258531813285}
 --- !u!1 &3125316258531813285
 GameObject:
