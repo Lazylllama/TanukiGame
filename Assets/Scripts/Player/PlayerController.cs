@@ -12,16 +12,15 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpForce;
 	[SerializeField] private float normalGravity;
+	[SerializeField] private float coyoteTime;
 
 	[Header("Dash settings")]
 	[SerializeField] private float dashForce;
 	[SerializeField] private float dashCooldown;
 	[SerializeField] private float dashLength;
-	[SerializeField] private float dashGravity;
 
 	[Header("Misc settings")]
 	[SerializeField] private float groundCheckDistance;
-	[SerializeField] private Camera mainCamera;
 
 
 	// Getters and setters
@@ -33,6 +32,7 @@ public class PlayerController : MonoBehaviour {
 
 	//Private floats
 	private float dashTimer;
+	private float coyoteTimer;
 
 	//Private ints
 
@@ -47,8 +47,6 @@ public class PlayerController : MonoBehaviour {
 
 	//Private vectors
 	private Vector2 moveVector;
-	private Vector2 mousePosition;
-	private Vector2 mousePositionInput;
 
 	//Private coroutines
 	private Coroutine dashCoroutine;
@@ -67,8 +65,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void Update() {
 		StateChanger();
-		mousePosition =  mainCamera.ScreenToWorldPoint(mousePositionInput);
-		dashTimer     -= Time.deltaTime;
+		HandleCooldowns();
 	}
 
 	private void FixedUpdate() {
@@ -82,9 +79,10 @@ public class PlayerController : MonoBehaviour {
 		PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
 		if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
 
-		if (jumpPressed && IsGrounded()) PlayerRb.linearVelocityY = jumpForce;
-		/*else if (!jumpPressed && PlayerRb.linearVelocity.y > 0f)
-			PlayerRb.linearVelocityY = PlayerRb.linearVelocity.y * 0.5f;*/
+		if (!jumpPressed || !(coyoteTimer > 0)) return;
+		coyoteTimer              = 0f;
+		jumpPressed              = false;
+		PlayerRb.linearVelocityY = jumpForce;
 	}
 
 
@@ -120,6 +118,16 @@ public class PlayerController : MonoBehaviour {
 
 		var rotator = new Vector3(transform.rotation.x, IsLookingRight ? 0f : 180f, transform.rotation.z);
 		transform.rotation = Quaternion.Euler(rotator);
+	}
+
+	private void HandleCooldowns() {
+		if (IsGrounded()) {
+			coyoteTimer = coyoteTime;
+		} else {
+			coyoteTimer -= Time.deltaTime;
+		}
+
+		dashTimer -= Time.deltaTime;
 	}
 
 	private bool IsGrounded() {
@@ -162,9 +170,5 @@ public class PlayerController : MonoBehaviour {
 		if (!dashPressed || dashTimer > 0 || dashCoroutine != null) return;
 		dashTimer     = dashCooldown;
 		dashCoroutine = StartCoroutine(Dash());
-	}
-
-	private void OnMousePosition(InputValue value) {
-		mousePositionInput = value.Get<Vector2>();
 	}
 }

@@ -20,6 +20,13 @@ public class PlayerCombat : MonoBehaviour {
 	[SerializeField] private float slashKnockbackLength;
 	[SerializeField] private int   slashDamage;
 
+	[Header("Ranged Attack Settings")]
+	[SerializeField] private float rangedAttackChargeSpeed;
+	[SerializeField] private float rangedAttackMinForce;
+	[SerializeField] private float rangedAttackMaxForce;
+	[SerializeField] private float rangedAttackCooldown;
+	[SerializeField] private int   rangedAttackDamage;
+
 
 	[Header("Parry Settings")]
 	[SerializeField] private float parryLength;
@@ -35,9 +42,13 @@ public class PlayerCombat : MonoBehaviour {
 	//Private floats
 	private float slashTimer;
 	private float parryTimer;
+	private float rangedAttackTimer;
 
 	//Getters and setters
 	public bool isParrying { get; private set; }
+	
+	//Private bools
+	private bool rangedAttackHeld;
 
 	//Private vectors
 	private Vector2 lookVector;
@@ -96,6 +107,20 @@ public class PlayerCombat : MonoBehaviour {
 		}
 	}
 
+	private void RangedAttack() {
+		var forceToApply = rangedAttackMinForce;
+		var readyToFire  = false;
+		if (rangedAttackHeld){
+			if (forceToApply < rangedAttackMaxForce) {
+				
+			}
+			
+		} else {
+			
+		}
+	}
+	
+
 	private IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
 		while (duration > 0) {
 			duration -= Time.deltaTime;
@@ -133,6 +158,7 @@ public class PlayerCombat : MonoBehaviour {
 
 		yield return null;
 	}
+	
 
 
 	private void OnSlash(InputValue value) {
@@ -148,18 +174,19 @@ public class PlayerCombat : MonoBehaviour {
 		parryTimer     = parryCooldown;
 	}
 
-	private void OnLook(InputValue value) {
-		lookVector = value.Get<Vector2>();
-		lookVector.Normalize();
+	private void OnRangedAttack(InputValue value) {
+		if (rangedAttackTimer != 0f) return;
+		rangedAttackHeld = value.isPressed;
 	}
+	
+	
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
-
-		//! Du har inte instances när du inte har spelet igång så den skriker i editorn
-		// var slashPosition =
-		// 	new Vector2(PlayerController.Instance.FacingDirection * slashDistance + transform.position.x,
-		// 	            transform.position.y);
-		// Gizmos.DrawWireSphere(slashPosition, slashRadius);
+		if (!PlayerController.Instance) return;
+		var slashPosition =
+			new Vector2(PlayerController.Instance.IsLookingRight ? 1 : -1 * slashDistance + transform.position.x,
+			            transform.position.y);
+		Gizmos.DrawWireSphere(slashPosition, slashRadius);
 	}
 }
