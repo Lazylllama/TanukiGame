@@ -488,6 +488,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b577c5c083a48bd4082cdbc0dd55a038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  fallPanAmount: 0.25
+  fallPanTime: 0.35
+  fallSpeedDampingChangeThreshold: -15
+  isLerpingYDamping: 0
+  lerpedFromPlayerFall: 0
 --- !u!1001 &2687844797952058426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -560,6 +565,10 @@ PrefabInstance:
     - target: {fileID: 1624508841120286584, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
       propertyPath: m_LocalPosition.y
       value: 4.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368224122375960178, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
+      propertyPath: flattenFolder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843614610381946039, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
       propertyPath: m_LocalPosition.x

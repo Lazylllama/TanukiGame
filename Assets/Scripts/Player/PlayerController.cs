@@ -1,4 +1,5 @@
 using System.Collections;
+using Logic;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 	//Private floats
 	private float dashTimer;
 	private float coyoteTimer;
+	private float fallSpeedDampingChangeThreshold;
 
 	//Private ints
 
@@ -63,9 +65,23 @@ public class PlayerController : MonoBehaviour {
 		cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
 	}
 
+	private void Start() {
+		fallSpeedDampingChangeThreshold = CameraManager.Instance.fallSpeedDampingChangeThreshold;
+	}
+
 	private void Update() {
 		StateChanger();
 		HandleCooldowns();
+
+		print($"Player velocity {PlayerRb.linearVelocityY}");
+
+		if (PlayerRb.linearVelocityY < fallSpeedDampingChangeThreshold) {
+			CameraManager.Instance.LerpYDamping(true);
+		}
+
+		if (PlayerRb.linearVelocityY >= 0f) {
+			CameraManager.Instance.LerpYDamping(false);
+		}
 	}
 
 	private void FixedUpdate() {

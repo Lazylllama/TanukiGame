@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,7 +47,7 @@ public class PlayerCombat : MonoBehaviour {
 
 	//Getters and setters
 	public bool isParrying { get; private set; }
-	
+
 	//Private bools
 	private bool rangedAttackHeld;
 
@@ -110,16 +111,13 @@ public class PlayerCombat : MonoBehaviour {
 	private void RangedAttack() {
 		var forceToApply = rangedAttackMinForce;
 		var readyToFire  = false;
-		if (rangedAttackHeld){
+		if (rangedAttackHeld) {
 			if (forceToApply < rangedAttackMaxForce) {
-				
 			}
-			
 		} else {
-			
 		}
 	}
-	
+
 
 	private IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
 		while (duration > 0) {
@@ -158,7 +156,6 @@ public class PlayerCombat : MonoBehaviour {
 
 		yield return null;
 	}
-	
 
 
 	private void OnSlash(InputValue value) {
@@ -178,8 +175,7 @@ public class PlayerCombat : MonoBehaviour {
 		if (rangedAttackTimer != 0f) return;
 		rangedAttackHeld = value.isPressed;
 	}
-	
-	
+
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;

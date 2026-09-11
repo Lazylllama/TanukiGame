@@ -10,13 +10,17 @@ namespace Logic {
 		[SerializeField] private float fallPanAmount = 0.25f;
 		[SerializeField] private float fallPanTime = 0.35f;
 
-		public float fallSpeedDampeningChangeThreshold = -15f;
+		public float fallSpeedDampingChangeThreshold = -15f;
 
 		private CinemachineCamera           currentCinemachineCamera;
 		private CinemachineCamera[]         allCinemachineCameras;
 		private CinemachinePositionComposer currentPositionComposer;
 
 		private float normPanYAmount;
+
+		[Header("Data")]
+		public bool isLerpingYDamping;
+		public bool lerpedFromPlayerFall;
 
 		private void Awake() {
 			if (Instance == null) {
@@ -39,15 +43,33 @@ namespace Logic {
 		}
 
 		public void LerpYDamping(bool isPlayerFalling) {
+			if (isLerpingYDamping) {
+				print("Already lerping to a new damping value");
+				return;
+			}
+
+			if (lerpedFromPlayerFall == isPlayerFalling) {
+				print("Already lerped to the same damping value");
+				return;
+			}
+
 			var endDampAmount = isPlayerFalling ? fallPanAmount : normPanYAmount;
+			isLerpingYDamping = true;
+
+			print($"Lerping Y damping to {endDampAmount} because player is falling: {isPlayerFalling}");
 
 			LeanTween.cancel(gameObject);
 			LeanTween.value(gameObject, currentPositionComposer.Damping.y, endDampAmount, fallPanTime)
-			         .setOnUpdate((float value) => {
+			         .setOnUpdate((value) => {
 				                      var damping = currentPositionComposer.Damping;
 				                      damping.y                       = value;
 				                      currentPositionComposer.Damping = damping;
-			                      });
+				                      print($"Set damping to {value}");
+			                      })
+			         .setOnComplete(() => {
+				                        isLerpingYDamping    = false;
+				                        lerpedFromPlayerFall = isPlayerFalling;
+			                        });
 		}
 	}
 }
