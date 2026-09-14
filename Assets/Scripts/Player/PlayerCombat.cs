@@ -148,6 +148,7 @@ public class PlayerCombat : MonoBehaviour {
 
 
 	private IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
+		playerRb.linearVelocity = Vector2.zero;
 		while (duration > 0) {
 			duration -= Time.deltaTime;
 
