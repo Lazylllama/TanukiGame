@@ -116,6 +116,7 @@ public class PlayerCombat : MonoBehaviour {
 			var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
 			StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), knockbackDirection,
 			                                             slashKnockbackForce, slashKnockbackLength));
+			StartCoroutine(Lib.Combat.TimeStop(0.05f));
 		}
 	}
 
@@ -124,6 +125,7 @@ public class PlayerCombat : MonoBehaviour {
 
 		while (rangedAttackHeld) {
 			Time.timeScale -= Time.deltaTime * 10;
+			
 			if (forceToApply < rangedAttackMaxForce) {
 				forceToApply += rangedAttackChargeSpeed;
 			}

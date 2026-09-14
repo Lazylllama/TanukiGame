@@ -32,7 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.35, y: -2.15054, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8782658129629636267}
   - {fileID: 4646678754781471676}
@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3babbf1cd4b5e44b9c76513cb077575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Combat
+  mouseCircle: {fileID: 0}
   slashRadius: 1
   slashDistance: 2
   slashCooldown: 0.2
@@ -174,12 +175,21 @@ MonoBehaviour:
   slashKnockbackForce: 3
   slashKnockbackLength: 0.2
   slashDamage: 1
+  rangedAttackChargeSpeed: 1
+  rangedAttackMinForce: 20
+  rangedAttackMaxForce: 40
+  rangedAttackCooldown: 1
+  rangedAttackDamage: 1
   parryLength: 0.2
   parryRadius: 2
   parryCooldown: 0.5
   parryRecoilForce: 30
   parryRecoilDuration: 0.05
   slashVFX: {fileID: 3125316258531813285}
+  rangedObject: {fileID: 0}
+  mainCamera: {fileID: 0}
+  rangedAttackTimer: 0
+  rangedAttackHeld: 0
 --- !u!1 &3125316258531813285
 GameObject:
   m_ObjectHideFlags: 0
