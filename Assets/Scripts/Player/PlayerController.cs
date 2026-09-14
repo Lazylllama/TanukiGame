@@ -73,7 +73,6 @@ public class PlayerController : MonoBehaviour {
 		StateChanger();
 		HandleCooldowns();
 
-		print($"Player velocity {PlayerRb.linearVelocityY}");
 
 		if (PlayerRb.linearVelocityY < fallSpeedDampingChangeThreshold) {
 			CameraManager.Instance.LerpYDamping(true);

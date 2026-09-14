@@ -10,7 +10,7 @@
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "01c545c8-245f-494f-8ccf-9abc28f55785",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true,
@@ -278,7 +278,7 @@
                 {
                     "name": "",
                     "id": "20f432b3-2a3a-43b2-a837-10e5885cb9e4",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -289,7 +289,7 @@
                 {
                     "name": "",
                     "id": "041d233e-9ac9-4bdf-adc3-c8990e806c75",
-                    "path": "<Keyboard>/q",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",

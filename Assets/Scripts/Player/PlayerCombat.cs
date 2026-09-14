@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Logic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,8 @@ namespace Player {
 public class PlayerCombat : MonoBehaviour {
 	public static PlayerCombat Instance;
 
+	[SerializeField] private Transform mouseCircle;
+	
 	[Header("Slash Settings")]
 	[SerializeField] private float slashRadius;
 	[SerializeField] private float slashDistance;
@@ -39,20 +42,23 @@ public class PlayerCombat : MonoBehaviour {
 
 	[Header("Drag and Drop")]
 	[SerializeField] private GameObject slashVFX;
+	[SerializeField] private GameObject rangedObject;
+	[SerializeField] private Camera     mainCamera;
 
 	//Private floats
-	private float slashTimer;
-	private float parryTimer;
-	private float rangedAttackTimer;
+	private                  float slashTimer;
+	private                  float parryTimer;
+	[SerializeField] private float rangedAttackTimer;
 
 	//Getters and setters
 	public bool isParrying { get; private set; }
 
 	//Private bools
-	private bool rangedAttackHeld;
+	[SerializeField] private bool rangedAttackHeld;
 
 	//Private vectors
-	private Vector2 lookVector;
+	private Vector3 mousePositionInput;
+	private Vector3 mouseVector;
 
 	//Private layers
 	private LayerMask enemyLayer;
@@ -60,9 +66,11 @@ public class PlayerCombat : MonoBehaviour {
 
 	//Components
 	private Rigidbody2D playerRb;
+	private Rigidbody2D rangedObjectRb;
 
 	//Coroutines
 	private Coroutine parryCoroutine;
+	private Coroutine rangedAttackCoroutine;
 
 	private void Awake() {
 		if (Instance != null) {
@@ -77,8 +85,11 @@ public class PlayerCombat : MonoBehaviour {
 	}
 
 	private void Update() {
-		slashTimer -= Time.deltaTime;
-		parryTimer -= Time.deltaTime;
+		mouseVector       =  mainCamera.ScreenToWorldPoint(mousePositionInput);
+		mouseCircle.transform.position =  mouseVector;
+		slashTimer                     -= Time.deltaTime;
+		parryTimer                     -= Time.deltaTime;
+		rangedAttackTimer              -= Time.deltaTime;
 	}
 
 	private void SlashAttack() {
@@ -108,14 +119,29 @@ public class PlayerCombat : MonoBehaviour {
 		}
 	}
 
-	private void RangedAttack() {
+	private IEnumerator RangedAttackIEnumerator() {
 		var forceToApply = rangedAttackMinForce;
-		var readyToFire  = false;
-		if (rangedAttackHeld) {
+
+		while (rangedAttackHeld) {
+			Time.timeScale -= Time.deltaTime * 10;
 			if (forceToApply < rangedAttackMaxForce) {
+				forceToApply += rangedAttackChargeSpeed;
 			}
-		} else {
+
+			yield return null;
 		}
+
+		Time.timeScale = 1f;
+
+		var instantiatedObject   = Instantiate(rangedObject, transform.position, Quaternion.identity);
+		var instantiatedObjectRb = instantiatedObject.GetComponent<Rigidbody2D>();
+
+		instantiatedObjectRb.AddForce(forceToApply * (mouseVector - transform.position).normalized, ForceMode2D.Impulse);
+		rangedAttackTimer = rangedAttackCooldown;
+
+		Debug.Log(forceToApply);
+		rangedAttackCoroutine = null;
+		yield return null;
 	}
 
 
@@ -172,8 +198,17 @@ public class PlayerCombat : MonoBehaviour {
 	}
 
 	private void OnRangedAttack(InputValue value) {
-		if (rangedAttackTimer != 0f) return;
 		rangedAttackHeld = value.isPressed;
+		if (!value.isPressed) return;
+		if (rangedAttackTimer <= 0f) {
+			if (rangedAttackCoroutine == null) {
+				rangedAttackCoroutine = StartCoroutine(RangedAttackIEnumerator());
+			}
+		}
+	}
+
+	private void OnMousePosition(InputValue value) {
+		mousePositionInput = value.Get<Vector2>();
 	}
 
 
@@ -184,5 +219,8 @@ public class PlayerCombat : MonoBehaviour {
 			new Vector2(PlayerController.Instance.IsLookingRight ? 1 : -1 * slashDistance + transform.position.x,
 			            transform.position.y);
 		Gizmos.DrawWireSphere(slashPosition, slashRadius);
+
+		
+		Gizmos.DrawLine(transform.position, mouseVector);
 	}
 }
