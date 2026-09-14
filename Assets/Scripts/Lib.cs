@@ -6,8 +6,6 @@ public static class Lib {
 		public static IEnumerator PreformedKnockback(Rigidbody2D rigidBody, float knockbackDirectionX,
 		                                             float       knockbackForce,
 		                                             float       knockbackLength) {
-		                                             float       knockbackForce,
-		                                             float       knockbackLength) {
 			var knockbackTimer = knockbackLength;
 
 			while (knockbackTimer > 0f) {

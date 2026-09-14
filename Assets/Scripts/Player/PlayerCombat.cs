@@ -163,7 +163,7 @@ namespace Player {
 
 		#region Coroutines
 
-		private static IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
+		private IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
 			playerRb.linearVelocity = Vector2.zero;
 			while (duration > 0) {
 				duration -= Time.deltaTime;
