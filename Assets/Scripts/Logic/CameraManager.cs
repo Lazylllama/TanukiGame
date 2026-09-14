@@ -43,17 +43,11 @@ namespace Logic {
 		}
 
 		public void LerpYDamping(bool isPlayerFalling) {
-			if (isLerpingYDamping) {
-				return;
-			}
-
-			if (lerpedFromPlayerFall == isPlayerFalling) {
-				return;
-			}
+			if (isLerpingYDamping) return;
+			if (lerpedFromPlayerFall == isPlayerFalling) return;
 
 			var endDampAmount = isPlayerFalling ? fallPanAmount : normPanYAmount;
 			isLerpingYDamping = true;
-
 
 			LeanTween.cancel(gameObject);
 			LeanTween.value(gameObject, currentPositionComposer.Damping.y, endDampAmount, fallPanTime)
