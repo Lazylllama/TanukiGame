@@ -68,7 +68,7 @@ namespace Player {
 
 		private void Awake() {
 			if (Instance != null) {
-				Destroy(gameObject);
+				Destroy(this.gameObject);
 			} else {
 				Instance = this;
 			}

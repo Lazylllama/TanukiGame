@@ -1,5 +1,6 @@
 using System.Collections;
 using Enemy;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,8 @@ namespace Player {
 		public static PlayerCombat Instance;
 
 		#region Fields
+
+		[SerializeField] private Transform mouseCircle;
 
 		[Header("Slash Settings")]
 		[SerializeField] private float slashRadius;
@@ -33,22 +36,26 @@ namespace Player {
 		[SerializeField] private float parryRecoilForce;
 		[SerializeField] private float parryRecoilDuration;
 
+
 		[Header("Drag and Drop")]
 		[SerializeField] private GameObject slashVFX;
+		[SerializeField] private GameObject rangedObject;
+		[SerializeField] private Camera     mainCamera;
 
 		//? Private floats
-		private float slashTimer;
-		private float parryTimer;
-		private float rangedAttackTimer;
+		private                  float slashTimer;
+		private                  float parryTimer;
+		[SerializeField] private float rangedAttackTimer;
 
 		//? Getters and setters
 		public bool IsParrying { get; private set; }
 
 		//? Private bools
-		private bool rangedAttackHeld;
+		[SerializeField] private bool rangedAttackHeld;
 
 		//? Private vectors
-		private Vector2 lookVector;
+		private Vector3 mousePositionInput;
+		private Vector3 mouseVector;
 
 		//? Private layers
 		private LayerMask enemyLayer;
@@ -56,9 +63,11 @@ namespace Player {
 
 		//? Components
 		private Rigidbody2D playerRb;
+		private Rigidbody2D rangedObjectRb;
 
 		//? Coroutines
 		private Coroutine parryCoroutine;
+		private Coroutine rangedAttackCoroutine;
 
 		#endregion
 
@@ -83,8 +92,11 @@ namespace Player {
 		#region Functions
 
 		private void UpdateTimers() {
-			slashTimer -= Time.deltaTime;
-			parryTimer -= Time.deltaTime;
+			mouseVector                    =  mainCamera.ScreenToWorldPoint(mousePositionInput);
+			mouseCircle.transform.position =  mouseVector;
+			slashTimer                     -= Time.deltaTime;
+			parryTimer                     -= Time.deltaTime;
+			rangedAttackTimer              -= Time.deltaTime;
 		}
 
 		#endregion
@@ -115,17 +127,35 @@ namespace Player {
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
 				StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), knockbackDirection,
 				                                             slashKnockbackForce, slashKnockbackLength));
+				StartCoroutine(Lib.Combat.TimeStop(0.05f));
 			}
 		}
 
-		private void RangedAttack() {
+		private IEnumerator RangedAttackIEnumerator() {
 			var forceToApply = rangedAttackMinForce;
-			var readyToFire  = false;
-			if (rangedAttackHeld) {
+
+			while (rangedAttackHeld) {
+				Time.timeScale -= Time.deltaTime * 10;
+
 				if (forceToApply < rangedAttackMaxForce) {
+					forceToApply += rangedAttackChargeSpeed;
 				}
-			} else {
+
+				yield return null;
 			}
+
+			Time.timeScale = 1f;
+
+			var instantiatedObject   = Instantiate(rangedObject, transform.position, Quaternion.identity);
+			var instantiatedObjectRb = instantiatedObject.GetComponent<Rigidbody2D>();
+
+			instantiatedObjectRb.AddForce(forceToApply * (mouseVector - transform.position).normalized,
+			                              ForceMode2D.Impulse);
+			rangedAttackTimer = rangedAttackCooldown;
+
+			Debug.Log(forceToApply);
+			rangedAttackCoroutine = null;
+			yield return null;
 		}
 
 		#endregion
@@ -134,6 +164,7 @@ namespace Player {
 		#region Coroutines
 
 		private static IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
+			playerRb.linearVelocity = Vector2.zero;
 			while (duration > 0) {
 				duration -= Time.deltaTime;
 
@@ -189,8 +220,17 @@ namespace Player {
 		}
 
 		private void OnRangedAttack(InputValue value) {
-			if (rangedAttackTimer != 0f) return;
 			rangedAttackHeld = value.isPressed;
+			if (!value.isPressed) return;
+			if (rangedAttackTimer <= 0f) {
+				if (rangedAttackCoroutine == null) {
+					rangedAttackCoroutine = StartCoroutine(RangedAttackIEnumerator());
+				}
+			}
+		}
+
+		private void OnMousePosition(InputValue value) {
+			mousePositionInput = value.Get<Vector2>();
 		}
 
 
@@ -201,6 +241,9 @@ namespace Player {
 				new Vector2(PlayerController.Instance.IsLookingRight ? 1 : -1 * slashDistance + transform.position.x,
 				            transform.position.y);
 			Gizmos.DrawWireSphere(slashPosition, slashRadius);
+
+
+			Gizmos.DrawLine(transform.position, mouseVector);
 		}
 
 		#endregion
