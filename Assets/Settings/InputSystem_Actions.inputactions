@@ -75,6 +75,16 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "RangedAttack",
+                    "type": "Button",
+                    "id": "05170740-c38e-4cdd-819c-f07c26b0f8dd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -148,7 +158,7 @@
                     "name": "",
                     "id": "eb40bb66-4559-4dfa-9a2f-820438abb426",
                     "path": "<Keyboard>/space",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Jump",
@@ -273,6 +283,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Parry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "041d233e-9ac9-4bdf-adc3-c8990e806c75",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RangedAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player{}
-	
+namespace Player {
+}
+
 public class PlayerCombat : MonoBehaviour {
 	public static PlayerCombat Instance;
 
@@ -15,7 +17,17 @@ public class PlayerCombat : MonoBehaviour {
 	[SerializeField] private float slashCooldown;
 	[SerializeField] private float slashRecoilForce;
 	[SerializeField] private float slashRecoilDuration;
+	[SerializeField] private float slashKnockbackForce;
+	[SerializeField] private float slashKnockbackLength;
 	[SerializeField] private int   slashDamage;
+
+	[Header("Ranged Attack Settings")]
+	[SerializeField] private float rangedAttackChargeSpeed;
+	[SerializeField] private float rangedAttackMinForce;
+	[SerializeField] private float rangedAttackMaxForce;
+	[SerializeField] private float rangedAttackCooldown;
+	[SerializeField] private int   rangedAttackDamage;
+
 
 	[Header("Parry Settings")]
 	[SerializeField] private float parryLength;
@@ -31,9 +43,13 @@ public class PlayerCombat : MonoBehaviour {
 	//Private floats
 	private float slashTimer;
 	private float parryTimer;
+	private float rangedAttackTimer;
 
 	//Getters and setters
 	public bool isParrying { get; private set; }
+
+	//Private bools
+	private bool rangedAttackHeld;
 
 	//Private vectors
 	private Vector2 lookVector;
@@ -67,7 +83,9 @@ public class PlayerCombat : MonoBehaviour {
 
 	private void SlashAttack() {
 		var slashPosition =
-			new Vector2(PlayerController.Instance.FacingDirection * slashDistance + transform.position.x,
+			new Vector2((PlayerController.Instance.IsLookingRight
+				             ? slashDistance
+				             : -slashDistance) + transform.position.x,
 			            transform.position.y);
 
 		var spawnedVfx = Instantiate(slashVFX, slashPosition, slashVFX.transform.rotation);
@@ -79,13 +97,27 @@ public class PlayerCombat : MonoBehaviour {
 
 		if (enemies.Length == 0f) return;
 
-		var recoilDirection = new Vector2(PlayerController.Instance.FacingDirection * -1, 0f);
+		var recoilDirection = new Vector2(PlayerController.Instance.IsLookingRight ? -1 : 1, 0f);
 		StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
 		foreach (var enemy in enemies) {
 			enemy.GetComponent<EnemyHealth>().ChangeHealth(-slashDamage);
+			var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
+			StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), knockbackDirection,
+			                                             slashKnockbackForce, slashKnockbackLength));
 		}
 	}
+
+	private void RangedAttack() {
+		var forceToApply = rangedAttackMinForce;
+		var readyToFire  = false;
+		if (rangedAttackHeld) {
+			if (forceToApply < rangedAttackMaxForce) {
+			}
+		} else {
+		}
+	}
+
 
 	private IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
 		while (duration > 0) {
@@ -104,6 +136,8 @@ public class PlayerCombat : MonoBehaviour {
 		isParrying = true;
 		var parryHit         = false;
 		var parryLengthTimer = parryLength;
+
+		playerRb.linearVelocityX = 0f;
 
 		while (parryLengthTimer > 0f) {
 			parryLengthTimer -= Time.deltaTime;
@@ -137,15 +171,17 @@ public class PlayerCombat : MonoBehaviour {
 		parryTimer     = parryCooldown;
 	}
 
-	private void OnLook(InputValue value) {
-		lookVector = value.Get<Vector2>();
-		lookVector.Normalize();
+	private void OnRangedAttack(InputValue value) {
+		if (rangedAttackTimer != 0f) return;
+		rangedAttackHeld = value.isPressed;
 	}
+
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
+		if (!PlayerController.Instance) return;
 		var slashPosition =
-			new Vector2(PlayerController.Instance.FacingDirection * slashDistance + transform.position.x,
+			new Vector2(PlayerController.Instance.IsLookingRight ? 1 : -1 * slashDistance + transform.position.x,
 			            transform.position.y);
 		Gizmos.DrawWireSphere(slashPosition, slashRadius);
 	}

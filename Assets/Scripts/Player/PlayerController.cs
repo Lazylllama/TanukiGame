@@ -1,38 +1,42 @@
 using System.Collections;
+using Logic;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player { }
+namespace Player {
+}
+
 public class PlayerController : MonoBehaviour {
 	public static PlayerController Instance;
 	[Header("Movement settings")]
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float jumpForce;
 	[SerializeField] private float normalGravity;
+	[SerializeField] private float coyoteTime;
 
 	[Header("Dash settings")]
 	[SerializeField] private float dashForce;
 	[SerializeField] private float dashCooldown;
 	[SerializeField] private float dashLength;
-	[SerializeField] private float dashGravity;
 
 	[Header("Misc settings")]
 	[SerializeField] private float groundCheckDistance;
-	[SerializeField] private Camera mainCamera;
 
 
 	// Getters and setters
-	[field: SerializeField] public MovingStates MovingState     { get;         private set; }
-	public                         int          FacingDirection { get;         private set; }
-	public                         Vector2      ExtraForce      { private get; set; }
-	private                        Rigidbody2D  PlayerRb        { get;         set; }
+	[field: SerializeField] public MovingStates MovingState    { get;         private set; }
+	public                         bool         IsLookingRight { get;         private set; }
+	public                         Vector2      ExtraForce     { private get; set; }
+	private                        Rigidbody2D  PlayerRb       { get;         set; }
 
 
 	//Private floats
 	private float dashTimer;
+	private float coyoteTimer;
+	private float fallSpeedDampingChangeThreshold;
 
 	//Private ints
-
 
 	//Private bools
 	private bool jumpPressed;
@@ -40,12 +44,11 @@ public class PlayerController : MonoBehaviour {
 	private bool dashActive;
 
 	//Components
-	private CapsuleCollider2D playerCollider;
+	private CapsuleCollider2D  playerCollider;
+	private CameraFollowObject cameraFollowObject;
 
 	//Private vectors
 	private Vector2 moveVector;
-	private Vector2 mousePosition;
-	private Vector2 mousePositionInput;
 
 	//Private coroutines
 	private Coroutine dashCoroutine;
@@ -57,47 +60,59 @@ public class PlayerController : MonoBehaviour {
 			Instance = this;
 		}
 
-		FacingDirection = 1;
+		PlayerRb           = GetComponent<Rigidbody2D>();
+		playerCollider     = GetComponent<CapsuleCollider2D>();
+		cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
+	}
 
-		PlayerRb       = GetComponent<Rigidbody2D>();
-		playerCollider = GetComponent<CapsuleCollider2D>();
+	private void Start() {
+		fallSpeedDampingChangeThreshold = CameraManager.Instance.fallSpeedDampingChangeThreshold;
 	}
 
 	private void Update() {
-		SpriteFlip();
 		StateChanger();
-		mousePosition =  mainCamera.ScreenToWorldPoint(mousePositionInput);
-		dashTimer     -= Time.deltaTime;
+		HandleCooldowns();
+
+		print($"Player velocity {PlayerRb.linearVelocityY}");
+
+		if (PlayerRb.linearVelocityY < fallSpeedDampingChangeThreshold) {
+			CameraManager.Instance.LerpYDamping(true);
+		}
+
+		if (PlayerRb.linearVelocityY >= 0f) {
+			CameraManager.Instance.LerpYDamping(false);
+		}
 	}
 
 	private void FixedUpdate() {
+		CheckSpriteFlip();
 		MovementHandler();
 	}
 
 	private void MovementHandler() {
 		if (dashActive) return;
-		if (ExtraForce.magnitude > 0) {
-			if (ExtraForce.x != 0f) PlayerRb.linearVelocityX = ExtraForce.x + moveVector.x;
-			if (ExtraForce.y != 0f) PlayerRb.linearVelocityY = ExtraForce.y;
-		} else PlayerRb.linearVelocityX = moveVector.x * moveSpeed;
 
-		if (jumpPressed && IsGrounded()) PlayerRb.linearVelocityY = jumpForce;
-		//else if (!jumpPressed && PlayerRb.linearVelocity.y > 0f) PlayerRb.linearVelocityY = PlayerRb.linearVelocity.y * 0.5f; // variable jump height
+		PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
+		if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
+
+		if (!jumpPressed || !(coyoteTimer > 0)) return;
+		coyoteTimer              = 0f;
+		jumpPressed              = false;
+		PlayerRb.linearVelocityY = jumpForce;
 	}
 
 
 	private IEnumerator Dash() {
 		dashPressed = false;
 		dashActive  = true;
-		var dashLengthTimer = dashLength;
-		var dashDirection   = mousePosition.normalized;
+		var currentFacingDirection = IsLookingRight ? 1 : -1;
+		var dashLengthTimer        = dashLength;
 
 		while (dashLengthTimer > 0) {
-			dashLengthTimer       -= Time.deltaTime;
-			PlayerRb.gravityScale =  dashGravity;
+			dashLengthTimer -= Time.deltaTime;
 
-			//playerRb.linearVelocity = dashDirection * dashForce; //Vilket håll som helst
-			PlayerRb.linearVelocityX = FacingDirection * dashForce; //Bara åt sidan
+			PlayerRb.linearVelocityX = dashForce * currentFacingDirection;
+			PlayerRb.linearVelocityY = 0f;
 			yield return null;
 		}
 
@@ -106,17 +121,33 @@ public class PlayerController : MonoBehaviour {
 		dashCoroutine         = null;
 	}
 
-	private void SpriteFlip() {
-		FacingDirection = moveVector.x switch {
-			> 0 => 1,
-			< 0 => -1,
-			_   => FacingDirection
+	private void CheckSpriteFlip() {
+		var oldDirection = IsLookingRight;
+		IsLookingRight = moveVector.x switch {
+			> 0 => true,
+			< 0 => false,
+			_   => IsLookingRight
 		};
-		transform.localScale = new Vector3(FacingDirection, 1f, 1f);
+
+		if (oldDirection == IsLookingRight) return;
+		cameraFollowObject.CallTurn();
+
+		var rotator = new Vector3(transform.rotation.x, IsLookingRight ? 0f : 180f, transform.rotation.z);
+		transform.rotation = Quaternion.Euler(rotator);
+	}
+
+	private void HandleCooldowns() {
+		if (IsGrounded()) {
+			coyoteTimer = coyoteTime;
+		} else {
+			coyoteTimer -= Time.deltaTime;
+		}
+
+		dashTimer -= Time.deltaTime;
 	}
 
 	private bool IsGrounded() {
-		var boxSize   = new Vector2(playerCollider.size.x, playerCollider.size.y * 0.5f);
+		var boxSize   = new Vector2(playerCollider.size.x * 0.5f, playerCollider.size.y * 0.5f);
 		var boxCenter = (Vector2)transform.position + new Vector2(0, -playerCollider.size.y / 2);
 		var hit = Physics2D.BoxCast(boxCenter, boxSize, 0, Vector2.down,
 		                            groundCheckDistance, LayerMask.GetMask("Ground"));
@@ -129,7 +160,7 @@ public class PlayerController : MonoBehaviour {
 		if (PlayerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
 		if (PlayerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
 		if (dashActive) MovingState                                       = MovingStates.Dashing;
-		if (PlayerCombat.Instance.isParrying) MovingState                = MovingStates.Parrying;
+		if (PlayerCombat.Instance.isParrying) MovingState                 = MovingStates.Parrying;
 	}
 
 	public enum MovingStates {
@@ -155,9 +186,5 @@ public class PlayerController : MonoBehaviour {
 		if (!dashPressed || dashTimer > 0 || dashCoroutine != null) return;
 		dashTimer     = dashCooldown;
 		dashCoroutine = StartCoroutine(Dash());
-	}
-
-	private void OnMousePosition(InputValue value) {
-		mousePositionInput = value.Get<Vector2>();
 	}
 }
