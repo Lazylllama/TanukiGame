@@ -30,11 +30,11 @@ namespace Player {
 		[SerializeField] private float throwMaxForce;
 		[SerializeField] private float throwCooldown;
 		[SerializeField] private float throwInputActivationAmount;
+		[SerializeField] private float inAirTimeSlowLength;
 
 		[Header("Throw Recoil/Knockback")]
 		[SerializeField] private float throwRecoilForce;
 		[SerializeField] private float throwRecoilLength;
-		[SerializeField] private int   throwDamage;
 
 		[Header("Parry Settings")]
 		[SerializeField] private float parryLength;
@@ -164,18 +164,20 @@ namespace Player {
 		}
 
 		private IEnumerator ThrowAttackIEnumerator() {
-			var forceToApply    = throwMinForce;
-			var stopTimeScaling = false;
+			var forceToApply       = throwMinForce;
+			var inAriTimeSlowTimer = inAirTimeSlowLength;
+			var stopTimeScaling    = false;
 
 			while (throwInputHeld) {
-				if (Time.timeScale > 0.02 && !stopTimeScaling) {
-					Time.timeScale -= Time.deltaTime * 10;
-				} else {
+				inAriTimeSlowTimer -= Time.unscaledDeltaTime;
+				if (Time.timeScale > 0.05 && !stopTimeScaling) {
+					Time.timeScale -= Time.unscaledDeltaTime * 10;
+				} else if (inAriTimeSlowTimer <= 0f) {
 					stopTimeScaling = true;
 				}
 
 				if (stopTimeScaling && Time.timeScale < 1) {
-					Time.timeScale += Time.deltaTime * 10;
+					Time.timeScale += Time.unscaledDeltaTime * 5;
 				}
 
 				if (forceToApply < throwMaxForce) {

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5667057817090107874}
   - component: {fileID: 7774785718483848995}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RangedObject_Art
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6757185880718364897}
   - component: {fileID: 7259616282374622810}
-  m_Layer: 0
+  - component: {fileID: 6560348723337771833}
+  - component: {fileID: 5405272626075945229}
+  m_Layer: 10
   m_Name: RangedObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +150,58 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!58 &6560348723337771833
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8682484999659087556}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!114 &5405272626075945229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8682484999659087556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119ceb978d2460f42b0a8eb8083e2c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThrowObject
+  throwDamage: 1
+  throwKnockbackForce: 3
+  throwKnockbackLength: 0.2

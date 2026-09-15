@@ -121,6 +121,7 @@ namespace Player {
 			dashActive  = true;
 			var currentFacingDirection = IsLookingRight ? 1 : -1;
 			var dashLengthTimer        = dashLength;
+			StartCoroutine(Lib.Combat.TimeStop(0.05f));
 
 			while (dashLengthTimer > 0) {
 				dashLengthTimer -= Time.deltaTime;
@@ -130,6 +131,7 @@ namespace Player {
 				yield return null;
 			}
 
+			StartCoroutine(Lib.Combat.TimeStop(0.05f));
 			PlayerRb.gravityScale = normalGravity;
 			dashActive            = false;
 			dashCoroutine         = null;
