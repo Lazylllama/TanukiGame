@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2944061051142628047}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -43.4, y: 4.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,7 +74,7 @@ Transform:
   m_GameObject: {fileID: 4677614423687487766}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: -10}
+  m_LocalPosition: {x: -42.4, y: 4.2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -225,6 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2843614610381946039}
   - component: {fileID: 2368224122375960178}
+  - component: {fileID: 1383097383576623392}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -262,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1816795d2838f643acc6f6f815cfff9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HierarchyDesigner.HierarchyDesignerFolder
-  flattenFolder: 1
+  flattenFolder: 0
   moveChildrenToHierarchyRoot: 1
   flattenEvent: 1
   OnFlattenEvent:
@@ -272,6 +273,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   notes: 
+--- !u!114 &1383097383576623392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5908191830973882079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b577c5c083a48bd4082cdbc0dd55a038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  fallPanAmount: 0.25
+  fallPanTime: 0.35
+  fallSpeedDampingChangeThreshold: -15
+  isLerpingYDamping: 0
+  lerpedFromPlayerFall: 0
 --- !u!1 &6522005175803744927
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +317,7 @@ Transform:
   m_GameObject: {fileID: 6522005175803744927}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: -10}
+  m_LocalPosition: {x: -42.4, y: 4.2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
