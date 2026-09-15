@@ -16,19 +16,25 @@ namespace Player {
 		[SerializeField] private float slashRadius;
 		[SerializeField] private float slashDistance;
 		[SerializeField] private float slashCooldown;
+
+		[Header("Slash Recoil/Knockback")]
 		[SerializeField] private float slashRecoilForce;
 		[SerializeField] private float slashRecoilDuration;
 		[SerializeField] private float slashKnockbackForce;
 		[SerializeField] private float slashKnockbackLength;
 		[SerializeField] private int   slashDamage;
 
-		[Header("Ranged Attack Settings")]
-		[SerializeField] private float rangedAttackChargeSpeed;
-		[SerializeField] private float rangedAttackMinForce;
-		[SerializeField] private float rangedAttackMaxForce;
-		[SerializeField] private float rangedAttackCooldown;
-		[SerializeField] private float rangedAttackInputActivationAmount;
-		[SerializeField] private int   rangedAttackDamage;
+		[Header("Throw Settings")]
+		[SerializeField] private float throwChargeSpeed;
+		[SerializeField] private float throwMinForce;
+		[SerializeField] private float throwMaxForce;
+		[SerializeField] private float throwCooldown;
+		[SerializeField] private float throwInputActivationAmount;
+
+		[Header("Throw Recoil/Knockback")]
+		[SerializeField] private float throwRecoilForce;
+		[SerializeField] private float throwRecoilLength;
+		[SerializeField] private int   throwDamage;
 
 		[Header("Parry Settings")]
 		[SerializeField] private float parryLength;
@@ -40,21 +46,21 @@ namespace Player {
 
 		[Header("Drag and Drop")]
 		[SerializeField] private GameObject slashVFX;
-		[SerializeField] private GameObject rangedObject;
+		[SerializeField] private GameObject throwObject;
 		[SerializeField] private Camera     mainCamera;
 
 		//? Private floats
 		private float slashTimer;
 		private float parryTimer;
-		private float rangedAttackTimer;
-		private float rangedAttackHeldInputTimer;
+		private float throwTimer;
+		private float throwHeldInputTimer;
 
 		//? Getters and setters
 		public bool IsParrying { get; private set; }
 
 		//? Private bools
-		private bool rangedAttackHeld;
-		private bool rangedAttackReady;
+		private bool throwInputHeld;
+		private bool throwReady;
 
 		//? Private vectors
 		private Vector3 mousePositionInput;
@@ -70,7 +76,7 @@ namespace Player {
 
 		//? Coroutines
 		private Coroutine parryCoroutine;
-		private Coroutine rangedAttackCoroutine;
+		private Coroutine throwAttackCoroutine;
 
 		#endregion
 
@@ -93,7 +99,7 @@ namespace Player {
 			mouseCircle.transform.position = mouseVector;
 			UpdateTimers();
 			InputHeldChecker();
-			RangedAttack();
+			ThrowAttack();
 		}
 
 		#endregion
@@ -101,23 +107,23 @@ namespace Player {
 		#region Functions
 
 		private void UpdateTimers() {
-			slashTimer        -= Time.deltaTime;
-			parryTimer        -= Time.deltaTime;
-			rangedAttackTimer -= Time.deltaTime;
+			slashTimer -= Time.deltaTime;
+			parryTimer -= Time.deltaTime;
+			throwTimer -= Time.deltaTime;
 		}
 
 		private void InputHeldChecker() {
-			if (rangedAttackHeld) {
-				if (rangedAttackHeldInputTimer < rangedAttackInputActivationAmount) {
-					rangedAttackHeldInputTimer += Time.unscaledDeltaTime;
+			if (throwInputHeld) {
+				if (throwHeldInputTimer < throwInputActivationAmount) {
+					throwHeldInputTimer += Time.unscaledDeltaTime;
 				}
 
-				if (rangedAttackHeldInputTimer >= rangedAttackInputActivationAmount) {
-					rangedAttackReady = true;
+				if (throwHeldInputTimer >= throwInputActivationAmount) {
+					throwReady = true;
 				}
 			} else {
-				rangedAttackHeldInputTimer = 0f;
-				rangedAttackReady          = false;
+				throwHeldInputTimer = 0f;
+				throwReady          = false;
 			}
 		}
 
@@ -152,16 +158,16 @@ namespace Player {
 			}
 		}
 
-		private void RangedAttack() {
-			if (!(rangedAttackTimer <= 0f) || !rangedAttackReady) return;
-			rangedAttackCoroutine ??= StartCoroutine(RangedAttackIEnumerator());
+		private void ThrowAttack() {
+			if (!(throwTimer <= 0f) || !throwReady) return;
+			throwAttackCoroutine ??= StartCoroutine(ThrowAttackIEnumerator());
 		}
 
-		private IEnumerator RangedAttackIEnumerator() {
-			var forceToApply    = rangedAttackMinForce;
+		private IEnumerator ThrowAttackIEnumerator() {
+			var forceToApply    = throwMinForce;
 			var stopTimeScaling = false;
 
-			while (rangedAttackHeld) {
+			while (throwInputHeld) {
 				if (Time.timeScale > 0.02 && !stopTimeScaling) {
 					Time.timeScale -= Time.deltaTime * 10;
 				} else {
@@ -172,8 +178,8 @@ namespace Player {
 					Time.timeScale += Time.deltaTime * 10;
 				}
 
-				if (forceToApply < rangedAttackMaxForce) {
-					forceToApply += rangedAttackChargeSpeed;
+				if (forceToApply < throwMaxForce) {
+					forceToApply += throwChargeSpeed;
 				}
 
 				yield return null;
@@ -181,15 +187,17 @@ namespace Player {
 
 			Time.timeScale = 1f;
 
-			var instantiatedObject   = Instantiate(rangedObject, transform.position, Quaternion.identity);
+			var instantiatedObject   = Instantiate(throwObject, transform.position, Quaternion.identity);
 			var instantiatedObjectRb = instantiatedObject.GetComponent<Rigidbody2D>();
+			var direction            = (mouseVector - transform.position).normalized;
 
-			instantiatedObjectRb.AddForce(forceToApply * (mouseVector - transform.position).normalized,
+			instantiatedObjectRb.AddForce(forceToApply * direction,
 			                              ForceMode2D.Impulse);
-			rangedAttackTimer = rangedAttackCooldown;
+			StartCoroutine(ExtraForce(throwRecoilForce, direction * -1, throwRecoilLength));
+			throwTimer = throwCooldown;
 
 			Debug.Log(forceToApply);
-			rangedAttackCoroutine = null;
+			throwAttackCoroutine = null;
 			yield return null;
 		}
 
@@ -249,13 +257,13 @@ namespace Player {
 		}
 
 		private void OnParry(InputValue value) {
-			if (!value.isPressed || !(parryTimer <= 0f) || rangedAttackHeld) return;
+			if (!value.isPressed || !(parryTimer <= 0f) || throwInputHeld) return;
 			parryCoroutine = StartCoroutine(Parry());
 			parryTimer     = parryCooldown;
 		}
 
-		private void OnRangedAttack(InputValue value) {
-			rangedAttackHeld = value.isPressed;
+		private void OnThrow(InputValue value) {
+			throwInputHeld = value.isPressed;
 		}
 
 		private void OnMousePosition(InputValue value) {

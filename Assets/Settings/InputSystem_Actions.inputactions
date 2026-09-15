@@ -77,7 +77,7 @@
                     "priority": 0
                 },
                 {
-                    "name": "RangedAttack",
+                    "name": "Throw",
                     "type": "Button",
                     "id": "05170740-c38e-4cdd-819c-f07c26b0f8dd",
                     "expectedControlType": "",
@@ -293,7 +293,7 @@
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
-                    "action": "RangedAttack",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

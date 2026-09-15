@@ -170,26 +170,27 @@ MonoBehaviour:
   slashRadius: 1
   slashDistance: 2
   slashCooldown: 0.2
-  slashRecoilForce: 10
+  slashRecoilForce: 20
   slashRecoilDuration: 0.1
   slashKnockbackForce: 3
   slashKnockbackLength: 0.2
   slashDamage: 1
-  rangedAttackChargeSpeed: 1
-  rangedAttackMinForce: 20
-  rangedAttackMaxForce: 40
-  rangedAttackCooldown: 1
-  rangedAttackDamage: 1
+  throwChargeSpeed: 0.5
+  throwMinForce: 10
+  throwMaxForce: 50
+  throwCooldown: 1
+  throwInputActivationAmount: 0.15
+  throwRecoilForce: 10
+  throwRecoilLength: 0.5
+  throwDamage: 1
   parryLength: 0.2
   parryRadius: 2
   parryCooldown: 0.5
   parryRecoilForce: 30
   parryRecoilDuration: 0.05
   slashVFX: {fileID: 3125316258531813285}
-  rangedObject: {fileID: 0}
+  throwObject: {fileID: 0}
   mainCamera: {fileID: 0}
-  rangedAttackTimer: 0
-  rangedAttackHeld: 0
 --- !u!1 &3125316258531813285
 GameObject:
   m_ObjectHideFlags: 0

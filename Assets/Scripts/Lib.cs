@@ -11,7 +11,7 @@ public static class Lib {
 			while (knockbackTimer > 0f) {
 				knockbackTimer -= Time.deltaTime;
 
-				rigidBody.linearVelocity = new Vector2(knockbackDirectionX, 2f) * knockbackForce;
+				rigidBody.linearVelocity = new Vector2(knockbackDirectionX, 1f) * knockbackForce;
 
 				yield return null;
 			}

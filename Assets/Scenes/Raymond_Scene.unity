@@ -874,24 +874,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1678668466}
     - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: rangedObject
+      propertyPath: throwObject
       value: 
       objectReference: {fileID: 91177126}
     - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: slashRecoilForce
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: rangedAttackMaxForce
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: rangedAttackMinForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
-      propertyPath: rangedAttackInputActivationAmount
-      value: 0.1
+      propertyPath: throwInputActivationAmount
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
