@@ -881,6 +881,18 @@ PrefabInstance:
       propertyPath: slashRecoilForce
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: rangedAttackMaxForce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: rangedAttackMinForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8124614188786182174, guid: 4f367430f2fa3cf4594a6789e104b591, type: 3}
+      propertyPath: rangedAttackInputActivationAmount
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

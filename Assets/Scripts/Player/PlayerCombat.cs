@@ -27,6 +27,7 @@ namespace Player {
 		[SerializeField] private float rangedAttackMinForce;
 		[SerializeField] private float rangedAttackMaxForce;
 		[SerializeField] private float rangedAttackCooldown;
+		[SerializeField] private float rangedAttackInputActivationAmount;
 		[SerializeField] private int   rangedAttackDamage;
 
 		[Header("Parry Settings")]
@@ -43,15 +44,17 @@ namespace Player {
 		[SerializeField] private Camera     mainCamera;
 
 		//? Private floats
-		private                  float slashTimer;
-		private                  float parryTimer;
-		[SerializeField] private float rangedAttackTimer;
+		private float slashTimer;
+		private float parryTimer;
+		private float rangedAttackTimer;
+		private float rangedAttackHeldInputTimer;
 
 		//? Getters and setters
 		public bool IsParrying { get; private set; }
 
 		//? Private bools
-		[SerializeField] private bool rangedAttackHeld;
+		private bool rangedAttackHeld;
+		private bool rangedAttackReady;
 
 		//? Private vectors
 		private Vector3 mousePositionInput;
@@ -85,18 +88,37 @@ namespace Player {
 			playerRb       = GetComponent<Rigidbody2D>();
 		}
 
-		private void Update() => UpdateTimers();
+		private void Update() {
+			mouseVector                    = mainCamera.ScreenToWorldPoint(mousePositionInput);
+			mouseCircle.transform.position = mouseVector;
+			UpdateTimers();
+			InputHeldChecker();
+			RangedAttack();
+		}
 
 		#endregion
 
 		#region Functions
 
 		private void UpdateTimers() {
-			mouseVector                    =  mainCamera.ScreenToWorldPoint(mousePositionInput);
-			mouseCircle.transform.position =  mouseVector;
-			slashTimer                     -= Time.deltaTime;
-			parryTimer                     -= Time.deltaTime;
-			rangedAttackTimer              -= Time.deltaTime;
+			slashTimer        -= Time.deltaTime;
+			parryTimer        -= Time.deltaTime;
+			rangedAttackTimer -= Time.deltaTime;
+		}
+
+		private void InputHeldChecker() {
+			if (rangedAttackHeld) {
+				if (rangedAttackHeldInputTimer < rangedAttackInputActivationAmount) {
+					rangedAttackHeldInputTimer += Time.unscaledDeltaTime;
+				}
+
+				if (rangedAttackHeldInputTimer >= rangedAttackInputActivationAmount) {
+					rangedAttackReady = true;
+				}
+			} else {
+				rangedAttackHeldInputTimer = 0f;
+				rangedAttackReady          = false;
+			}
 		}
 
 		#endregion
@@ -118,7 +140,6 @@ namespace Player {
 			var enemies = Physics2D.OverlapCircleAll(slashPosition, slashRadius, enemyLayer);
 
 			if (enemies.Length == 0f) return;
-
 			var recoilDirection = new Vector2(PlayerController.Instance.IsLookingRight ? -1 : 1, 0f);
 			StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
@@ -131,11 +152,25 @@ namespace Player {
 			}
 		}
 
+		private void RangedAttack() {
+			if (!(rangedAttackTimer <= 0f) || !rangedAttackReady) return;
+			rangedAttackCoroutine ??= StartCoroutine(RangedAttackIEnumerator());
+		}
+
 		private IEnumerator RangedAttackIEnumerator() {
-			var forceToApply = rangedAttackMinForce;
+			var forceToApply    = rangedAttackMinForce;
+			var stopTimeScaling = false;
 
 			while (rangedAttackHeld) {
-				Time.timeScale -= Time.deltaTime * 10;
+				if (Time.timeScale > 0.02 && !stopTimeScaling) {
+					Time.timeScale -= Time.deltaTime * 10;
+				} else {
+					stopTimeScaling = true;
+				}
+
+				if (stopTimeScaling && Time.timeScale < 1) {
+					Time.timeScale += Time.deltaTime * 10;
+				}
 
 				if (forceToApply < rangedAttackMaxForce) {
 					forceToApply += rangedAttackChargeSpeed;
@@ -181,13 +216,13 @@ namespace Player {
 			var parryHit         = false;
 			var parryLengthTimer = parryLength;
 
-			IsParrying               = true;
-			playerRb.linearVelocityX = 0f;
+			IsParrying = true;
 
 			while (parryLengthTimer > 0f) {
 				parryLengthTimer -= Time.deltaTime;
 				var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
 				if (parriedColliders.Length > 0) {
+					StartCoroutine(Lib.Combat.TimeStop(0.05f));
 					parryHit         = true;
 					parryLengthTimer = 0f;
 				}
@@ -196,7 +231,7 @@ namespace Player {
 			}
 
 			IsParrying = false;
-
+			if (PlayerController.Instance.GetIsGrounded()) yield return null;
 			if (parryHit) StartCoroutine(ExtraForce(parryRecoilForce, Vector2.up, parryRecoilDuration));
 
 			yield return null;
@@ -214,19 +249,13 @@ namespace Player {
 		}
 
 		private void OnParry(InputValue value) {
-			if (!value.isPressed || !(parryTimer <= 0f)) return;
+			if (!value.isPressed || !(parryTimer <= 0f) || rangedAttackHeld) return;
 			parryCoroutine = StartCoroutine(Parry());
 			parryTimer     = parryCooldown;
 		}
 
 		private void OnRangedAttack(InputValue value) {
 			rangedAttackHeld = value.isPressed;
-			if (!value.isPressed) return;
-			if (rangedAttackTimer <= 0f) {
-				if (rangedAttackCoroutine == null) {
-					rangedAttackCoroutine = StartCoroutine(RangedAttackIEnumerator());
-				}
-			}
 		}
 
 		private void OnMousePosition(InputValue value) {

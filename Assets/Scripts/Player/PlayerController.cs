@@ -25,10 +25,11 @@ namespace Player {
 		[SerializeField] private float groundCheckDistance;
 
 		//? Getters and setters
-		[field: SerializeField] public MovingStates MovingState    { get;         private set; }
-		public                         bool         IsLookingRight { get;         private set; }
-		public                         Vector2      ExtraForce     { private get; set; }
-		private                        Rigidbody2D  PlayerRb       { get;         set; }
+		[field: SerializeField] public MovingStates MovingState     { get; private set; }
+		public                         bool         IsLookingRight  { get; private set; }
+		public                         bool         GetIsGrounded() => IsGrounded();
+		public                         Vector2      ExtraForce      { private get; set; }
+		private                        Rigidbody2D  PlayerRb        { get;         set; }
 
 		//? Private floats
 		private float dashTimer;
