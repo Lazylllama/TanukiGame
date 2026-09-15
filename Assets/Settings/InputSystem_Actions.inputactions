@@ -10,7 +10,7 @@
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "01c545c8-245f-494f-8ccf-9abc28f55785",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true,
@@ -77,7 +77,7 @@
                     "priority": 0
                 },
                 {
-                    "name": "RangedAttack",
+                    "name": "Throw",
                     "type": "Button",
                     "id": "05170740-c38e-4cdd-819c-f07c26b0f8dd",
                     "expectedControlType": "",
@@ -289,11 +289,11 @@
                 {
                     "name": "",
                     "id": "041d233e-9ac9-4bdf-adc3-c8990e806c75",
-                    "path": "<Keyboard>/q",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
-                    "action": "RangedAttack",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

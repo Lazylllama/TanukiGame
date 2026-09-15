@@ -43,20 +43,11 @@ namespace Logic {
 		}
 
 		public void LerpYDamping(bool isPlayerFalling) {
-			if (isLerpingYDamping) {
-				print("Already lerping to a new damping value");
-				return;
-			}
-
-			if (lerpedFromPlayerFall == isPlayerFalling) {
-				print("Already lerped to the same damping value");
-				return;
-			}
+			if (isLerpingYDamping) return;
+			if (lerpedFromPlayerFall == isPlayerFalling) return;
 
 			var endDampAmount = isPlayerFalling ? fallPanAmount : normPanYAmount;
 			isLerpingYDamping = true;
-
-			print($"Lerping Y damping to {endDampAmount} because player is falling: {isPlayerFalling}");
 
 			LeanTween.cancel(gameObject);
 			LeanTween.value(gameObject, currentPositionComposer.Damping.y, endDampAmount, fallPanTime)
@@ -64,7 +55,6 @@ namespace Logic {
 				                      var damping = currentPositionComposer.Damping;
 				                      damping.y                       = value;
 				                      currentPositionComposer.Damping = damping;
-				                      print($"Set damping to {value}");
 			                      })
 			         .setOnComplete(() => {
 				                        isLerpingYDamping    = false;
