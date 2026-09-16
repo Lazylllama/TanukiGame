@@ -203,5 +203,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowObject
   throwDamage: 1
-  throwKnockbackForce: 3
+  throwKnockbackForce: 5
   throwKnockbackLength: 0.2
