@@ -75,7 +75,9 @@ namespace Effects {
 			shape.rotation     = new Vector3(rotation * Mathf.Rad2Deg,               90,                  0);
 			main.startRotation = rotation;
 		
-			emission.rateOverTime = perimeter * rainInput.rainPerSecondPerUnit;
+			var rate = perimeter * rainInput.rainPerSecondPerUnit;
+			emission.rateOverTime = rate;
+			main.maxParticles     = Mathf.CeilToInt(rate * main.startLifetimeMultiplier);
 		}
 
 		#endregion
