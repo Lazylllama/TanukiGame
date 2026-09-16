@@ -26,10 +26,13 @@ public class RainWindowController : MonoBehaviour
 	}
 
 	private void Update() {
-		if (!Mathf.Approximately(fallSpeed, oldFallSpeed) || !Mathf.Approximately(windSpeed, oldWindSpeed)) {
+		if (!Mathf.Approximately(fallSpeed, oldFallSpeed) || 
+		    !Mathf.Approximately(windSpeed, oldWindSpeed) ||
+		    !Mathf.Approximately(rainPerSecondPerUnit, oldRainPerSecondPerUnit)) {
 			PositionSystem();
 			oldFallSpeed = fallSpeed;
 			oldWindSpeed = windSpeed;
+			oldRainPerSecondPerUnit = rainPerSecondPerUnit;
 		}
 	}
 	#endregion
@@ -46,6 +49,7 @@ public class RainWindowController : MonoBehaviour
 		offset *= -perimeter / 2f;
 		
 		var shape = rainSystem.shape;
+		var emission = rainSystem.emission;
 		var main  = rainSystem.main;
 		shape.position = new Vector3(center.x + offset.x, center.y + offset.y, 0);
 		shape.scale    = new Vector3(1,                   perimeter,           1);
@@ -57,6 +61,8 @@ public class RainWindowController : MonoBehaviour
 		main.startRotation = rotation;
 
 		mask = rainArea;
+		
+		emission.rateOverTime = perimeter * rainPerSecondPerUnit;
 	}
 
 	#endregion
