@@ -106,4 +106,8 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
 # no DMCA :)
-Assets/Hierarchy Designer
+Assets/Hierarchy Designer/Demo*
+Assets/Hierarchy Designer/Runtime*
+Assets/Hierarchy Designer/Editor/Documentation*
+Assets/Hierarchy Designer/Editor/Resources*
+Assets/Hierarchy Designer/Editor/Scripts*
