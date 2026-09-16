@@ -8,13 +8,14 @@ public class RainWindowController : MonoBehaviour
 	
 	//? Settings 
 
-	[SerializeField] private float fallSpeed = 30, windSpeed;
-	private                  float oldFallSpeed, oldWindSpeed;
+	[SerializeField] private float fallSpeed = 30, windSpeed,    rainPerSecondPerUnit;
+	private                  float oldFallSpeed,   oldWindSpeed, oldRainPerSecondPerUnit;
 
 	//? Refs
 
 	[SerializeField] private ParticleSystem rainSystem;
 	[SerializeField] private Transform      rainArea;
+	[SerializeField] private Transform      mask;
 
 	#endregion
 
@@ -48,13 +49,14 @@ public class RainWindowController : MonoBehaviour
 		var main  = rainSystem.main;
 		shape.position = new Vector3(center.x + offset.x, center.y + offset.y, 0);
 		shape.scale    = new Vector3(1,                   perimeter,           1);
-		main.startSpeed
 		main.startSpeed = Mathf.Sqrt(windSpeed * windSpeed + fallSpeed * fallSpeed);
 		
 		var   dir = new Vector2(center.x, center.y) - new Vector2(shape.position.x, shape.position.y);
 		float rotation = -Mathf.Atan2(dir.y, dir.x);
 		shape.rotation = new Vector3(rotation * Mathf.Rad2Deg,               90,                  0);
 		main.startRotation = rotation;
+
+		mask = rainArea;
 	}
 
 	#endregion
