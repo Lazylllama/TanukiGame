@@ -11,7 +11,7 @@ namespace Player {
 		[SerializeField] private float throwKnockbackLength;
 
 		private void OnTriggerEnter2D(Collider2D enemy) {
-			if (enemy.gameObject.layer == LayerMask.GetMask("Enemy")) {
+			if (enemy.CompareTag("Enemy")) {
 				Debug.Log("Enemy hit with ranged object");
 				enemy.GetComponent<EnemyHealth>().ChangeHealth(-throwDamage);
 

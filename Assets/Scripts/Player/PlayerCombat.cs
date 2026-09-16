@@ -17,7 +17,7 @@ namespace Player {
 		[SerializeField] private float slashDistance;
 		[SerializeField] private float slashCooldown;
 
-		[Header("Slash Recoil/Knockback")]
+		[Header("Slash Recoil/Knockback Settings")]
 		[SerializeField] private float slashRecoilForce;
 		[SerializeField] private float slashRecoilDuration;
 		[SerializeField] private float slashKnockbackForce;
@@ -32,7 +32,7 @@ namespace Player {
 		[SerializeField] private float throwInputActivationAmount;
 		[SerializeField] private float inAirTimeSlowLength;
 
-		[Header("Throw Recoil/Knockback")]
+		[Header("Throw Recoil Settings")]
 		[SerializeField] private float throwRecoilForce;
 		[SerializeField] private float throwRecoilLength;
 
@@ -170,7 +170,7 @@ namespace Player {
 
 			while (throwInputHeld) {
 				inAriTimeSlowTimer -= Time.unscaledDeltaTime;
-				if (Time.timeScale > 0.05 && !stopTimeScaling) {
+				if (Time.timeScale > 0.1 && !stopTimeScaling) {
 					Time.timeScale -= Time.unscaledDeltaTime * 10;
 				} else if (inAriTimeSlowTimer <= 0f) {
 					stopTimeScaling = true;
@@ -241,8 +241,8 @@ namespace Player {
 			}
 
 			IsParrying = false;
-			if (PlayerController.Instance.GetIsGrounded()) yield return null;
-			if (parryHit) StartCoroutine(ExtraForce(parryRecoilForce, Vector2.up, parryRecoilDuration));
+			if (!PlayerController.Instance.GetIsGrounded() && parryHit)
+				StartCoroutine(ExtraForce(parryRecoilForce, Vector2.up, parryRecoilDuration));
 
 			yield return null;
 		}
