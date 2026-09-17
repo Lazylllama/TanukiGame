@@ -30,10 +30,11 @@ namespace RNG {
 			else Destroy(gameObject);
 		}
 
-		public Item RollTable(string tableName) {
+		public Item RollTable(string tableName, float luck) {
 			var table = GetTableByName(tableName);
 			if (table.name == null) {print("Failed to find table " + tableName); return new Item();};
 			var value = Random.value;
+			value =  Mathf.Pow(value, 1 / (luck));
 			value *= table.GetWeightSum();
 
 			foreach (var item in table.items) {
