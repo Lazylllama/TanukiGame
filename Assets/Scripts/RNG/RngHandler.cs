@@ -5,36 +5,34 @@ using Random = UnityEngine.Random;
 
 namespace RNG {
 	[Serializable]
-	struct Item {
+	public struct Item {
 		[SerializeField] public string name;
 		[SerializeField] public int    weight;
 	}
-	
+
 	[Serializable]
-	struct ItemTable {
-		[SerializeField] public  Item[]           items;
+	public struct ItemTable {
+		[SerializeField] public string name;
+		[SerializeField] public Item[] items;
 
 		public int GetWeightSum() {
 			return items.Sum(item => item.weight);
 		}
 	}
-	
-	class RngHandler : MonoBehaviour {
-		[SerializeField] public  bool             testFunction;
+
+	public class RngHandler : MonoBehaviour {
 		[SerializeField] private RngTables tables;
 
-		private void Update() {
-			
-			if (testFunction) 
-			{
-				Item testItem = RollTable(tables.TestTable);
-				testFunction = false;
-				print(testItem.name);
-			}
+		public static RngHandler Instance;
+
+		private void Awake() {
+			if (Instance == null) Instance = this;
+			else Destroy(gameObject);
 		}
-		
-		
-		public Item RollTable(ItemTable table) {
+
+		public Item RollTable(string tableName) {
+			var table = GetTableByName(tableName);
+			if (table.name == null) {print("Failed to find table " + tableName); return new Item();};
 			var value = Random.value;
 			value *= table.GetWeightSum();
 
@@ -45,6 +43,13 @@ namespace RNG {
 
 			return new Item();
 		}
+
+		private ItemTable GetTableByName(string tableName) {
+			foreach (var table in tables.tables) {
+				if (table.name != tableName) continue;
+				return table;
+			}
+			return new ItemTable();
+		}
 	}
 }
-
