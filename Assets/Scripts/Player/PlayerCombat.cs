@@ -152,7 +152,8 @@ namespace Player {
 			foreach (var enemy in enemies) {
 				enemy.GetComponent<EnemyHealth>().ChangeHealth(-slashDamage);
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
-				StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), knockbackDirection,
+				StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), enemy.gameObject,
+				                                             knockbackDirection,
 				                                             slashKnockbackForce, slashKnockbackLength));
 				StartCoroutine(Lib.Combat.TimeStop(0.05f));
 			}
@@ -235,6 +236,9 @@ namespace Player {
 					StartCoroutine(Lib.Combat.TimeStop(0.05f));
 					parryHit         = true;
 					parryLengthTimer = 0f;
+					foreach (var parriedCollider in parriedColliders) {
+						Destroy(parriedCollider.gameObject);
+					}
 				}
 
 				yield return null;

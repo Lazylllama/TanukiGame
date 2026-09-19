@@ -289,7 +289,7 @@
                 {
                     "name": "",
                     "id": "041d233e-9ac9-4bdf-adc3-c8990e806c75",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/q",
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
