@@ -1,4 +1,5 @@
 using System.Collections;
+using Enemy;
 using UnityEngine;
 
 public static class Lib {
@@ -8,6 +9,9 @@ public static class Lib {
 		                                             float       knockbackForce,
 		                                             float       knockbackLength) {
 			if (gameObject.tag == "LanternEnemy") {
+				var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
+
+				lanternEnemy.CurrentEnemyState = LanternEnemy.EnemyStates.Knockback;
 			}
 
 			var knockbackTimer = knockbackLength;

@@ -27,7 +27,7 @@ namespace Enemy {
 		[SerializeField] private float recoilLength;
 
 		//Getters and Setters
-		[field: SerializeField] public EnemyStates currentEnemyState  { get; set; }
+		[field: SerializeField] public EnemyStates CurrentEnemyState  { get; set; }
 
 		//Private floats
 		private float attackTimer;
