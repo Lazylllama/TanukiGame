@@ -72,8 +72,8 @@
 }
 
 .option-row {
-    flex-direction: row;
-    width: 1400px;
+    flex-direction: column;
+    width: 1600px;
     height: 150px;
 }
 

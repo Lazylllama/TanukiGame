@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
+    <ui:VisualElement name="OptionRow" class="option-row">
+        <ui:VisualElement style="flex-grow: 0; width: auto; height: 75px; flex-shrink: 1; flex-direction: row;">
+            <ui:VisualElement name="LeftSide" style="flex-grow: 0; flex-direction: row; align-self: center; align-items: center; width: 800px; height: auto; flex-shrink: 0;">
+                <ui:VisualElement name="Arrow" class="arrow"/>
+                <ui:Label text="Option with long name" name="Name" style="flex-grow: 0; -unity-text-auto-size: none; font-size: 55px; -unity-text-align: middle-left; flex-shrink: 1;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="RightSide" style="flex-grow: 0; flex-direction: row-reverse; align-items: center; flex-shrink: 0; width: 800px; height: auto;">
+                <ui:VisualElement name="Arrow" class="arrow"/>
+                <ui:Label text="Label" name="Value" style="flex-grow: 1; -unity-text-align: middle-right; -unity-text-auto-size: none; font-size: 45px; width: 750px;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row; height: 75px;">
+            <ui:VisualElement style="flex-grow: 0; width: 100px; flex-shrink: 0;"/>
+            <ui:Label text="Super duper descriptive description. Very helpful." name="Description" class="option-describtion" style="align-self: auto; font-size: 40px; flex-grow: 1;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

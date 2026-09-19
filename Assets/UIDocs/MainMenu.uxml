@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="OptionRow" src="project://database/Assets/UIDocs/Templates/OptionRow.uxml?fileID=9197481963319205126&amp;guid=8a32366fcb4b19e4eaab14137a2de8be&amp;type=3#OptionRow"/>
     <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
     <ui:VisualElement style="flex-grow: 1;">
         <ui:VisualElement name="MainScreen" class="screen" style="flex-grow: 1;">
@@ -25,102 +26,11 @@
             <ui:VisualElement name="OptionsScreen" class="screen screen--hidden">
                 <ui:Label text="OPTIONS" style="font-size: 211px; -unity-text-align: middle-center; -unity-font-style: bold; -unity-text-auto-size: best-fit 10px 201px; -unity-text-generator: advanced;"/>
                 <ui:VisualElement name="Options" style="flex-grow: 1; align-items: center; justify-content: center; align-self: auto;">
-                    <ui:VisualElement name="OptionRow" class="option-row" style="height: 150px; width: 1600px; flex-direction: column;">
-                        <ui:VisualElement style="flex-grow: 0; width: auto; height: 75px; flex-shrink: 1; flex-direction: row;">
-                            <ui:VisualElement name="LeftSide" style="flex-grow: 0; flex-direction: row; align-self: center; align-items: center; width: 800px; height: auto; flex-shrink: 0;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Option with long name" style="flex-grow: 0; -unity-text-auto-size: none; font-size: 55px; -unity-text-align: middle-left; flex-shrink: 1;"/>
-                            </ui:VisualElement>
-                            <ui:VisualElement name="RightSide" style="flex-grow: 0; flex-direction: row-reverse; align-items: center; flex-shrink: 0; width: 800px; height: auto;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Label" style="flex-grow: 1; -unity-text-align: middle-right; -unity-text-auto-size: none; font-size: 45px; width: 750px;"/>
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row; height: 75px;">
-                            <ui:VisualElement style="flex-grow: 0; width: 100px; flex-shrink: 0;"/>
-                            <ui:Label text="Super duper descriptive description. Very helpful." class="option-describtion" style="align-self: auto; font-size: 40px; flex-grow: 1;"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="OptionRow" class="option-row" style="height: 150px; width: 1600px; flex-direction: column;">
-                        <ui:VisualElement style="flex-grow: 0; width: auto; height: 75px; flex-shrink: 1; flex-direction: row;">
-                            <ui:VisualElement name="LeftSide" style="flex-grow: 0; flex-direction: row; align-self: center; align-items: center; width: 800px; height: auto; flex-shrink: 0;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Option with long name" style="flex-grow: 0; -unity-text-auto-size: none; font-size: 55px; -unity-text-align: middle-left; flex-shrink: 1;"/>
-                            </ui:VisualElement>
-                            <ui:VisualElement name="RightSide" style="flex-grow: 0; flex-direction: row-reverse; align-items: center; flex-shrink: 0; width: 800px; height: auto;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Label" style="flex-grow: 1; -unity-text-align: middle-right; -unity-text-auto-size: none; font-size: 45px; width: 750px;"/>
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row; height: 75px;">
-                            <ui:VisualElement style="flex-grow: 0; width: 100px; flex-shrink: 0;"/>
-                            <ui:Label text="Super duper descriptive description. Very helpful." class="option-describtion" style="align-self: auto; font-size: 40px; flex-grow: 1;"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="OptionRow" class="option-row" style="height: 150px; width: 1600px; flex-direction: column;">
-                        <ui:VisualElement style="flex-grow: 0; width: auto; height: 75px; flex-shrink: 1; flex-direction: row;">
-                            <ui:VisualElement name="LeftSide" style="flex-grow: 0; flex-direction: row; align-self: center; align-items: center; width: 800px; height: auto; flex-shrink: 0;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Option with long name" style="flex-grow: 0; -unity-text-auto-size: none; font-size: 55px; -unity-text-align: middle-left; flex-shrink: 1;"/>
-                            </ui:VisualElement>
-                            <ui:VisualElement name="RightSide" style="flex-grow: 0; flex-direction: row-reverse; align-items: center; flex-shrink: 0; width: 800px; height: auto;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Label" style="flex-grow: 1; -unity-text-align: middle-right; -unity-text-auto-size: none; font-size: 45px; width: 750px;"/>
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row; height: 75px;">
-                            <ui:VisualElement style="flex-grow: 0; width: 100px; flex-shrink: 0;"/>
-                            <ui:Label text="Super duper descriptive description. Very helpful." class="option-describtion" style="align-self: auto; font-size: 40px; flex-grow: 1;"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="OptionRow" class="option-row" style="height: 150px; width: 1600px; flex-direction: column;">
-                        <ui:VisualElement style="flex-grow: 0; width: auto; height: 75px; flex-shrink: 1; flex-direction: row;">
-                            <ui:VisualElement name="LeftSide" style="flex-grow: 0; flex-direction: row; align-self: center; align-items: center; width: 800px; height: auto; flex-shrink: 0;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Option with long name" style="flex-grow: 0; -unity-text-auto-size: none; font-size: 55px; -unity-text-align: middle-left; flex-shrink: 1;"/>
-                            </ui:VisualElement>
-                            <ui:VisualElement name="RightSide" style="flex-grow: 0; flex-direction: row-reverse; align-items: center; flex-shrink: 0; width: 800px; height: auto;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Label" style="flex-grow: 1; -unity-text-align: middle-right; -unity-text-auto-size: none; font-size: 45px; width: 750px;"/>
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row; height: 75px;">
-                            <ui:VisualElement style="flex-grow: 0; width: 100px; flex-shrink: 0;"/>
-                            <ui:Label text="Super duper descriptive description. Very helpful." class="option-describtion" style="align-self: auto; font-size: 40px; flex-grow: 1;"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="OptionRow" class="option-row" style="height: 150px; width: 1600px; flex-direction: column;">
-                        <ui:VisualElement style="flex-grow: 0; width: auto; height: 75px; flex-shrink: 1; flex-direction: row;">
-                            <ui:VisualElement name="LeftSide" style="flex-grow: 0; flex-direction: row; align-self: center; align-items: center; width: 800px; height: auto; flex-shrink: 0;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Option with long name" style="flex-grow: 0; -unity-text-auto-size: none; font-size: 55px; -unity-text-align: middle-left; flex-shrink: 1;"/>
-                            </ui:VisualElement>
-                            <ui:VisualElement name="RightSide" style="flex-grow: 0; flex-direction: row-reverse; align-items: center; flex-shrink: 0; width: 800px; height: auto;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Label" style="flex-grow: 1; -unity-text-align: middle-right; -unity-text-auto-size: none; font-size: 45px; width: 750px;"/>
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row; height: 75px;">
-                            <ui:VisualElement style="flex-grow: 0; width: 100px; flex-shrink: 0;"/>
-                            <ui:Label text="Super duper descriptive description. Very helpful." class="option-describtion" style="align-self: auto; font-size: 40px; flex-grow: 1;"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="OptionRow" class="option-row" style="height: 150px; width: 1600px; flex-direction: column;">
-                        <ui:VisualElement style="flex-grow: 0; width: auto; height: 75px; flex-shrink: 1; flex-direction: row;">
-                            <ui:VisualElement name="LeftSide" style="flex-grow: 0; flex-direction: row; align-self: center; align-items: center; width: 800px; height: auto; flex-shrink: 0;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Option with long name" style="flex-grow: 0; -unity-text-auto-size: none; font-size: 55px; -unity-text-align: middle-left; flex-shrink: 1;"/>
-                            </ui:VisualElement>
-                            <ui:VisualElement name="RightSide" style="flex-grow: 0; flex-direction: row-reverse; align-items: center; flex-shrink: 0; width: 800px; height: auto;">
-                                <ui:VisualElement name="Arrow" class="arrow"/>
-                                <ui:Label text="Label" style="flex-grow: 1; -unity-text-align: middle-right; -unity-text-auto-size: none; font-size: 45px; width: 750px;"/>
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; flex-direction: row; height: 75px;">
-                            <ui:VisualElement style="flex-grow: 0; width: 100px; flex-shrink: 0;"/>
-                            <ui:Label text="Super duper descriptive description. Very helpful." class="option-describtion" style="align-self: auto; font-size: 40px; flex-grow: 1;"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
+                    <ui:Instance template="OptionRow"/>
+                    <ui:Instance template="OptionRow"/>
+                    <ui:Instance template="OptionRow"/>
+                    <ui:Instance template="OptionRow"/>
+                    <ui:Instance template="OptionRow"/>
                 </ui:VisualElement>
                 <ui:Button name="BackButton" class="button">
                     <ui:VisualElement class="arrow"/>
