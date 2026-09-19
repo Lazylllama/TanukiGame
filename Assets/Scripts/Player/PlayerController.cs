@@ -15,6 +15,7 @@ namespace Player {
 		[SerializeField] private float jumpForce;
 		[SerializeField] private float normalGravity;
 		[SerializeField] private float coyoteTime;
+		[SerializeField] private float jumpBufferTime;
 
 		[Header("Dash settings")]
 		[SerializeField] private float dashForce;
@@ -32,16 +33,17 @@ namespace Player {
 		private                        Rigidbody2D  PlayerRb        { get;         set; }
 
 		//? Private floats
-		private float dashTimer;
-		private float coyoteTimer;
-		private float fallSpeedDampingChangeThreshold;
+		private                  float dashTimer;
+		private                  float coyoteTimer;
+		[SerializeField] private float jumpBufferTimer;
+		private                  float fallSpeedDampingChangeThreshold;
 
 		//? Private ints
 
 		//? Private bools
-		private bool jumpPressed;
-		private bool dashPressed;
-		private bool dashActive;
+		[SerializeField] private bool jumpPressed;
+		private                  bool dashPressed;
+		private                  bool dashActive;
 
 		//? Components
 		private CapsuleCollider2D  playerCollider;
@@ -107,8 +109,9 @@ namespace Player {
 			PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
 			if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
 
-			if (!jumpPressed || !(coyoteTimer > 0)) return;
+			if (!(jumpBufferTimer >= 0) || !(coyoteTimer > 0)) return;
 			coyoteTimer              = 0f;
+			jumpBufferTimer          = 0f;
 			jumpPressed              = false;
 			PlayerRb.linearVelocityY = jumpForce;
 		}
@@ -119,7 +122,7 @@ namespace Player {
 			dashActive  = true;
 			var currentFacingDirection = IsLookingRight ? 1 : -1;
 			var dashLengthTimer        = dashLength;
-			StartCoroutine(Lib.Combat.TimeStop(0.05f));
+			StartCoroutine(Lib.Combat.TimeStop(0.02f));
 
 			while (dashLengthTimer > 0) {
 				dashLengthTimer -= Time.deltaTime;
@@ -129,7 +132,7 @@ namespace Player {
 				yield return null;
 			}
 
-			StartCoroutine(Lib.Combat.TimeStop(0.05f));
+			StartCoroutine(Lib.Combat.TimeStop(0.02f));
 			PlayerRb.gravityScale = normalGravity;
 			dashActive            = false;
 			dashCoroutine         = null;
@@ -155,6 +158,13 @@ namespace Player {
 				coyoteTimer = coyoteTime;
 			} else {
 				coyoteTimer -= Time.deltaTime;
+			}
+
+			if (jumpPressed) {
+				jumpBufferTimer = jumpBufferTime;
+				jumpPressed     = false;
+			} else {
+				jumpBufferTimer -= Time.deltaTime;
 			}
 
 			dashTimer -= Time.deltaTime;

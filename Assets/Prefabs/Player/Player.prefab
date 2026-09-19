@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8124614188786182174}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,12 +148,15 @@ MonoBehaviour:
   moveSpeed: 12
   jumpForce: 35
   normalGravity: 10
-  coyoteTime: 0.2
+  coyoteTime: 0.1
+  jumpBufferTime: 0.2
   dashForce: 40
   dashCooldown: 0.5
   dashLength: 0.2
   groundCheckDistance: 0.001
   <MovingState>k__BackingField: 0
+  jumpBufferTimer: 0
+  jumpPressed: 0
 --- !u!114 &8124614188786182174
 MonoBehaviour:
   m_ObjectHideFlags: 0

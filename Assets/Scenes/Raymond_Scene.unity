@@ -263,6 +263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestDummieProjectile Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5162812812659844780, guid: a512e2dcf420263439c675b68ecbfd6c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -692,7 +696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8682484999659087556, guid: df013557a559fb84a8432477b23041a6, type: 3}
       propertyPath: m_Name
-      value: RangedObject
+      value: RangedKnife
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

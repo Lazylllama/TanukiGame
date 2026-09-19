@@ -3,9 +3,13 @@ using UnityEngine;
 
 public static class Lib {
 	public static class Combat {
-		public static IEnumerator PreformedKnockback(Rigidbody2D rigidBody, float knockbackDirectionX,
+		public static IEnumerator PreformedKnockback(Rigidbody2D rigidBody, GameObject gameObject,
+		                                             float       knockbackDirectionX,
 		                                             float       knockbackForce,
 		                                             float       knockbackLength) {
+			if (gameObject.tag == "LanternEnemy") {
+			}
+
 			var knockbackTimer = knockbackLength;
 
 			while (knockbackTimer > 0f) {

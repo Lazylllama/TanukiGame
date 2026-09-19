@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 6560348723337771833}
   - component: {fileID: 5405272626075945229}
   m_Layer: 10
-  m_Name: RangedObject
+  m_Name: RangedKnife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,6 +202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119ceb978d2460f42b0a8eb8083e2c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowObject
-  throwDamage: 1
-  throwKnockbackForce: 5
-  throwKnockbackLength: 0.2
+  damage: 2
+  knockbackForce: 5
+  knockbackLength: 0.2
