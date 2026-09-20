@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UI.Settings;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace UI {
@@ -60,11 +61,15 @@ namespace UI {
 
 		#region Functions
 
+		private void HandleOnStart() {
+			SceneManager.LoadScene("GameScene");
+		}
+
 		#endregion
 
 		#region Actions
 
-		private void OnStart()   => print("OnStart");
+		private void OnStart()   => HandleOnStart();
 		private void OnOptions() => ShowScreen(optionsScreen);
 		private void OnBack()    => ShowScreen(startScreen);
 		private void OnExit()    => Application.Quit();

@@ -8,10 +8,10 @@
     -unity-text-align: middle-center;
     white-space: normal;
     -unity-text-auto-size: none;
-    padding-top: 29px;
-    padding-right: 29px;
-    padding-bottom: 29px;
-    padding-left: 29px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
     visibility: visible;
     overflow: visible;
     display: flex;
@@ -94,3 +94,5 @@
 .option-row:hover .option-describtion {
     color: rgb(129, 129, 129);
 }
+
+
