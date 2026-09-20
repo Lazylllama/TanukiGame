@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef7f2a88c6e76be4ea36765e09bd9145, type: 3}
-  m_Name: CycleSetting2
-  m_EditorClassIdentifier: Assembly-CSharp::UI.Settings.CycleSettings
-  id: 
-  label: 
-  description: 
-  options: []
-  defaultIndex: 0
+  m_Script: {fileID: 11500000, guid: e7916f4ef52867a4aa1ef53986dfac21, type: 3}
+  m_Name: SettingPage
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Settings.SettingsPage
+  label: Test
+  settings:
+  - {fileID: 11400000, guid: 50b0e9d7457860340a9247a44120a7e0, type: 2}

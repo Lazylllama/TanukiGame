@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace UI.Settings {
@@ -5,5 +6,11 @@ namespace UI.Settings {
 		public string id;
 		public string label;
 		public string description;
+
+		public abstract string GetDisplayValue();
+
+		public virtual void Step() {
+			return;
+		}
 	}
 }

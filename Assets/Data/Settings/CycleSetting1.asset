@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef7f2a88c6e76be4ea36765e09bd9145, type: 3}
-  m_Name: CycleSetting3
+  m_Name: CycleSetting1
   m_EditorClassIdentifier: Assembly-CSharp::UI.Settings.CycleSettings
-  id: 
-  label: 
-  description: 
-  options: []
+  id: BoolTest
+  label: Hello
+  description: This is a test
+  options:
+  - true
+  - false
   defaultIndex: 0

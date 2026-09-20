@@ -314,6 +314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059853028a9af9e4a8228bee580f219e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuUiController
+  settingsPage: {fileID: 11400000, guid: 386fe64a120a1a441ad43f3e7005fbef, type: 2}
+  optionRow: {fileID: 9197481963319205126, guid: 8a32366fcb4b19e4eaab14137a2de8be, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

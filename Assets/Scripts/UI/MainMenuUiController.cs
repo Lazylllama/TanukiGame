@@ -1,10 +1,14 @@
 using System.Collections.Generic;
+using UI.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UI {
 	[RequireComponent(typeof(PanelRenderer))]
 	public class MainMenuUiController : MonoBehaviour {
+		[SerializeField] private SettingsPage    settingsPage;
+		[SerializeField] private VisualTreeAsset optionRow;
+
 		private PanelRenderer panel;
 		private VisualElement startScreen;
 		private VisualElement optionsScreen;
@@ -29,10 +33,21 @@ namespace UI {
 			root.Q<Button>("BackButton").clickable.clicked    += OnBack;
 			root.Q<Button>("ExitButton").clickable.clicked    += OnExit;
 
-			var container = optionsScreen.Query<TemplateContainer>().ToList();
-			for(var i = 0; i < container.Count; i++)
-				container[i].Q<Label>("Name").text = i.ToString();
-		
+			var optionsContainer = optionsScreen.Q<VisualElement>("Options");
+			optionsContainer.Clear();
+			foreach (var setting in settingsPage.settings) {
+				var row = optionRow.Instantiate();
+				row.Q<VisualElement>("OptionRow").RegisterCallback<ClickEvent>(e => {
+					                                                               setting.Step();
+					                                                               row.Q<Label>("Value").text =
+						                                                               setting.GetDisplayValue();
+				                                                               });
+				row.Q<Label>("Name").text        = setting.label;
+				row.Q<Label>("Description").text = setting.description;
+				row.Q<Label>("Value").text       = setting.GetDisplayValue();
+				optionsContainer.Add(row);
+			}
+
 			ShowScreen(startScreen);
 		}
 
@@ -57,4 +72,3 @@ namespace UI {
 		#endregion
 	}
 }
-
