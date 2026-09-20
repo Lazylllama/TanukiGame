@@ -15,3 +15,4 @@ MonoBehaviour:
   label: Test
   settings:
   - {fileID: 11400000, guid: 50b0e9d7457860340a9247a44120a7e0, type: 2}
+  - {fileID: 11400000, guid: ba7e9fdc13a1d9840916ce4fdc217b70, type: 2}
