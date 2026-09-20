@@ -75,6 +75,7 @@
     flex-direction: column;
     width: 1600px;
     height: 150px;
+    color: rgb(129, 129, 129);
 }
 
 .option-row:hover .arrow {
@@ -83,12 +84,13 @@
 }
 
 .option-describtion {
-    color: rgba(27, 27, 27, 0);
+    color: rgba(129, 129, 129, 0);
     transition-duration: 0.15s;
     transition-property: color;
     transition-timing-function: ease-out;
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
 }
 
 .option-row:hover .option-describtion {
-    color: rgb(27, 27, 27);
+    color: rgb(129, 129, 129);
 }
