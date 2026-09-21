@@ -54,6 +54,7 @@ namespace Effects {
 		}
 
 		private void PositionSystem() {
+			rainSystem.transform.position = rainArea.position;
 			var center    = rainArea.position;
 			var scaleX    = rainArea.localScale.x;
 			var scaleY    = rainArea.localScale.y;
@@ -77,12 +78,14 @@ namespace Effects {
 		
 			var rate = perimeter * rainInput.rainPerSecondPerUnit;
 			emission.rateOverTime = rate;
+			main.startLifetimeMultiplier = perimeter / main.startSpeed.constant;
 			main.maxParticles     = Mathf.CeilToInt(rate * main.startLifetimeMultiplier);
 		}
 
 		#endregion
 
 		private void OnDrawGizmos() {
+			Gizmos.matrix = rainSystem.transform.localToWorldMatrix;
 			Gizmos.DrawSphere(rainSystem.shape.position, 0.1f);
 		}
 	}
