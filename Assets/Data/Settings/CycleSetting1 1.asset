@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef7f2a88c6e76be4ea36765e09bd9145, type: 3}
-  m_Name: CycleSetting1
+  m_Name: CycleSetting1 1
   m_EditorClassIdentifier: Assembly-CSharp::UI.Settings.CycleSettings
-  id: AutoinputDetection
-  label: Automatic Input Detection
-  description: Detect and switch input schema automatically
+  id: inputSchema
+  label: Input Schema
+  description: select which input to use
   options:
-  - enabled
-  - disabled
+  - Xbox controller
+  - playstation controller
+  - Keyboard & mouse
   defaultIndex: 0

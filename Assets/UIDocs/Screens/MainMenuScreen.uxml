@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
-    <ui:VisualElement name="StartScreen" enabled="true" style="flex-grow: 1; flex-basis: auto; width: 30%; background-color: rgba(0, 0, 0, 0); padding-top: 6px; padding-right: 6px; padding-bottom: 49px; padding-left: 6px; justify-content: center;">
+    <ui:VisualElement name="" enabled="true" style="flex-grow: 1; flex-basis: auto; width: 30%; background-color: rgba(0, 0, 0, 0); padding-top: 6px; padding-right: 6px; padding-bottom: 49px; padding-left: 6px; justify-content: center;">
         <ui:VisualElement name="Buttons" style="flex-grow: 1; justify-content: flex-end; flex-direction: column; align-items: flex-start;">
             <ui:Button name="StartButton" class="button">
                 <ui:VisualElement class="arrow"/>

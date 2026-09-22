@@ -1,0 +1,52 @@
+:root {
+}
+
+.Option-Label {
+    flex-grow: 1;
+    font-size: 84px;
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+    color: rgb(255, 255, 255);
+    width: auto;
+    white-space: nowrap;
+}
+
+.Description {
+    height: 50px;
+    color: rgba(148, 170, 118, 0);
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+    font-size: 50px;
+    transition-timing-function: ease-out-back;
+    transition-duration: 0.2s;
+}
+
+.option-row {
+    flex-direction: row;
+    width: 1600px;
+    height: 150px;
+    color: rgb(129, 129, 129);
+}
+
+.arrow {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    transition-timing-function: ease-out-back;
+    transition-delay: 0s;
+    transition-duration: 0.2s;
+    transition-property: -unity-background-image-tint-color;
+}
+
+.option-row:hover .arrow {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.option-row:hover .Description {
+    height: 50px;
+    color: rgb(148, 170, 118);
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+    font-size: 50px;
+}

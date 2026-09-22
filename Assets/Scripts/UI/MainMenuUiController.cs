@@ -9,8 +9,9 @@ namespace UI {
 	public class MainMenuUiController : MonoBehaviour {
 		[SerializeField] private SettingsPage    settingsPage;
 		[SerializeField] private VisualTreeAsset optionRow;
+		[SerializeField] private VisualTreeAsset cycleControl;
 
-		private PanelRenderer panel;
+		private PanelRenderer     panel;
 		private TemplateContainer startScreen;
 		private TemplateContainer optionsScreen;
 
@@ -26,8 +27,8 @@ namespace UI {
 		}
 
 		private void OnUIReload(PanelRenderer panelRenderer, VisualElement root) {
-			startScreen   = root.Q<TemplateContainer>("StartScreenTemplate");
-			optionsScreen = root.Q<TemplateContainer>("OptionScreenTemplate");
+			startScreen   = root.Q<TemplateContainer>("StartScreen");
+			optionsScreen = root.Q<TemplateContainer>("OptionsScreen");
 
 			root.Q<Button>("StartButton").clickable.clicked   += OnStart;
 			root.Q<Button>("OptionsButton").clickable.clicked += OnOptions;
@@ -38,14 +39,30 @@ namespace UI {
 			optionsContainer.Clear();
 			foreach (var setting in settingsPage.settings) {
 				var row = optionRow.Instantiate();
+
+				row.Q<Label>("Label").text       = setting.label;
+				row.Q<Label>("Description").text = setting.description;
+				var ctrlContainer = row.Q<VisualElement>("Control");
+				ctrlContainer.Clear();
+				var ctrl     = cycleControl.Instantiate();
+				var ctrlText = ctrl.Q<Label>();
+
+				void Refresh() {
+					var v = setting.GetDisplayValue();
+					ctrlText.EnableInClassList("value-enabled",  v == "enabled");
+					ctrlText.EnableInClassList("value-disabled", v == "disabled");
+					ctrlText.text = v;
+				}
+				
+				Refresh();
+
+				ctrlText.text = setting.GetDisplayValue();
 				row.Q<VisualElement>("OptionRow").RegisterCallback<ClickEvent>(e => {
 					                                                               setting.Step();
-					                                                               row.Q<Label>("Value").text =
-						                                                               setting.GetDisplayValue();
+					                                                               Refresh();
 				                                                               });
-				row.Q<Label>("Name").text        = setting.label;
-				row.Q<Label>("Description").text = setting.description;
-				row.Q<Label>("Value").text       = setting.GetDisplayValue();
+
+				ctrlContainer.Add(ctrl);
 				optionsContainer.Add(row);
 			}
 

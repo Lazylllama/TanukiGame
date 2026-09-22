@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="CycleControl" src="project://database/Assets/UIDocs/Templates/CycleControl.uxml?fileID=9197481963319205126&amp;guid=bd31ee9be06992648a732cf1174870ba&amp;type=3#CycleControl"/>
+    <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
+    <Style src="project://database/Assets/UIDocs/OptionRow.uss?fileID=7433441132597879392&amp;guid=b63a0b9ba29776c459c809bc4be9afd1&amp;type=3#OptionRow"/>
+    <ui:VisualElement name="OptionRow" class="option-row">
+        <ui:VisualElement style="flex-grow: 1; align-self: flex-start; flex-wrap: wrap;">
+            <ui:Label text="Automatic Input Detection" name="Label" class="Label Option-Label" style="-unity-text-align: middle-left;"/>
+            <ui:Label text="Detect and switch input schema automatically" name="Description" class="Description" style="-unity-text-align: middle-left;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="Control" style="flex-grow: 1; flex-direction: row-reverse; align-self: stretch; align-items: center; height: 100px;">
+            <ui:Instance template="CycleControl"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

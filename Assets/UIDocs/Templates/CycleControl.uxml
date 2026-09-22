@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UIDocs/OptionRow.uss?fileID=7433441132597879392&amp;guid=b63a0b9ba29776c459c809bc4be9afd1&amp;type=3#OptionRow"/>
+    <Style src="project://database/Assets/UIDocs/CycleControl.uss?fileID=7433441132597879392&amp;guid=cd655e4ec2fd99e4597b9fe52c9c7d14&amp;type=3#CycleControl"/>
+    <ui:VisualElement style="flex-grow: 1; height: 100px; flex-direction: row-reverse; align-items: center;">
+        <ui:VisualElement class="arrow" style="background-image: url(&quot;project://database/Assets/Textures/Arrow-Right-HQ.png?fileID=2800000&amp;guid=516cfa04c3fb627459762beea05e6bd2&amp;type=3#Arrow-Right-HQ&quot;);"/>
+        <ui:Label text="Enabled" class="value"/>
+        <ui:VisualElement class="arrow" style="background-image: url(&quot;project://database/Assets/Textures/Arrow-Left-HQ.png?fileID=2800000&amp;guid=f8e3c38fae814ac4eb4f4eca8e7f420a&amp;type=3#Arrow-Left-HQ&quot;);"/>
+    </ui:VisualElement>
+</ui:UXML>

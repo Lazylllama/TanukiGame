@@ -9,8 +9,8 @@
             <ui:Image name="StudioBranding" source="project://database/Assets/Art/MainMenu/FallenInteractive.png?fileID=2800000&amp;guid=0f6a7bd99f42a1e4fbcd8b796af92b1b&amp;type=3#FallenInteractive" class="mix-overlay" style="position: relative; right: auto; bottom: auto; background-color: rgba(0, 0, 0, 0); filter: opacity(0.15);"/>
         </ui:VisualElement>
         <ui:VisualElement name="MainScreen" class="screen" style="flex-grow: 1;">
-            <ui:Instance template="MainMenuScreen" name="StartScreenTemplate" class="screen"/>
-            <ui:Instance template="OptionsScreen" name="OptionScreenTemplate" class="screen screen--hidden"/>
+            <ui:Instance template="MainMenuScreen" name="StartScreen" class="screen"/>
+            <ui:Instance template="OptionsScreen" name="OptionsScreen" class="screen screen--hidden"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
