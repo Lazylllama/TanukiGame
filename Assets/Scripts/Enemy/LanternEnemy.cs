@@ -27,7 +27,7 @@ namespace Enemy {
 		[SerializeField] private float recoilLength;
 
 		//Getters and Setters
-		[field: SerializeField] public EnemyStates CurrentEnemyState  { get; set; }
+		[field: SerializeField] public EnemyStates CurrentEnemyState { get; set; }
 
 		//Private floats
 		private float attackTimer;
@@ -56,13 +56,13 @@ namespace Enemy {
 		}
 
 		private void Update() {
-			Hover();
+			//Hover();
 			Shooting();
 			HandleCooldowns();
 			SpriteFlip();
 		}
 
-		private void Hover() {
+		/*private void Hover() {
 			positionChangeTimer -= Time.deltaTime;
 			if (positionChangeTimer <= 0) {
 				positionChangeTimer = positionChangeFrequency;
@@ -79,7 +79,7 @@ namespace Enemy {
 			transform.position += positionToAdd;
 
 			previousPosition = currentPosition;
-		}
+		}*/
 
 		private void Shooting() {
 			if (PlayerDetected()) {
@@ -117,8 +117,24 @@ namespace Enemy {
 			var projectile   = Instantiate(fireBall, attackPointTransform.position, Quaternion.identity);
 			var projectileRb = projectile.GetComponent<Rigidbody2D>();
 			projectileRb.linearVelocity = shootDirection * fireBallSpeed;
+			StartCoroutine(EnemyExtraForce(recoilForce, -shootDirection, recoilLength));
+
 
 			shootCoroutine = null;
+		}
+
+		private IEnumerator EnemyExtraForce(float force, Vector2 direction, float duration) {
+			lanternRb.linearVelocity = Vector2.zero;
+			while (duration > 0) {
+				duration -= Time.deltaTime;
+
+				lanternRb.linearVelocity = force * direction;
+
+				yield return null;
+			}
+
+			lanternRb.linearVelocity = Vector2.zero;
+			yield return null;
 		}
 
 		private bool PlayerDetected() {
