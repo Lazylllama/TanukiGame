@@ -26,9 +26,10 @@ namespace Player {
 		[SerializeField] private float groundCheckDistance;
 
 		//? Getters and setters
-		[field: SerializeField] public MovingStates MovingState     { get; private set; }
+		[field: SerializeField] public MovingStates MovingState     { get; set; }
 		public                         bool         IsLookingRight  { get; private set; }
 		public                         bool         GetIsGrounded() => IsGrounded();
+		[field: SerializeField] public bool         KnockbackActive { get;         set; }
 		public                         Vector2      ExtraForce      { private get; set; }
 		private                        Rigidbody2D  PlayerRb        { get;         set; }
 
@@ -41,9 +42,9 @@ namespace Player {
 		//? Private ints
 
 		//? Private bools
-		[SerializeField] private bool jumpPressed;
-		private                  bool dashPressed;
-		private                  bool dashActive;
+		private bool jumpPressed;
+		private bool dashPressed;
+		private bool dashActive;
 
 		//? Components
 		private CapsuleCollider2D  playerCollider;
@@ -62,7 +63,8 @@ namespace Player {
 			Jumping,
 			Falling,
 			Dashing,
-			Parrying
+			Parrying,
+			Knockback
 		}
 
 		#endregion
@@ -106,6 +108,7 @@ namespace Player {
 		private void MovementHandler() {
 			if (dashActive) return;
 
+			if (MovingState == MovingStates.Knockback) return;
 			PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
 			if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
 
@@ -179,12 +182,14 @@ namespace Player {
 		}
 
 		private void StateChanger() {
-			if (PlayerRb.linearVelocity.x == 0f && IsGrounded()) MovingState  = MovingStates.Idle;
-			if (PlayerRb.linearVelocity.x != 0f && IsGrounded()) MovingState  = MovingStates.Moving;
-			if (PlayerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
-			if (PlayerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
-			if (dashActive) MovingState                                       = MovingStates.Dashing;
-			if (PlayerCombat.Instance.IsParrying) MovingState                 = MovingStates.Parrying;
+			if (!KnockbackActive) {
+				if (PlayerRb.linearVelocity.x == 0f && IsGrounded()) MovingState  = MovingStates.Idle;
+				if (PlayerRb.linearVelocity.x != 0f && IsGrounded()) MovingState  = MovingStates.Moving;
+				if (PlayerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
+				if (PlayerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
+				if (dashActive) MovingState                                       = MovingStates.Dashing;
+				if (PlayerCombat.Instance.IsParrying) MovingState                 = MovingStates.Parrying;
+			} else MovingState = MovingStates.Knockback;
 		}
 
 		#region Input Callbacks

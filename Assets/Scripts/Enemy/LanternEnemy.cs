@@ -16,11 +16,7 @@ namespace Enemy {
 
 		[Header("Hover Settings")]
 		[SerializeField] private float hoverSpeed;
-		[SerializeField] private float returnSpeed;
-		[SerializeField] private float positionChangeFrequency;
-		[SerializeField] private float hoverPositionAmountX;
-		[SerializeField] private float hoverPositionAmountY;
-
+		[SerializeField] private float hoverLimit;
 
 		[Header("Recoil Settings")]
 		[SerializeField] private float recoilForce;
@@ -32,6 +28,8 @@ namespace Enemy {
 		//Private floats
 		private float attackTimer;
 		private float positionChangeTimer;
+		private float speedCurve;
+		private float CosCurve => Mathf.Cos(speedCurve);
 
 		//Private bools
 		private bool isLookingRight;
@@ -39,9 +37,7 @@ namespace Enemy {
 
 
 		//Private vectors
-		private Vector3 currentPosition;
-		private Vector3 targetPosition;
-		private Vector3 previousPosition;
+		private Vector2 hoverPosition;
 
 		//Component references
 		private Rigidbody2D lanternRb;
@@ -56,30 +52,19 @@ namespace Enemy {
 		}
 
 		private void Update() {
-			//Hover();
+			Hover();
 			Shooting();
 			HandleCooldowns();
 			SpriteFlip();
+			StateChanger();
 		}
 
-		/*private void Hover() {
-			positionChangeTimer -= Time.deltaTime;
-			if (positionChangeTimer <= 0) {
-				positionChangeTimer = positionChangeFrequency;
+		private void Hover() {
+			speedCurve += Time.deltaTime * hoverSpeed;
 
-				targetPosition += new Vector3(Random.Range(hoverPositionAmountX, -hoverPositionAmountX),
-				                              Random.Range(hoverPositionAmountY, -hoverPositionAmountY));
-			}
-
-			targetPosition = Vector2.MoveTowards(targetPosition, Vector3.zero, returnSpeed * Time.deltaTime);
-			currentPosition = Vector2.MoveTowards(currentPosition, targetPosition,
-			                                      hoverSpeed * Time.deltaTime);
-			var positionToAdd = currentPosition - previousPosition;
-
-			transform.position += positionToAdd;
-
-			previousPosition = currentPosition;
-		}*/
+			hoverPosition.y          = CosCurve      * hoverLimit;
+			lanternRb.linearVelocity = hoverPosition * hoverSpeed;
+		}
 
 		private void Shooting() {
 			if (PlayerDetected()) {
@@ -137,10 +122,15 @@ namespace Enemy {
 			yield return null;
 		}
 
+		private void StateChanger() {
+			if (isAwakened) CurrentEnemyState = EnemyStates.AwakenedIdle;
+		}
+
 		private bool PlayerDetected() {
 			if (!(Vector2.Distance(transform.position, playerTransform.position) < detectionRange)) return false;
 			var hit = Physics2D.Linecast(transform.position, playerTransform.position,
 			                             ~LayerMask.GetMask("Enemy"));
+			isAwakened = true;
 
 			return hit.collider;
 		}

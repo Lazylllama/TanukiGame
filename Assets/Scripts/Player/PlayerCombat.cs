@@ -192,8 +192,7 @@ namespace Player {
 
 			var instantiatedObject   = Instantiate(throwObject, transform.position, Quaternion.identity);
 			var instantiatedObjectRb = instantiatedObject.GetComponent<Rigidbody2D>();
-			var direction            = (mouseVector - transform.position);
-			direction.Normalize();
+			var direction            = (mouseVector - transform.position).normalized;
 
 			instantiatedObjectRb.AddForce(forceToApply * direction,
 			                              ForceMode2D.Impulse);
