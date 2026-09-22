@@ -11,8 +11,8 @@ namespace UI {
 		[SerializeField] private VisualTreeAsset optionRow;
 
 		private PanelRenderer panel;
-		private VisualElement startScreen;
-		private VisualElement optionsScreen;
+		private TemplateContainer startScreen;
+		private TemplateContainer optionsScreen;
 
 		#region Initialization
 
@@ -26,8 +26,8 @@ namespace UI {
 		}
 
 		private void OnUIReload(PanelRenderer panelRenderer, VisualElement root) {
-			startScreen   = root.Q("StartScreen");
-			optionsScreen = root.Q("OptionsScreen");
+			startScreen   = root.Q<TemplateContainer>("StartScreenTemplate");
+			optionsScreen = root.Q<TemplateContainer>("OptionScreenTemplate");
 
 			root.Q<Button>("StartButton").clickable.clicked   += OnStart;
 			root.Q<Button>("OptionsButton").clickable.clicked += OnOptions;
@@ -52,7 +52,7 @@ namespace UI {
 			ShowScreen(startScreen);
 		}
 
-		private void ShowScreen(VisualElement screen) {
+		private void ShowScreen(TemplateContainer screen) {
 			startScreen.EnableInClassList("screen--hidden", screen   != startScreen);
 			optionsScreen.EnableInClassList("screen--hidden", screen != optionsScreen);
 		}

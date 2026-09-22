@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
+    <ui:VisualElement name="StartScreen" enabled="true" style="flex-grow: 1; flex-basis: auto; width: 30%; background-color: rgba(0, 0, 0, 0); padding-top: 6px; padding-right: 6px; padding-bottom: 49px; padding-left: 6px; justify-content: center;">
+        <ui:VisualElement name="Buttons" style="flex-grow: 1; justify-content: flex-end; flex-direction: column; align-items: flex-start;">
+            <ui:Button name="StartButton" class="button">
+                <ui:VisualElement class="arrow"/>
+                <ui:Label text="Start" class="button-title" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;); color: rgb(255, 255, 255);"/>
+                <ui:VisualElement class="arrow"/>
+            </ui:Button>
+            <ui:Button name="OptionsButton" class="button" style="align-items: flex-start; justify-content: space-around; align-self: auto; white-space: normal; flex-direction: row;">
+                <ui:VisualElement class="arrow"/>
+                <ui:Label text="Options" class="button-title" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;); color: rgb(255, 255, 255);"/>
+                <ui:VisualElement class="arrow"/>
+            </ui:Button>
+            <ui:Button name="ExitButton" class="button">
+                <ui:VisualElement class="arrow"/>
+                <ui:Label text="Quit" class="button-title" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;); color: rgb(255, 109, 109);"/>
+                <ui:VisualElement class="arrow"/>
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:Image source="project://database/Assets/Art/MainMenu/TANUKI%20GAME.png?fileID=2800000&amp;guid=7886379483e91b942b2d27c4092e443a&amp;type=3#TANUKI GAME" style="padding-left: 52px; width: auto; height: 136px;"/>
+    </ui:VisualElement>
+</ui:UXML>

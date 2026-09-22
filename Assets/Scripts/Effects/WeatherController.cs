@@ -30,7 +30,7 @@ namespace Effects {
 
 		private void SetAllSystems() {
 			foreach (var window in windows) {
-				window.SetRainSystem(rainInput);
+				if(window) window.SetRainSystem(rainInput);
 			}
 		}
 
