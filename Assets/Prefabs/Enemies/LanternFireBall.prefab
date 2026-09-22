@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4608972000556637909}
   - component: {fileID: 2368265085207133787}
   - component: {fileID: 4940246778308495312}
+  - component: {fileID: -2594897459864009578}
   m_Layer: 9
   m_Name: LanternFireBall
   m_TagString: Untagged
@@ -97,6 +98,21 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &-2594897459864009578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4659032325528672141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 555e842e28167f04b8df197d86573628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LanternFireBall
+  damage: 1
+  knockbackForce: 5
+  knockbackLength: 0.3
 --- !u!1 &8783951612576457597
 GameObject:
   m_ObjectHideFlags: 0

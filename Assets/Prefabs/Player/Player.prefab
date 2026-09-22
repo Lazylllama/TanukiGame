@@ -101,7 +101,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.51, y: 2.49}
+  m_Size: {x: 3.01, y: 3}
   m_Direction: 0
 --- !u!114 &6161288103293043260
 MonoBehaviour:
@@ -155,6 +155,7 @@ MonoBehaviour:
   dashLength: 0.2
   groundCheckDistance: 0.001
   <MovingState>k__BackingField: 0
+  <IsKnockBacked>k__BackingField: 0
   jumpBufferTimer: 0
   jumpPressed: 0
 --- !u!114 &8124614188786182174
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player_Combat
   mouseCircle: {fileID: 0}
   slashRadius: 1
-  slashDistance: 2
+  slashDistance: 3
   slashCooldown: 0.2
   slashRecoilForce: 20
   slashRecoilDuration: 0.1
@@ -183,7 +184,7 @@ MonoBehaviour:
   throwMaxForce: 50
   throwCooldown: 1
   throwInputActivationAmount: 0.25
-  inAirTimeSlowLength: 3
+  inAirTimeSlowLength: 2
   throwRecoilForce: 20
   throwRecoilLength: 0.1
   parryLength: 0.2
@@ -311,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 6662896734099992139}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.17, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -342,13 +343,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7511610431537667436}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 566625748372474180}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &5487667762091309205
 SpriteRenderer:
   serializedVersion: 3
@@ -398,7 +399,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1499567985400848262, guid: 2d6e06b99254c0a4281af2cc57d8617a, type: 3}
+  m_Sprite: {fileID: -1364499785244590119, guid: ee20661362f25ab4ebc70833839cd010, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

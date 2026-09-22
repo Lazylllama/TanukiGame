@@ -280,11 +280,6 @@ namespace Player {
 		private void OnDrawGizmos() {
 			Gizmos.color = Color.red;
 			if (!PlayerController.Instance) return;
-			var slashPosition =
-				new Vector2(PlayerController.Instance.IsLookingRight ? 1 : -1 * slashDistance + transform.position.x,
-				            transform.position.y);
-			Gizmos.DrawWireSphere(slashPosition, slashRadius);
-
 
 			Gizmos.DrawLine(transform.position, mouseVector);
 		}
