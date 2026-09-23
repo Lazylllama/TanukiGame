@@ -8,8 +8,11 @@ namespace UI.Settings {
 
 		public override string GetDisplayValue() => $"{Value}/{maxValue}";
 
-		public override void Step(bool forward = true) {
-			Value = Mathf.Clamp((Value + (forward ? 1 : -1) ), 0, maxValue);
+		public override void Step(bool forward = true, int set = -1) {
+			if(set == -1)
+				Value = Mathf.Clamp((Value + (forward ? 1 : -1) ), 0, maxValue);
+			else
+				Value = Mathf.Clamp((set), 0, maxValue); 
 		}
 	}
 }

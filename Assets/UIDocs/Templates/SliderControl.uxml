@@ -2,7 +2,8 @@
     <Style src="project://database/Assets/UIDocs/OptionRow.uss?fileID=7433441132597879392&amp;guid=b63a0b9ba29776c459c809bc4be9afd1&amp;type=3#OptionRow"/>
     <Style src="project://database/Assets/UIDocs/CycleControl.uss?fileID=7433441132597879392&amp;guid=cd655e4ec2fd99e4597b9fe52c9c7d14&amp;type=3#CycleControl"/>
     <ui:VisualElement style="flex-grow: 1; height: 100px; flex-direction: row-reverse; align-items: center;">
-        <ui:Label text="10" class="value" style="-unity-text-align: middle-center; height: 30px;"/>
+        <ui:VisualElement style="flex-grow: 0; width: 50px; flex-shrink: 0;"/>
+        <ui:Label text="10" class="value" style="-unity-text-align: middle-right; height: 30px; width: 125px;"/>
         <ui:Slider label="" value="10.23" high-value="10" fill="false" style="width: 200px; align-items: center; height: 50px; justify-content: space-between;"/>
     </ui:VisualElement>
 </ui:UXML>

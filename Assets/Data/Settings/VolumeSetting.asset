@@ -15,5 +15,5 @@ MonoBehaviour:
   id: MasVol
   label: Master Volume
   description: Affects the volume of everything.
-  defaultValue: 50
-  maxValue: 100
+  defaultValue: 5
+  maxValue: 10

@@ -9,6 +9,6 @@ namespace UI.Settings {
 
 		public abstract string GetDisplayValue();
 
-		public virtual void Step(bool forward = true){}
+		public virtual void Step(bool forward = true, int set = -1){}
 	}
 }

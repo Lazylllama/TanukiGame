@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UI.Settings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,11 +13,13 @@ namespace UI {
 		[SerializeField] private VisualTreeAsset optionRow;
 		[SerializeField] private VisualTreeAsset cycleControl;
 		[SerializeField] private VisualTreeAsset sliderControl;
+		
 
 		private PanelRenderer     panel;
 		private TemplateContainer startScreen;
 		private TemplateContainer optionsScreen;
-
+		private VisualElement     optionsContainer;
+		
 		#region Initialization
 
 		private void OnEnable() {
@@ -36,9 +40,16 @@ namespace UI {
 			root.Q<Button>("BackButton").clickable.clicked    += OnBack;
 			root.Q<Button>("ExitButton").clickable.clicked    += OnExit;
 
-			var optionsContainer = optionsScreen.Q<VisualElement>("Options");
+			optionsContainer = optionsScreen.Q<VisualElement>("Options");
 			optionsContainer.Clear();
-			foreach (var setting in settingsPage.settings) {
+			
+			LoadOptionsScreen(settingsPage);
+			
+			ShowScreen(startScreen);
+		}
+
+		private void LoadOptionsScreen(SettingsPage page) {
+			foreach (var setting in page.settings) {
 				var row = optionRow.Instantiate();
 
 				row.Q<Label>("Label").text       = setting.label;
@@ -69,10 +80,14 @@ namespace UI {
 						e.StopPropagation();
 					});
 					ctrlContainer.Add(ctrl);
-				} else if (setting is SliderSettings) {
-					var ctrl = sliderControl.Instantiate();
-					var ctrlText = ctrl.Q<Label>();
+				} else if (setting is SliderSettings slider) {
+					var ctrl       = sliderControl.Instantiate();
+					var ctrlText   = ctrl.Q<Label>();
 					var ctrlSlider = ctrl.Q<Slider>();
+					ctrlSlider.highValue = slider.maxValue;
+					
+					int.TryParse( setting.GetDisplayValue().Split('/')[0] , out var outValue);
+					ctrlSlider.value = outValue;
 
 					void Refresh() {
 						var v = setting.GetDisplayValue();
@@ -82,15 +97,14 @@ namespace UI {
 					Refresh();
 					
 					ctrlSlider.RegisterValueChangedCallback(e => {
-						setting.Step(e.newValue > e.previousValue);
-						Refresh();
-					});
+						                                        setting.Step(true, (int)e.newValue);
+						                                        Refresh();
+					                                        });
 					
 					ctrlContainer.Add(ctrl);
 				}
 				optionsContainer.Add(row);
 			}
-			ShowScreen(startScreen);
 		}
 
 		private void ShowScreen(TemplateContainer screen) {
