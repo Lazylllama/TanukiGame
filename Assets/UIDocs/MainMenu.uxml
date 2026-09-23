@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Template name="OptionRow" src="project://database/Assets/UIDocs/Templates/OptionRow.uxml?fileID=9197481963319205126&amp;guid=8a32366fcb4b19e4eaab14137a2de8be&amp;type=3#OptionRow"/>
+    <ui:Template name="MainMenuScreen" src="project://database/Assets/UIDocs/Screens/MainMenuScreen.uxml?fileID=9197481963319205126&amp;guid=5c2ca7cb6d0358a47b508cc8a4a2ad4a&amp;type=3#MainMenuScreen"/>
+    <ui:Template name="OptionsScreen" src="project://database/Assets/UIDocs/Screens/OptionsScreen.uxml?fileID=9197481963319205126&amp;guid=ca6329e5dcac85247b55dbe7211d16ef&amp;type=3#OptionsScreen"/>
     <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
     <ui:VisualElement style="flex-grow: 1;">
         <ui:Image source="project://database/Assets/Art/MainMenu/Main%20Menu%20Other%20BG.png?fileID=2800000&amp;guid=981c5588e44c3884abb9080c838b1ab6&amp;type=3#Main Menu Other BG" scale-mode="ScaleAndCrop" name="Background" style="position: absolute; flex-wrap: nowrap; flex-direction: column; align-items: auto; align-self: center; justify-content: space-around; align-content: auto; top: auto; width: 100%; height: 100%;"/>
@@ -8,41 +9,8 @@
             <ui:Image name="StudioBranding" source="project://database/Assets/Art/MainMenu/FallenInteractive.png?fileID=2800000&amp;guid=0f6a7bd99f42a1e4fbcd8b796af92b1b&amp;type=3#FallenInteractive" class="mix-overlay" style="position: relative; right: auto; bottom: auto; background-color: rgba(0, 0, 0, 0); filter: opacity(0.15);"/>
         </ui:VisualElement>
         <ui:VisualElement name="MainScreen" class="screen" style="flex-grow: 1;">
-            <ui:VisualElement name="StartScreen" enabled="true" class="screen" style="flex-grow: 1; flex-basis: auto; width: 30%; background-color: rgba(0, 0, 0, 0); padding-top: 6px; padding-right: 6px; padding-bottom: 49px; padding-left: 6px; justify-content: center;">
-                <ui:VisualElement name="Buttons" style="flex-grow: 1; justify-content: flex-end; flex-direction: column; align-items: flex-start;">
-                    <ui:Button name="StartButton" class="button">
-                        <ui:VisualElement class="arrow"/>
-                        <ui:Label text="Start" class="button-title" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;); color: rgb(255, 255, 255);"/>
-                        <ui:VisualElement class="arrow"/>
-                    </ui:Button>
-                    <ui:Button name="OptionsButton" class="button" style="align-items: flex-start; justify-content: space-around; align-self: auto; white-space: normal; flex-direction: row;">
-                        <ui:VisualElement class="arrow"/>
-                        <ui:Label text="Options" class="button-title" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;); color: rgb(255, 255, 255);"/>
-                        <ui:VisualElement class="arrow"/>
-                    </ui:Button>
-                    <ui:Button name="ExitButton" class="button">
-                        <ui:VisualElement class="arrow"/>
-                        <ui:Label text="Quit" class="button-title" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;); color: rgb(255, 109, 109);"/>
-                        <ui:VisualElement class="arrow"/>
-                    </ui:Button>
-                </ui:VisualElement>
-                <ui:Image source="project://database/Assets/Art/MainMenu/TANUKI%20GAME.png?fileID=2800000&amp;guid=7886379483e91b942b2d27c4092e443a&amp;type=3#TANUKI GAME" style="padding-left: 52px; width: auto; height: 136px;"/>
-            </ui:VisualElement>
-            <ui:VisualElement name="OptionsScreen" class="screen screen--hidden">
-                <ui:Label text="OPTIONS" style="font-size: 211px; -unity-text-align: middle-center; -unity-font-style: bold; -unity-text-auto-size: best-fit 10px 201px; -unity-text-generator: advanced; -unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;); padding-top: 4px; margin-top: 48px; background-image: none; color: rgb(255, 255, 255);"/>
-                <ui:VisualElement name="Options" style="flex-grow: 1; align-items: center; justify-content: center; align-self: auto;">
-                    <ui:Instance template="OptionRow"/>
-                    <ui:Instance template="OptionRow"/>
-                    <ui:Instance template="OptionRow"/>
-                    <ui:Instance template="OptionRow"/>
-                    <ui:Instance template="OptionRow"/>
-                </ui:VisualElement>
-                <ui:Button name="BackButton" class="button">
-                    <ui:VisualElement class="arrow"/>
-                    <ui:Label text="Back" class="button-title" style="color: rgb(255, 255, 255); -unity-font-definition: url(&quot;project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&amp;guid=4f741aaafd7179141a0f00b03480749d&amp;type=3#uglyhandwriting&quot;);"/>
-                    <ui:VisualElement class="arrow"/>
-                </ui:Button>
-            </ui:VisualElement>
+            <ui:Instance template="MainMenuScreen" name="StartScreen" class="screen"/>
+            <ui:Instance template="OptionsScreen" name="OptionsScreen" class="screen screen--hidden"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

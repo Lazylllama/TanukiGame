@@ -9,8 +9,8 @@ namespace UI.Settings {
 
 		public override string GetDisplayValue() => options[Value];
 
-		public override void Step() {
-			Value = (Value + 1) % options.Length;
+		public override void Step(bool forward = true) {
+			Value = (Value + (forward ? 1 : -1) + options.Length) % options.Length;
 		}
 	}
 }

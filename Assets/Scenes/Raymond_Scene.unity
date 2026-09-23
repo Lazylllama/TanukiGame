@@ -725,11 +725,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2843614610381946039, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -57.45278
+      value: 36.8
       objectReference: {fileID: 0}
     - target: {fileID: 2843614610381946039, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.51792
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2843614610381946039, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
       propertyPath: m_LocalPosition.z
@@ -861,13 +861,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lantern Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4652861161887156220, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: m_Mass
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652861161887156220, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652861161887156220, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: m_LinearDamping
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: hoverLimit
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: hoverSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: recoilForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: recoilLength
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: attackCooldown
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7552832617138148799, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.42191
+      value: 12.79
       objectReference: {fileID: 0}
     - target: {fileID: 7552832617138148799, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.84747
+      value: 5.87
       objectReference: {fileID: 0}
     - target: {fileID: 7552832617138148799, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
       propertyPath: m_LocalPosition.z

@@ -15,4 +15,6 @@ MonoBehaviour:
   label: Test
   settings:
   - {fileID: 11400000, guid: 50b0e9d7457860340a9247a44120a7e0, type: 2}
+  - {fileID: 11400000, guid: e6c332dc074ee47498284b001d61a128, type: 2}
+  - {fileID: 11400000, guid: 412daf0b153c23d4cb2e790222b6b59f, type: 2}
   - {fileID: 11400000, guid: ba7e9fdc13a1d9840916ce4fdc217b70, type: 2}

@@ -1,6 +1,8 @@
 using System.Collections;
 using Enemy;
+using Player;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public static class Lib {
 	public static class Combat {
@@ -14,6 +16,12 @@ public static class Lib {
 				lanternEnemy.CurrentEnemyState = LanternEnemy.EnemyStates.Knockback;
 			}
 
+			if (gameObject.tag == "Player") {
+				var playerController = gameObject.GetComponent<PlayerController>();
+
+				playerController.KnockbackActive = true;
+			}
+
 			var knockbackTimer = knockbackLength;
 
 			while (knockbackTimer > 0f) {
@@ -22,6 +30,11 @@ public static class Lib {
 				rigidBody.linearVelocity = new Vector2(knockbackDirectionX, 1f) * knockbackForce;
 
 				yield return null;
+			}
+			if (gameObject.tag == "Player") {
+				var playerController = gameObject.GetComponent<PlayerController>();
+
+				playerController.KnockbackActive = false;
 			}
 
 			yield return null;

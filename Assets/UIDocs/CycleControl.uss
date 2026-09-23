@@ -1,0 +1,23 @@
+:root {
+}
+
+.value {
+    font-size: 50px;
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+}
+
+.value-enabled {
+    font-size: 50px;
+    color: rgb(189, 255, 124);
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+}
+
+.value-disabled {
+    font-size: 50px;
+    color: rgb(255, 124, 137);
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+}

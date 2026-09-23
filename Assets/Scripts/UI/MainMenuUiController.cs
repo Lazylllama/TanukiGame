@@ -9,10 +9,12 @@ namespace UI {
 	public class MainMenuUiController : MonoBehaviour {
 		[SerializeField] private SettingsPage    settingsPage;
 		[SerializeField] private VisualTreeAsset optionRow;
+		[SerializeField] private VisualTreeAsset cycleControl;
+		[SerializeField] private VisualTreeAsset sliderControl;
 
-		private PanelRenderer panel;
-		private VisualElement startScreen;
-		private VisualElement optionsScreen;
+		private PanelRenderer     panel;
+		private TemplateContainer startScreen;
+		private TemplateContainer optionsScreen;
 
 		#region Initialization
 
@@ -26,8 +28,8 @@ namespace UI {
 		}
 
 		private void OnUIReload(PanelRenderer panelRenderer, VisualElement root) {
-			startScreen   = root.Q("StartScreen");
-			optionsScreen = root.Q("OptionsScreen");
+			startScreen   = root.Q<TemplateContainer>("StartScreen");
+			optionsScreen = root.Q<TemplateContainer>("OptionsScreen");
 
 			root.Q<Button>("StartButton").clickable.clicked   += OnStart;
 			root.Q<Button>("OptionsButton").clickable.clicked += OnOptions;
@@ -38,21 +40,60 @@ namespace UI {
 			optionsContainer.Clear();
 			foreach (var setting in settingsPage.settings) {
 				var row = optionRow.Instantiate();
-				row.Q<VisualElement>("OptionRow").RegisterCallback<ClickEvent>(e => {
-					                                                               setting.Step();
-					                                                               row.Q<Label>("Value").text =
-						                                                               setting.GetDisplayValue();
-				                                                               });
-				row.Q<Label>("Name").text        = setting.label;
+
+				row.Q<Label>("Label").text       = setting.label;
 				row.Q<Label>("Description").text = setting.description;
-				row.Q<Label>("Value").text       = setting.GetDisplayValue();
+				var ctrlContainer = row.Q<VisualElement>("Control");
+				ctrlContainer.Clear();
+				if (setting is CycleSettings) {
+					var ctrl     = cycleControl.Instantiate();
+					var ctrlText = ctrl.Q<Label>();
+
+					void Refresh() {
+						var v = setting.GetDisplayValue();
+						ctrlText.EnableInClassList("value-enabled",  v == "enabled");
+						ctrlText.EnableInClassList("value-disabled", v == "disabled");
+						ctrlText.text = v;
+					}
+
+					Refresh();
+
+					row.Q<VisualElement>("OptionRow").RegisterCallback<ClickEvent>(e => {
+						setting.Step();
+						Refresh();
+					});
+
+					ctrl.Q<VisualElement>("LeftArrow").RegisterCallback<ClickEvent>(e => {
+						setting.Step(false);
+						Refresh();
+						e.StopPropagation();
+					});
+					ctrlContainer.Add(ctrl);
+				} else if (setting is SliderSettings) {
+					var ctrl = sliderControl.Instantiate();
+					var ctrlText = ctrl.Q<Label>();
+					var ctrlSlider = ctrl.Q<Slider>();
+
+					void Refresh() {
+						var v = setting.GetDisplayValue();
+						ctrlText.text = v;
+					}
+
+					Refresh();
+					
+					ctrlSlider.RegisterValueChangedCallback(e => {
+						setting.Step(e.newValue > e.previousValue);
+						Refresh();
+					});
+					
+					ctrlContainer.Add(ctrl);
+				}
 				optionsContainer.Add(row);
 			}
-
 			ShowScreen(startScreen);
 		}
 
-		private void ShowScreen(VisualElement screen) {
+		private void ShowScreen(TemplateContainer screen) {
 			startScreen.EnableInClassList("screen--hidden", screen   != startScreen);
 			optionsScreen.EnableInClassList("screen--hidden", screen != optionsScreen);
 		}
