@@ -10,6 +10,7 @@ namespace UI {
 		[SerializeField] private SettingsPage    settingsPage;
 		[SerializeField] private VisualTreeAsset optionRow;
 		[SerializeField] private VisualTreeAsset cycleControl;
+		[SerializeField] private VisualTreeAsset sliderControl;
 
 		private PanelRenderer     panel;
 		private TemplateContainer startScreen;
@@ -44,28 +45,51 @@ namespace UI {
 				row.Q<Label>("Description").text = setting.description;
 				var ctrlContainer = row.Q<VisualElement>("Control");
 				ctrlContainer.Clear();
-				var ctrl     = cycleControl.Instantiate();
-				var ctrlText = ctrl.Q<Label>();
+				if (setting is CycleSettings) {
+					var ctrl     = cycleControl.Instantiate();
+					var ctrlText = ctrl.Q<Label>();
 
-				void Refresh() {
-					var v = setting.GetDisplayValue();
-					ctrlText.EnableInClassList("value-enabled",  v == "enabled");
-					ctrlText.EnableInClassList("value-disabled", v == "disabled");
-					ctrlText.text = v;
+					void Refresh() {
+						var v = setting.GetDisplayValue();
+						ctrlText.EnableInClassList("value-enabled",  v == "enabled");
+						ctrlText.EnableInClassList("value-disabled", v == "disabled");
+						ctrlText.text = v;
+					}
+
+					Refresh();
+
+					row.Q<VisualElement>("OptionRow").RegisterCallback<ClickEvent>(e => {
+						setting.Step();
+						Refresh();
+					});
+
+					ctrl.Q<VisualElement>("LeftArrow").RegisterCallback<ClickEvent>(e => {
+						setting.Step(false);
+						Refresh();
+						e.StopPropagation();
+					});
+					ctrlContainer.Add(ctrl);
+				} else if (setting is SliderSettings) {
+					var ctrl = sliderControl.Instantiate();
+					var ctrlText = ctrl.Q<Label>();
+					var ctrlSlider = ctrl.Q<Slider>();
+
+					void Refresh() {
+						var v = setting.GetDisplayValue();
+						ctrlText.text = v;
+					}
+
+					Refresh();
+					
+					ctrlSlider.RegisterValueChangedCallback(e => {
+						setting.Step(e.newValue > e.previousValue);
+						Refresh();
+					});
+					
+					ctrlContainer.Add(ctrl);
 				}
-				
-				Refresh();
-
-				ctrlText.text = setting.GetDisplayValue();
-				row.Q<VisualElement>("OptionRow").RegisterCallback<ClickEvent>(e => {
-					                                                               setting.Step();
-					                                                               Refresh();
-				                                                               });
-
-				ctrlContainer.Add(ctrl);
 				optionsContainer.Add(row);
 			}
-
 			ShowScreen(startScreen);
 		}
 

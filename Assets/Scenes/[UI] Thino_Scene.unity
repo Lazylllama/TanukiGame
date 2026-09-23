@@ -362,6 +362,7 @@ MonoBehaviour:
   settingsPage: {fileID: 11400000, guid: 386fe64a120a1a441ad43f3e7005fbef, type: 2}
   optionRow: {fileID: 9197481963319205126, guid: 14c9a49208b13fe4ba8f076ff1e809d3, type: 3}
   cycleControl: {fileID: 9197481963319205126, guid: bd31ee9be06992648a732cf1174870ba, type: 3}
+  sliderControl: {fileID: 9197481963319205126, guid: c8bc871377484ca418c7e8cfdb01f98a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
