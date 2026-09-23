@@ -13,24 +13,15 @@ MonoBehaviour:
   m_Name: RngTables
   m_EditorClassIdentifier: Assembly-CSharp::RNG.RngTables
   tables:
-  - name: Test
+  - name: CardUpgrade
     items:
-    - name: common
+    - name: 0
       weight: 60
-    - name: rare
+    - name: 1
       weight: 20
-    - name: epic
+    - name: 2
       weight: 5
-    - name: legendary
-      weight: 1
-  testTable:
-    name: Test
-    items:
-    - name: common
-      weight: 60
-    - name: rare
-      weight: 20
-    - name: epic
-      weight: 5
-    - name: legendary
+    - name: 3
+      weight: 3
+    - name: 4
       weight: 1

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Data.Cards;
 using Button = UnityEngine.UI.Button;
 
 namespace RNG {
@@ -24,38 +25,41 @@ namespace RNG {
 		public void Test() {
 			var rolledItem = RngHandler.Instance.RollTable("Test", luck);
 			testFunction = false;
-			text.text    = rolledItem.name;
+			text.text    = rolledItem.name.ToString();
 			spinButtonBackground.color = rolledItem.name switch {
-				"common"    => Color.grey,
-				"rare"      => Color.blue,
-				"epic"      => Color.purple,
-				"legendary" => Color.orange,
-				_           => spinButtonBackground.color
+				CardType.Common    => Color.grey,
+				CardType.Rare      => Color.blue,
+				CardType.Epic      => Color.purple,
+				CardType.Legendary => Color.orange,
+				_                  => spinButtonBackground.color
 			};
 		}
 
 		public void StressTest() {
-			int    common = 0, rare = 0, epic = 0, legendary = 0;
-			double time   = Time.realtimeSinceStartupAsDouble;
+			int common = 0, rare = 0, epic = 0, legendary = 0;
+			var time   = Time.realtimeSinceStartupAsDouble;
 			for (var i = 0; i < 1000000; i++) {
 				var item = RngHandler.Instance.RollTable("Test", luck);
 				switch (item.name) {
-					case "common":
+					case CardType.Common:
 						common++;
 						break;
-					case "rare":
+					case CardType.Rare:
 						rare++;
 						break;
-					case "epic":
+					case CardType.Epic:
 						epic++;
 						break;
-					case "legendary":
+					case CardType.Legendary:
 						legendary++;
 						break;
-				};
+				}
+
+				;
 			}
+
 			var duration = Time.realtimeSinceStartupAsDouble - time;
-			print(common + " : "  + rare + " : " + epic + " : " + legendary + " : " + duration * 1000 + "ms");
+			print(common + " : " + rare + " : " + epic + " : " + legendary + " : " + duration * 1000 + "ms");
 		}
 	}
 }

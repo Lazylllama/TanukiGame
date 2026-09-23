@@ -6,8 +6,8 @@ using Random = UnityEngine.Random;
 namespace RNG {
 	[Serializable]
 	public struct Item {
-		[SerializeField] public string name;
-		[SerializeField] public int    weight;
+		[SerializeField] public Data.Cards.CardType name;
+		[SerializeField] public int                 weight;
 	}
 
 	[Serializable]
@@ -32,7 +32,12 @@ namespace RNG {
 
 		public Item RollTable(string tableName, float luck) {
 			var table = GetTableByName(tableName);
-			if (table.name == null) {print("Failed to find table " + tableName); return new Item();};
+			if (table.name == null) {
+				print("Failed to find table " + tableName);
+				return new Item();
+			}
+
+			;
 			var value = Random.value;
 			value =  Mathf.Pow(value, 1 / (luck));
 			value *= table.GetWeightSum();
@@ -50,6 +55,7 @@ namespace RNG {
 				if (table.name != tableName) continue;
 				return table;
 			}
+
 			return new ItemTable();
 		}
 	}

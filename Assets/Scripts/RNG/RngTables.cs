@@ -6,4 +6,3 @@ namespace RNG {
 		[SerializeField] public ItemTable[] tables;
 	}
 }
-
