@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 678a491787a89e9498380ff91419fc2a
+guid: 32549a2261b2c034da045ec9314813f9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8409095937894553066
-    second: CardEpic_0
+      213: -4580216492875641470
+    second: CardEpic 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CardEpic_0
+      name: CardEpic 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 358
-        height: 496
+        width: 300
+        height: 416
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 61a6d9b3cc3ec4b80800000000000000
-      internalID: -8409095937894553066
+      spriteID: 28d03c3ed5dcf60c0800000000000000
+      internalID: -4580216492875641470
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CardEpic_0: -8409095937894553066
+      CardEpic 1_0: -4580216492875641470
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

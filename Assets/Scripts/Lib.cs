@@ -10,7 +10,7 @@ public static class Lib {
 		                                             float       knockbackDirectionX,
 		                                             float       knockbackForce,
 		                                             float       knockbackLength) {
-			if (gameObject.tag == "LanternEnemy") {
+			if (gameObject.CompareTag("LanternEnemy")) {
 				var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
 
 				lanternEnemy.CurrentEnemyState = LanternEnemy.EnemyStates.Knockback;

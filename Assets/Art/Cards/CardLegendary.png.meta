@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f5a696c70f200cf49b9b7dd15afe7c12
+guid: fa8b55040ef3cd54e8803ef6ed8a742a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6407864327311553053
-    second: CardLegendary_0
+      213: 1341601464164756217
+    second: LegendaryCard_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CardLegendary_0
+      name: LegendaryCard_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d127d46c7ae4de850800000000000000
-      internalID: 6407864327311553053
+      spriteID: 9fa2fad6c635e9210800000000000000
+      internalID: 1341601464164756217
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CardLegendary_0: 6407864327311553053
+      LegendaryCard_0: 1341601464164756217
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
