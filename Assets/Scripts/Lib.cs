@@ -9,16 +9,18 @@ public static class Lib {
 		                                             float       knockbackDirectionX,
 		                                             float       knockbackForce,
 		                                             float       knockbackLength) {
-			if (gameObject.CompareTag("LanternEnemy")) {
-				var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
-
-				lanternEnemy.CurrentEnemyState = LanternEnemy.EnemyStates.Knockback;
-			}
-
-			if (gameObject.CompareTag("Player")) {
-				var playerController = gameObject.GetComponent<PlayerController>();
-
-				playerController.KnockbackActive = true;
+			switch (gameObject.tag) {
+				case "Player":
+					var playerController = gameObject.GetComponent<PlayerController>();
+					playerController.KnockbackActive = true;
+					break;
+				case "LanternEnemy":
+					var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
+					lanternEnemy.IsKnockbackActive = true;
+					break;
+				default: Debug.Log("Oopsie");
+					break;
+				
 			}
 
 			var knockbackTimer = knockbackLength;
@@ -26,20 +28,27 @@ public static class Lib {
 			while (knockbackTimer > 0f) {
 				knockbackTimer -= Time.deltaTime;
 
-				if (rigidBody == null) break;
+				if (!rigidBody) break;
 				rigidBody.linearVelocity = new Vector2(knockbackDirectionX, 1f) * knockbackForce;
 
 				yield return new WaitForEndOfFrame();
 			}
 
-			Debug.Log("Hej");
-
-
-			if (gameObject.CompareTag("Player")) {
-				var playerController = gameObject.GetComponent<PlayerController>();
-
-				playerController.KnockbackActive = false;
+			switch (gameObject.tag) {
+				case "Player":
+					var playerController = gameObject.GetComponent<PlayerController>();
+					playerController.KnockbackActive = false;
+					break;
+				case "LanternEnemy":
+					var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
+					lanternEnemy.IsKnockbackActive = false;
+					break;
+				default: Debug.Log("Oopsie");
+					break;
+				
 			}
+			
+			
 
 			yield return null;
 		}
