@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using Unity.U2D.Physics;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Enemy {
 	public class LanternEnemy : MonoBehaviour {
@@ -24,6 +21,7 @@ namespace Enemy {
 
 		//Getters and Setters
 		[field: SerializeField] public EnemyStates CurrentEnemyState { get; set; }
+		private                        bool        IsKnockbackActive { get; set; }
 
 		//Private floats
 		private float attackTimer;
@@ -102,6 +100,7 @@ namespace Enemy {
 			var projectile   = Instantiate(fireBall, attackPointTransform.position, Quaternion.identity);
 			var projectileRb = projectile.GetComponent<Rigidbody2D>();
 			projectileRb.linearVelocity = shootDirection * fireBallSpeed;
+
 			StartCoroutine(EnemyExtraForce(recoilForce, -shootDirection, recoilLength));
 
 

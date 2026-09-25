@@ -111,8 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanternFireBall
   damage: 1
-  knockbackForce: 5
-  knockbackLength: 0.3
+  knockbackForce: 10
+  knockbackLength: 0.2
 --- !u!1 &8783951612576457597
 GameObject:
   m_ObjectHideFlags: 0
