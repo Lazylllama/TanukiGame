@@ -46,7 +46,7 @@ Shader "Custom/SpriteUnlitHLSL"
                 float2 uv         : TEXCOORD0;
                 float4 screenPos  : TEXCOORD1;
                 float2 uvPerUnit : TEXCOORD2;
-                float offsetUV : TEXCOORD3;
+                float2 offsetUV : TEXCOORD3;
             };
 
             TEXTURE2D(_MainTex);
@@ -56,6 +56,7 @@ Shader "Custom/SpriteUnlitHLSL"
             SAMPLER(sampler_CameraSortingLayerTexture);
             
             float _PlayerX;
+            float _PlayerY;
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
@@ -78,8 +79,8 @@ Shader "Custom/SpriteUnlitHLSL"
                 float4 b = TransformWorldToHClip(centerWS + float3(1, 1, 0));
                 OUT.uvPerUnit = abs(b.xy / b.w - a.xy / a.w) * 0.5;
                 
-                float dist = _PlayerX - centerWS.x; 
-                OUT.offsetUV = dist * _OffsetWorld * OUT.uvPerUnit.x;  
+                float2 dist = float2(_PlayerX - _WorldSpaceCameraPos.x, _PlayerY - _WorldSpaceCameraPos.y); 
+                OUT.offsetUV = float2(dist.x * _OffsetWorld * OUT.uvPerUnit.x, dist.y * _OffsetWorld * OUT.uvPerUnit.y);  
                 return OUT;
             }
 
@@ -94,7 +95,7 @@ Shader "Custom/SpriteUnlitHLSL"
                 
                 float2 screenUV = IN.screenPos.xy / IN.screenPos.w;
                 
-                float2 sampleUV = screenUV + float2(IN.offsetUV, 0);
+                float2 sampleUV = screenUV + float2(IN.offsetUV);
 
                 half3 rgb = 0;
                 half a = 0;
