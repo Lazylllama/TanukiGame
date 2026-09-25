@@ -6,7 +6,7 @@ namespace UI.Settings {
 		public int defaultValue, maxValue;
 		private int Value {get => SettingService.GetInt(id, defaultValue); set => SettingService.SetInt(id, value); }
 
-		public override string GetDisplayValue() => $"{Value}/{maxValue}";
+		public override string GetDisplayValue() => $"{Value}";
 
 		public override void Step(bool forward = true, int set = -1) {
 			if(set == -1)

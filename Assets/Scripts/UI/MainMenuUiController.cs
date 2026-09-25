@@ -86,7 +86,7 @@ namespace UI {
 					var ctrlSlider = ctrl.Q<Slider>();
 					ctrlSlider.highValue = slider.maxValue;
 					
-					int.TryParse( setting.GetDisplayValue().Split('/')[0] , out var outValue);
+					int.TryParse( setting.GetDisplayValue() , out var outValue);
 					ctrlSlider.value = outValue;
 
 					void Refresh() {
