@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Custom_SSR
-  m_Shader: {fileID: 4800000, guid: 8f634a8ad269ab54d9dc2022b89a867a, type: 3}
+  m_Name: Custom_WaterReflection
+  m_Shader: {fileID: 4800000, guid: c24d8e82dbca4634a9eb63ea475a4819, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,10 +29,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlurWorld: 0.05
-    - _OffsetWorld: 0.26
+    - _FadeDistance: 0.88
+    - _FoamBubbleScale: 0.6
+    - _FoamBubbleSpeed: 1.05
+    - _FoamThickness: 0.03
+    - _RippleFreq: 9.2
+    - _RippleSpeed: 5.12
+    - _RippleStrength: 0.003
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Ref1Tint: {r: 1, g: 1, b: 1, a: 0.6}
+    - _DeepWaterTint: {r: 0.24737452, g: 0.42407846, b: 0.4811321, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _WaterTint: {r: 0.20714669, g: 0.74997735, b: 0.8962264, a: 0.5372549}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
