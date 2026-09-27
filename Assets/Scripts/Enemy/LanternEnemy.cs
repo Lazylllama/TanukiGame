@@ -21,7 +21,7 @@ namespace Enemy {
 
 		//Getters and Setters
 		[field: SerializeField] public EnemyStates CurrentEnemyState { get; set; }
-		private                        bool        IsKnockbackActive { get; set; }
+		public                        bool        IsKnockbackActive { get; set; }
 
 		//Private floats
 		private float attackTimer;
@@ -32,6 +32,7 @@ namespace Enemy {
 		//Private bools
 		private bool isLookingRight;
 		private bool isAwakened;
+		private bool isShooting;
 
 
 		//Private vectors
@@ -91,8 +92,8 @@ namespace Enemy {
 		}
 
 		private IEnumerator Shoot() {
+			isShooting = true;
 			yield return new WaitForSeconds(attackWindup);
-			Debug.Log("Shoot");
 			attackTimer = attackCooldown;
 
 			var shootDirection = (playerTransform.position - attackPointTransform.position).normalized;
@@ -100,6 +101,7 @@ namespace Enemy {
 			var projectile   = Instantiate(fireBall, attackPointTransform.position, Quaternion.identity);
 			var projectileRb = projectile.GetComponent<Rigidbody2D>();
 			projectileRb.linearVelocity = shootDirection * fireBallSpeed;
+			isShooting                  = false;
 
 			StartCoroutine(EnemyExtraForce(recoilForce, -shootDirection, recoilLength));
 
@@ -122,7 +124,9 @@ namespace Enemy {
 		}
 
 		private void StateChanger() {
-			if (isAwakened) CurrentEnemyState = EnemyStates.AwakenedIdle;
+			CurrentEnemyState = isAwakened ? EnemyStates.AwakenedIdle : EnemyStates.Idle;
+			if (isShooting) CurrentEnemyState        = EnemyStates.Shooting;
+			if (IsKnockbackActive) CurrentEnemyState = EnemyStates.Knockback;
 		}
 
 		private bool PlayerDetected() {
@@ -137,7 +141,6 @@ namespace Enemy {
 		public enum EnemyStates {
 			Idle,
 			AwakenedIdle,
-			Awakening,
 			Shooting,
 			Knockback
 		}

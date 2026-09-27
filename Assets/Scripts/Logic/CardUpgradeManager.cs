@@ -1,8 +1,8 @@
-using System;
+using System.Linq;
 using Data.Cards;
 using RNG;
 using UnityEngine;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Logic {
 	public class CardUpgradeManager : MonoBehaviour {
@@ -10,7 +10,6 @@ namespace Logic {
 		private static GameObject[] selectableCards;
 
 		// TODO: implement upgrade states
-		[SerializeField] private float           luckMultiplier = 1f;
 		[SerializeField] private CardBackgrounds cardBackgrounds;
 		[SerializeField] private CardData[]      cardUpgrades;
 
@@ -31,19 +30,30 @@ namespace Logic {
 			RollAllCards();
 		}
 
-		private void RollCard(GameObject card) {
-			var type = RngHandler.Instance.RollTable("CardUpgrade", luckMultiplier);
+		private void RollCardWithLuck(GameObject card, float luck = 1) {
+			var type = RngHandler.Instance.RollTable("CardUpgrade", luck);
 			var bg   = cardBackgrounds.GetCardBackground(type.name);
 
 			print("Rolled card type: " + type.name + " with weight: " + type.weight);
 
-			card.GetComponent<Image>().sprite = bg.cardBackgroundImage;
+			var upgradesWithType = cardUpgrades.Where(u => u.CardType == type.name).ToArray();
+			var cardRefs         = card.GetComponent<UpgradeCardRefs>();
+			var randUpgrade      = Random.Range(0, upgradesWithType.Length);
+
+			cardRefs.upgradeCardName.text         = upgradesWithType[randUpgrade].CardName;
+			cardRefs.upgradeCardImage.sprite      = upgradesWithType[randUpgrade].CardImage;
+			cardRefs.upgradeCardDescription.text  = upgradesWithType[randUpgrade].CardDescription;
+			cardRefs.upgradeCardBackground.sprite = bg.cardBackgroundImage;
+
+			cardRefs.upgradeCardName.color        = bg.titleColor;
+			cardRefs.upgradeCardDescription.color = bg.descriptionColor;
+
 			card.SetActive(true);
 		}
 
-		private void RollAllCards() {
-			foreach (var card in fakeCards) RollCard(card);
-			foreach (var card in selectableCards) RollCard(card);
+		public void RollAllCards() {
+			foreach (var card in fakeCards) RollCardWithLuck(card, 10f);
+			foreach (var card in selectableCards) RollCardWithLuck(card);
 		}
 	}
 }

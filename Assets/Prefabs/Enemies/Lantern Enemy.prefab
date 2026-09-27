@@ -46,12 +46,12 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2947608490742940785}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
+  m_Mass: 400
+  m_LinearDamping: 6
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -136,21 +136,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b821adcdcc26346418e63cb642f732a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanternEnemy
-  attackCooldown: 1
+  attackCooldown: 3
   fireBallSpeed: 8
   attackWindup: 0.5
   detectionRange: 10
   attackPointTransform: {fileID: 4483108408631602121}
   fireBall: {fileID: 4659032325528672141, guid: 7a1d727d4e9a93d44aa5045ad8828884, type: 3}
-  hoverSpeed: 0.2
-  hoverHeight: 1
-  returnSpeed: 0.4
-  positionChangeFrequency: 1
-  hoverPositionAmountX: 2
-  hoverPositionAmountY: 1
-  awakeningSpeed: 0
-  recoilForce: 1
-  recoilLength: 1
+  hoverSpeed: 3
+  hoverLimit: 0.2
+  recoilForce: 5
+  recoilLength: 0.2
+  <CurrentEnemyState>k__BackingField: 0
 --- !u!1 &4296889072308317303
 GameObject:
   m_ObjectHideFlags: 0

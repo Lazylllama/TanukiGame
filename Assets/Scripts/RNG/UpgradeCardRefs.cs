@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 namespace RNG {
 	public class UpgradeCardRefs : MonoBehaviour {
-		[SerializeField] private TextMeshProUGUI upgradeCardName;
-		[SerializeField] private TextMeshProUGUI upgradeCardDescription;
-		[SerializeField] private Image           upgradeCardImage;
-		[SerializeField] private Image           upgradeCardBackground;
+		[SerializeField] public TextMeshProUGUI upgradeCardName;
+		[SerializeField] public TextMeshProUGUI upgradeCardDescription;
+		[SerializeField] public Image           upgradeCardImage;
+		[SerializeField] public Image           upgradeCardBackground;
 	}
 }
