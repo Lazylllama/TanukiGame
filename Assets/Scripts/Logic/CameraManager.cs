@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Logic {
 	public class CameraManager : MonoBehaviour {
+		#region Fields
+
 		public static CameraManager Instance;
 
 		[Header("Fall/jump dampening")]
@@ -21,6 +23,10 @@ namespace Logic {
 		[Header("Data")]
 		public bool isLerpingYDamping;
 		public bool lerpedFromPlayerFall;
+
+		#endregion
+
+		#region Unity Functions
 
 		private void Awake() {
 			if (Instance == null) {
@@ -42,6 +48,10 @@ namespace Logic {
 			normPanYAmount = currentPositionComposer.Damping.y;
 		}
 
+		#endregion
+
+		#region Functions
+
 		public void LerpYDamping(bool isPlayerFalling) {
 			if (isLerpingYDamping) return;
 			if (lerpedFromPlayerFall == isPlayerFalling) return;
@@ -61,5 +71,7 @@ namespace Logic {
 				                        lerpedFromPlayerFall = isPlayerFalling;
 			                        });
 		}
+
+		#endregion
 	}
 }

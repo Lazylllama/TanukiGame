@@ -3,6 +3,15 @@ using UnityEngine;
 
 namespace Enemy {
 	public class LanternEnemy : MonoBehaviour {
+		public enum EnemyStates {
+			Idle,
+			AwakenedIdle,
+			Shooting,
+			Knockback
+		}
+
+		#region Fields
+
 		[Header("Lantern Settings")]
 		[SerializeField] private float attackCooldown;
 		[SerializeField] private float      fireBallSpeed;
@@ -19,31 +28,34 @@ namespace Enemy {
 		[SerializeField] private float recoilForce;
 		[SerializeField] private float recoilLength;
 
-		//Getters and Setters
+		//? Getters and Setters
 		[field: SerializeField] public EnemyStates CurrentEnemyState { get; set; }
-		public                        bool        IsKnockbackActive { get; set; }
+		public                         bool        IsKnockbackActive { get; set; }
 
-		//Private floats
+		//? Private floats
 		private float attackTimer;
 		private float positionChangeTimer;
 		private float speedCurve;
 		private float CosCurve => Mathf.Cos(speedCurve);
 
-		//Private bools
+		//? Private bools
 		private bool isLookingRight;
 		private bool isAwakened;
 		private bool isShooting;
 
-
-		//Private vectors
+		//? Private vectors
 		private Vector2 hoverPosition;
 
-		//Component references
+		//? Component references
 		private Rigidbody2D lanternRb;
 		private Transform   playerTransform;
 
-		//Coroutines
+		//? Coroutines
 		private Coroutine shootCoroutine;
+
+		#endregion
+
+		#region Unity Functions
 
 		private void Awake() {
 			lanternRb       = GetComponent<Rigidbody2D>();
@@ -57,6 +69,10 @@ namespace Enemy {
 			SpriteFlip();
 			StateChanger();
 		}
+
+		#endregion
+
+		#region Functions
 
 		private void Hover() {
 			speedCurve += Time.deltaTime * hoverSpeed;
@@ -138,11 +154,6 @@ namespace Enemy {
 			return hit.collider;
 		}
 
-		public enum EnemyStates {
-			Idle,
-			AwakenedIdle,
-			Shooting,
-			Knockback
-		}
+		#endregion
 	}
 }
