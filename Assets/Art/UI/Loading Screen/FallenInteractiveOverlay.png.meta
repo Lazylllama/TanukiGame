@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: 6e0310b894008e448bf359d8850661da
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -888712077011078138
+    second: FallenInteractiveOverlay_0
+  - first:
+      213: 164415697838318895
+    second: FallenInteractiveOverlay_1
+  - first:
+      213: 1914246990048654835
+    second: FallenInteractiveOverlay_2
+  - first:
+      213: -2139969299488194960
+    second: FallenInteractiveOverlay_3
+  - first:
+      213: 3646215389257150472
+    second: FallenInteractiveOverlay_4
+  - first:
+      213: 2659500782992253590
+    second: FallenInteractiveOverlay_5
+  - first:
+      213: -1355566099027865629
+    second: FallenInteractiveOverlay_6
+  - first:
+      213: 107418737825862291
+    second: FallenInteractiveOverlay_7
+  - first:
+      213: 4741222264461427846
+    second: FallenInteractiveOverlay_8
+  - first:
+      213: -4503318466198812853
+    second: FallenInteractiveOverlay_9
+  - first:
+      213: -423131398359464554
+    second: FallenInteractiveOverlay_10
+  - first:
+      213: -448648123919945320
+    second: FallenInteractiveOverlay_11
+  - first:
+      213: -5684914975024930252
+    second: FallenInteractiveOverlay_12
+  - first:
+      213: -6815623672116693542
+    second: FallenInteractiveOverlay_13
+  - first:
+      213: 1860490904834949551
+    second: FallenInteractiveOverlay_14
+  - first:
+      213: 3573802499063507578
+    second: FallenInteractiveOverlay_15
+  - first:
+      213: -3290093573718446841
+    second: FallenInteractiveOverlay_16
+  - first:
+      213: 5752189716079649923
+    second: FallenInteractiveOverlay_17
+  - first:
+      213: -1262017209490611176
+    second: FallenInteractiveOverlay_18
+  - first:
+      213: 3258727723354053659
+    second: FallenInteractiveOverlay_19
+  - first:
+      213: -8680535665399294823
+    second: FallenInteractiveOverlay_20
+  - first:
+      213: -609522920731106849
+    second: FallenInteractiveOverlay_21
+  - first:
+      213: 808557289893011328
+    second: FallenInteractiveOverlay_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 114
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 604b7261319aaa3f0800000000000000
+      internalID: -888712077011078138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_1
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 114
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f25a621c43f184200800000000000000
+      internalID: 164415697838318895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_2
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 114
+        width: 20
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f5f53ece75c09a10800000000000000
+      internalID: 1914246990048654835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 114
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07eb3c9924d4d42e0800000000000000
+      internalID: -2139969299488194960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_4
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 114
+        width: 34
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8003c3bf395f99230800000000000000
+      internalID: 3646215389257150472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_5
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 114
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 692602a1fd178e420800000000000000
+      internalID: 2659500782992253590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_6
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 114
+        width: 29
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3efc1e5a0df003de0800000000000000
+      internalID: -1355566099027865629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_7
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 42
+        width: 62
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 392d45ed5c0ad7100800000000000000
+      internalID: 107418737825862291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_8
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 42
+        width: 68
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 684856a87843cc140800000000000000
+      internalID: 4741222264461427846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_9
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 42
+        width: 65
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4743cfe6bff081c0800000000000000
+      internalID: -4503318466198812853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_10
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 42
+        width: 65
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 695487b2c3cb02af0800000000000000
+      internalID: -423131398359464554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_11
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 42
+        width: 65
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8913b9888e416c9f0800000000000000
+      internalID: -448648123919945320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_12
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 42
+        width: 69
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 432275f33ff1b11b0800000000000000
+      internalID: -5684914975024930252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_13
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 0
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad5bdb4816a0a61a0800000000000000
+      internalID: -6815623672116693542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_14
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 0
+        width: 43
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa14882ee9ac1d910800000000000000
+      internalID: 1860490904834949551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_15
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 0
+        width: 41
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7a65162072b89130800000000000000
+      internalID: 3573802499063507578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_16
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 0
+        width: 43
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70d67bc835d3752d0800000000000000
+      internalID: -3290093573718446841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_17
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 0
+        width: 40
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38425930212e3df40800000000000000
+      internalID: 5752189716079649923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_18
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 0
+        width: 40
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 814e1efc80a6c7ee0800000000000000
+      internalID: -1262017209490611176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_19
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 0
+        width: 82
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1c5c325993593d20800000000000000
+      internalID: 3258727723354053659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_20
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 0
+        width: 22
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99414c3cdca888780800000000000000
+      internalID: -8680535665399294823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_21
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 43
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd12d5b022a8a87f0800000000000000
+      internalID: -609522920731106849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FallenInteractiveOverlay_22
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 0
+        width: 43
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08f10ac3292983b00800000000000000
+      internalID: 808557289893011328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FallenInteractiveOverlay_0: -888712077011078138
+      FallenInteractiveOverlay_1: 164415697838318895
+      FallenInteractiveOverlay_10: -423131398359464554
+      FallenInteractiveOverlay_11: -448648123919945320
+      FallenInteractiveOverlay_12: -5684914975024930252
+      FallenInteractiveOverlay_13: -6815623672116693542
+      FallenInteractiveOverlay_14: 1860490904834949551
+      FallenInteractiveOverlay_15: 3573802499063507578
+      FallenInteractiveOverlay_16: -3290093573718446841
+      FallenInteractiveOverlay_17: 5752189716079649923
+      FallenInteractiveOverlay_18: -1262017209490611176
+      FallenInteractiveOverlay_19: 3258727723354053659
+      FallenInteractiveOverlay_2: 1914246990048654835
+      FallenInteractiveOverlay_20: -8680535665399294823
+      FallenInteractiveOverlay_21: -609522920731106849
+      FallenInteractiveOverlay_22: 808557289893011328
+      FallenInteractiveOverlay_3: -2139969299488194960
+      FallenInteractiveOverlay_4: 3646215389257150472
+      FallenInteractiveOverlay_5: 2659500782992253590
+      FallenInteractiveOverlay_6: -1355566099027865629
+      FallenInteractiveOverlay_7: 107418737825862291
+      FallenInteractiveOverlay_8: 4741222264461427846
+      FallenInteractiveOverlay_9: -4503318466198812853
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

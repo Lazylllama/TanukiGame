@@ -9,17 +9,20 @@ using UnityEngine.UIElements;
 namespace UI {
 	[RequireComponent(typeof(PanelRenderer))]
 	public class MainMenuUiController : MonoBehaviour {
+		#region Fields
+
 		[SerializeField] private SettingsPage    settingsPage;
 		[SerializeField] private VisualTreeAsset optionRow;
 		[SerializeField] private VisualTreeAsset cycleControl;
 		[SerializeField] private VisualTreeAsset sliderControl;
-		
 
 		private PanelRenderer     panel;
 		private TemplateContainer startScreen;
 		private TemplateContainer optionsScreen;
 		private VisualElement     optionsContainer;
-		
+
+		#endregion
+
 		#region Initialization
 
 		private void OnEnable() {
@@ -42,9 +45,8 @@ namespace UI {
 
 			optionsContainer = optionsScreen.Q<VisualElement>("Options");
 			optionsContainer.Clear();
-			
+
 			LoadOptionsScreen(settingsPage);
-			
 			ShowScreen(startScreen);
 		}
 
@@ -70,23 +72,23 @@ namespace UI {
 					Refresh();
 
 					row.Q<VisualElement>("OptionRow").RegisterCallback<ClickEvent>(e => {
-						setting.Step();
-						Refresh();
-					});
+									 setting.Step();
+									 Refresh();
+								 });
 
 					ctrl.Q<VisualElement>("LeftArrow").RegisterCallback<ClickEvent>(e => {
-						setting.Step(false);
-						Refresh();
-						e.StopPropagation();
-					});
+									 setting.Step(false);
+									 Refresh();
+									 e.StopPropagation();
+								 });
 					ctrlContainer.Add(ctrl);
 				} else if (setting is SliderSettings slider) {
 					var ctrl       = sliderControl.Instantiate();
 					var ctrlText   = ctrl.Q<Label>();
 					var ctrlSlider = ctrl.Q<Slider>();
 					ctrlSlider.highValue = slider.maxValue;
-					
-					int.TryParse( setting.GetDisplayValue() , out var outValue);
+
+					int.TryParse(setting.GetDisplayValue(), out var outValue);
 					ctrlSlider.value = outValue;
 
 					void Refresh() {
@@ -95,14 +97,15 @@ namespace UI {
 					}
 
 					Refresh();
-					
+
 					ctrlSlider.RegisterValueChangedCallback(e => {
 						                                        setting.Step(true, (int)e.newValue);
 						                                        Refresh();
 					                                        });
-					
+
 					ctrlContainer.Add(ctrl);
 				}
+
 				optionsContainer.Add(row);
 			}
 		}
@@ -117,7 +120,7 @@ namespace UI {
 		#region Functions
 
 		private void HandleOnStart() {
-			SceneManager.LoadScene("GameScene");
+			SceneManager.LoadScene($"LoadingScreen");
 		}
 
 		#endregion

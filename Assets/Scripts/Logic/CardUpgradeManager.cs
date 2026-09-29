@@ -6,12 +6,17 @@ using Random = UnityEngine.Random;
 
 namespace Logic {
 	public class CardUpgradeManager : MonoBehaviour {
+		#region Fields
+
 		private static GameObject[] fakeCards;
 		private static GameObject[] selectableCards;
 
-		// TODO: implement upgrade states
 		[SerializeField] private CardBackgrounds cardBackgrounds;
 		[SerializeField] private CardData[]      cardUpgrades;
+
+		#endregion
+
+		#region Unity Functions
 
 		private void Awake() {
 			fakeCards       = GameObject.FindGameObjectsWithTag("FakeUpgradeCard");
@@ -29,6 +34,10 @@ namespace Logic {
 
 			RollAllCards();
 		}
+
+		#endregion
+
+		#region Functions
 
 		private void RollCardWithLuck(GameObject card, float luck = 1) {
 			var type = RngHandler.Instance.RollTable("CardUpgrade", luck);
@@ -55,5 +64,7 @@ namespace Logic {
 			foreach (var card in fakeCards) RollCardWithLuck(card, 10f);
 			foreach (var card in selectableCards) RollCardWithLuck(card);
 		}
+
+		#endregion
 	}
 }

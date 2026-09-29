@@ -31,7 +31,8 @@ namespace Player {
 		public                         bool         GetIsGrounded() => IsGrounded();
 		[field: SerializeField] public bool         KnockbackActive { get;         set; }
 		public                         Vector2      ExtraForce      { private get; set; }
-		private                        Rigidbody2D  PlayerRb        { get;         set; }
+		public                         Rigidbody2D  PlayerRb        { get;         set; }
+		public                         bool         MovementDisabled { get;         set; }
 
 		//? Private floats
 		private                  float dashTimer;
@@ -73,7 +74,7 @@ namespace Player {
 
 		private void Awake() {
 			if (Instance != null) {
-				Destroy(this.gameObject);
+				Destroy(gameObject);
 			} else {
 				Instance = this;
 			}
@@ -106,7 +107,7 @@ namespace Player {
 		#endregion
 
 		private void MovementHandler() {
-			if (dashActive) return;
+			if (dashActive || MovementDisabled) return;
 
 			if (MovingState == MovingStates.Knockback) return;
 			PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
