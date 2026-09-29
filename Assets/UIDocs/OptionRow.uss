@@ -12,7 +12,7 @@
 
 .Description {
     height: 50px;
-    color: rgba(148, 170, 118, 0);
+    color: rgba(72, 176, 139, 0);
     -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
     font-size: 50px;
     transition-timing-function: ease-out-back;

@@ -45,10 +45,15 @@
 
 .button-title {
     flex-grow: 0;
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+    color: rgba(255, 255, 255, 0.604);
+    font-size: 100px;
+    -unity-font-style: bold;
 }
 
 .button:hover .button-title {
-    color: rgb(65, 65, 65);
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
 }
 
 .screen {
@@ -79,4 +84,36 @@
     color: rgb(129, 129, 129);
 }
 
+.arrow .button{
+    width: auto;
+    height: 100%;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out-back;
+    aspect-ratio: 0;
+    background-image: url("project://database/Assets/Textures/Arrow-Right-HQ.png?fileID=2800000&guid=516cfa04c3fb627459762beea05e6bd2&type=3#Arrow-Right-HQ");
+    background-color: rgba(0, 0, 0, 0);
+}
 
+.button:hover .arrow {
+    width: auto;
+    flex-shrink: 0;
+    height: 100%;
+    aspect-ratio: 1;
+    background-image: url("project://database/Assets/Textures/Arrow-Right-HQ.png?fileID=2800000&guid=516cfa04c3fb627459762beea05e6bd2&type=3#Arrow-Right-HQ");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.button-title-red {
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+    font-size: 100px;
+    -unity-font-style: bold;
+    color: rgba(255, 109, 109, 0.6);
+}
+
+.button:hover .button-title-red {
+    -unity-font-definition: url("project://database/Assets/Fonts/uglyhandwriting.ttf?fileID=12800000&guid=4f741aaafd7179141a0f00b03480749d&type=3#uglyhandwriting");
+    font-size: 100px;
+    -unity-font-style: bold;
+    color: rgb(255, 109, 109);
+}
