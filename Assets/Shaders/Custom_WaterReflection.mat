@@ -34,6 +34,7 @@ Material:
     - _FoamBubbleSpeed: 1.05
     - _FoamSoftness: 0.16
     - _FoamThickness: 0.03
+    - _ReflectionStrength: 1.23
     - _RippleFreq: 9.2
     - _RippleSpeed: 5.12
     - _RippleStrength: 0.003
