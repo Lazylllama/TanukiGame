@@ -30,8 +30,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _FadeDistance: 0.88
-    - _FoamBubbleScale: 0.6
+    - _FoamBubbleScale: 2.11
     - _FoamBubbleSpeed: 1.05
+    - _FoamSoftness: 0.16
     - _FoamThickness: 0.03
     - _RippleFreq: 9.2
     - _RippleSpeed: 5.12

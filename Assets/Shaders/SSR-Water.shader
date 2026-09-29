@@ -4,6 +4,7 @@ Shader "Custom/WaterReflection"
     {
         [MainTexture] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
+        _ReflectionStrength("Reflection Strength", Float) = 1.0
         _RippleStrength ("Ripple Strength", Float) = 0.01
         _RippleFreq ("Ripple Frequency", Float) = 8
         _RippleSpeed ("Ripple Speed", Float) = 2
@@ -13,6 +14,7 @@ Shader "Custom/WaterReflection"
         _FoamThickness ("Foam edge thickness", Float) = 1
         _FoamBubbleScale ("Foam bubble scale", Float) = 1
         _FoamBubbleSpeed ("Foam bubble speed", Float) = 1
+        _FoamSoftness( "Foam softness", Float) = 0.05
         _FadeDistance ("Fade distance", Float) = 0.5
     }
 
@@ -67,6 +69,7 @@ Shader "Custom/WaterReflection"
                 half4  _Color;
                 half4  _WaterTint;
                 half4  _DeepWaterTint;
+                float  _ReflectionStrength;
                 float  _RippleStrength;
                 float  _RippleFreq;
                 float  _RippleSpeed;
@@ -74,6 +77,7 @@ Shader "Custom/WaterReflection"
                 float  _FoamThickness;
                 float  _FoamBubbleScale;
                 float  _FoamBubbleSpeed;
+                float  _FoamSoftness;
                 float  _FadeDistance;
             CBUFFER_END
 
@@ -113,7 +117,7 @@ Shader "Custom/WaterReflection"
             {
                 float2 cell = floor(p);
                 float2 f = frac(p);
-                float minDist = 8.0;
+                float minDist = 0.0;
 
                 [unroll] for (int y = -1; y <= 1; y++)
                 [unroll] for (int x = -1; x <= 1; x++)
@@ -122,9 +126,10 @@ Shader "Custom/WaterReflection"
                     float2 h = Hash22(cell + o);
                     h = 0.5 + 0.5 * sin(t + 6.2831 * h);   // points wobble around over time
                     float2 d = o + h - f;
-                    minDist = min(minDist, dot(d, d));
+                    d = dot(d, d);
+                    minDist += exp2( -16*d);
                 }
-                return sqrt(minDist);
+                return -(1.0 / 16.0)*log2(minDist);
             }
 
             half4 frag (Varyings IN) : SV_Target
@@ -135,8 +140,8 @@ Shader "Custom/WaterReflection"
                 float t = _Time.y * _RippleSpeed;
               
                 float2 ripple;
-                ripple.x = sin(p.y + t) + 0.5 * sin(p.y * 2.3 + p.x * 1.7 - t * 1.3);
-                ripple.y = 0.5 * sin(p.x * 0.7 + t * 0.8);
+                ripple.x = sin(p.y + t + sin(p.x * 0.05) * 3) + 0.5 * sin(p.y * 2.3 + p.x * 1.7 - t * 1.3);
+                ripple.y = sin(p.x * 0.2 + t * 0.3) * 6;
                 
                 float2 reflectedUV = float2(IN.uv.x, 2 - IN.uv.y);
                 reflectedUV += ripple * _RippleStrength * (1 - IN.uv.y);
@@ -148,7 +153,13 @@ Shader "Custom/WaterReflection"
                 foamLowEdgeYScreen.y -= _FoamThickness;
 
                 half4 col = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture, reflectedUVOnScreen);
-                    
+
+                float2 refractedUV = IN.uv.xy + ripple * _RippleStrength * (1 - IN.uv.y);
+                float2 refractedUVOnScreen = UVToScreen(refractedUV, IN.uv, screenUV);
+                half4 refraction = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture, refractedUVOnScreen);
+                refraction = lerp(refraction, _DeepWaterTint, (1 - IN.uv.y));
+                
+                
                 float screenEdgeFadeFactor = 0;
                 if (reflectedUVOnScreen.y > 0.8) screenEdgeFadeFactor = smoothstep(0.8, 1.0, reflectedUVOnScreen.y);
                 screenEdgeFadeFactor = 1 - screenEdgeFadeFactor;
@@ -164,17 +175,25 @@ Shader "Custom/WaterReflection"
                 //half3 tinted = lerp(col.rgb, _WaterTint.rgb, _WaterTint.a);
                 half3 tinted = lerp(half3(1,1,1), _WaterTint.rgb, _WaterTint.a);
                 tinted = col.rgb * tinted;
-                tinted = lerp(tinted, _DeepWaterTint, 1 - waterFadeFactor * screenEdgeFadeFactor);
+                tinted = lerp(tinted, refraction.rgb, 1 - saturate(waterFadeFactor * screenEdgeFadeFactor * _ReflectionStrength));
                 
-                if (screenUV.y < foamHighEdgeYScreen.y && screenUV.y > foamLowEdgeYScreen.y) {
-                    float gradient = (foamHighEdgeYScreen.y - screenUV.y) / (foamHighEdgeYScreen.y - foamLowEdgeYScreen.y);
+               
+                float gradient = (foamHighEdgeYScreen.y - screenUV.y) / (foamHighEdgeYScreen.y - foamLowEdgeYScreen.y);
+                float gradientOffset = sin(IN.positionWS.x) * 0.625 +
+                    sin(IN.positionWS.x * 2 + 8) * 0.25 +
+                        sin(IN.positionWS.x * 4 + 3) * 0.125;
+                gradient += gradientOffset * 0.3;
 
-                    float noise = saturate(1 - Worley(IN.positionWS.xy * _FoamBubbleScale, _Time.y * _FoamBubbleSpeed));
-                    
-                    float foamAmount = (1 - gradient) * lerp(1, noise, gradient);
-                    
-                    tinted = lerp(tinted, _FoamColor.rgb, foamAmount);
-                }
+                float noise = Worley(IN.positionWS.xy * _FoamBubbleScale, _Time.y * _FoamBubbleSpeed) * 0.625 +
+                    Worley(IN.positionWS.xy * _FoamBubbleScale * 2, _Time.y * _FoamBubbleSpeed) * 0.25 +
+                        Worley(IN.positionWS.xy * _FoamBubbleScale * 4, _Time.y * _FoamBubbleSpeed) * 0.125;
+                
+                noise = saturate(1 -noise);
+                
+                float foamAmount = smoothstep(gradient - _FoamSoftness, gradient + _FoamSoftness, noise);
+                
+                tinted = lerp(tinted, _FoamColor.rgb, foamAmount);
+                
                 
                 
                 
