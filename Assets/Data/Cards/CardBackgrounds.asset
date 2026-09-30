@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de143ee64ddc6124099c0b85de2aff59, type: 3}
   m_Name: CardBackgrounds
-  m_EditorClassIdentifier: Assembly-CSharp::Data.Cards.CardBackgrounds
+  m_EditorClassIdentifier: Assembly-CSharp::Cards.CardBackgrounds
   cardBackgroundList:
   - cardBackgroundImage: {fileID: 21300000, guid: fa8b55040ef3cd54e8803ef6ed8a742a, type: 3}
     cardType: 0

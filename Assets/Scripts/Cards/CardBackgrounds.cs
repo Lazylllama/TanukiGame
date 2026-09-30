@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Data.Cards {
+namespace Cards {
 	[Serializable]
 	public struct CardBackground {
 		[SerializeField] public Sprite   cardBackgroundImage;

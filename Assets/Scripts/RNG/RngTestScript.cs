@@ -1,8 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Data.Cards;
-using Button = UnityEngine.UI.Button;
+using Cards;
 
 namespace RNG {
 	public class RngTestScript : MonoBehaviour {

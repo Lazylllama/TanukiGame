@@ -10,15 +10,20 @@ namespace Room {
 		[SerializeField] private RoomConfigurations roomConfigurations;
 
 		public RoomConfigurationData selectedRoomConfiguration;
-		
+		public RoomRefs              roomRefs;
+
 		private void Awake() {
 			selectedRoomConfiguration = roomConfigurations.Data[Random.Range(0, roomConfigurations.Data.Length)];
 			Debug.Log($"Selected room configuration: {selectedRoomConfiguration.difficulty}");
 		}
 
 		private void Start() {
-			Instantiate(selectedRoomConfiguration.levelPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-			PlayerController.Instance.transform.position = selectedRoomConfiguration.playerSpawnPosition;
+			var levelGameObject = Instantiate(selectedRoomConfiguration.levelPrefab, new Vector3(0, 0, 0),
+			                                  Quaternion.identity);
+
+			roomRefs = levelGameObject.GetComponent<RoomRefs>();
+
+			PlayerController.Instance.transform.position = roomRefs.playerSpawnPoint.transform.position;
 		}
 	}
 }

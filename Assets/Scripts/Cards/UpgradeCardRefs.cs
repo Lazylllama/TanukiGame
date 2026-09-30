@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RNG {
+namespace Cards {
 	public class UpgradeCardRefs : MonoBehaviour {
 		[SerializeField] public TextMeshProUGUI upgradeCardName;
 		[SerializeField] public TextMeshProUGUI upgradeCardDescription;

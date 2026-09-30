@@ -13,7 +13,6 @@ namespace Data.Rooms {
 		public EnemyData[]    enemies;
 		public RoomDifficulty difficulty;
 		public RoomType       type;
-		public Vector3        playerSpawnPosition;
 		public int            minuteLimit;
 	}
 

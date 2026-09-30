@@ -1,14 +1,14 @@
 using System;
 using System.Linq;
-using Data.Cards;
+using Cards;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace RNG {
 	[Serializable]
 	public struct Item {
-		[SerializeField] public Data.Cards.CardType name;
-		[SerializeField] public int                 weight;
+		[SerializeField] public CardType name;
+		[SerializeField] public int      weight;
 	}
 
 	[Serializable]

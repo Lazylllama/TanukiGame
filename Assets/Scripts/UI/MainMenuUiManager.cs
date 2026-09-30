@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace UI {
 	[RequireComponent(typeof(PanelRenderer))]
-	public class MainMenuUiController : MonoBehaviour {
+	public class MainMenuUiManager : MonoBehaviour {
 		#region Fields
 
 		[SerializeField] private SettingsPage    settingsPage;

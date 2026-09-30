@@ -1,5 +1,5 @@
 using System.Linq;
-using Data.Cards;
+using Cards;
 using RNG;
 using UnityEngine;
 using Random = UnityEngine.Random;

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Data.Cards {
+namespace Cards {
 	public enum CardType {
 		Legendary,
 		Epic,
