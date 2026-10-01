@@ -865,6 +865,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: LanternEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: hoverSpeed
+      value: -1.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: recoilForce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: recoilLength
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 7552832617138148799, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.79

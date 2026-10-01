@@ -16,9 +16,10 @@ namespace Player {
 				enemy.GetComponent<EnemyHealth>().ChangeHealth(-damage);
 
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
-				StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), enemy.gameObject,
-				                                             knockbackDirection,
-				                                             knockbackForce, knockbackLength));
+				FindAnyObjectByType<PlayerController>()
+					.StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), enemy.gameObject,
+					                                              knockbackDirection,
+					                                              knockbackForce, knockbackLength));
 				Destroy(gameObject);
 			}
 		}

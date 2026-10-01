@@ -119,13 +119,36 @@ namespace Enemy {
 			projectileRb.linearVelocity = shootDirection * fireBallSpeed;
 			isShooting                  = false;
 
-			StartCoroutine(EnemyExtraForce(recoilForce, -shootDirection, recoilLength));
+			//StartCoroutine(EnemyExtraForce(recoilForce, -shootDirection, recoilLength));
+			StartCoroutine(LanternRecoil(recoilForce, -shootDirection, recoilLength));
 
 
 			shootCoroutine = null;
 		}
 
-		private IEnumerator EnemyExtraForce(float force, Vector2 direction, float duration) {
+		private IEnumerator LanternRecoil(float force, Vector2 direction, float duration) {
+			var forceToApply = 0f;
+			Debug.Log("Entered recoil coroutine");
+
+			LeanTween.value(gameObject, 0f, force, duration / 2)
+			         .setEaseInOutExpo().setOnUpdate((float val) => { forceToApply = val; });
+			while (LeanTween.isTweening(gameObject)) {
+				lanternRb.linearVelocity = direction * forceToApply;
+				yield return new WaitForEndOfFrame();
+			}
+
+			LeanTween.value(gameObject, forceToApply, force, duration / 2)
+			         .setEaseInQuart().setOnUpdate((float val) => { forceToApply = val; });
+			Debug.Log(forceToApply);
+			while (LeanTween.isTweening(gameObject)) {
+				lanternRb.linearVelocity = -direction * forceToApply;
+				yield return new WaitForEndOfFrame();
+			}
+
+			yield return null;
+		}
+
+		/*private IEnumerator EnemyExtraForce(float force, Vector2 direction, float duration) {
 			lanternRb.linearVelocity = Vector2.zero;
 			while (duration > 0) {
 				duration -= Time.deltaTime;
@@ -137,7 +160,7 @@ namespace Enemy {
 
 			lanternRb.linearVelocity = Vector2.zero;
 			yield return null;
-		}
+		}*/
 
 		private void StateChanger() {
 			CurrentEnemyState = isAwakened ? EnemyStates.AwakenedIdle : EnemyStates.Idle;

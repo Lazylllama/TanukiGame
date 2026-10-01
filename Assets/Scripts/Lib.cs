@@ -18,9 +18,9 @@ public static class Lib {
 					var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
 					lanternEnemy.IsKnockbackActive = true;
 					break;
-				default: Debug.Log("Oopsie");
+				default:
+					Debug.Log("Oopsie");
 					break;
-				
 			}
 
 			var knockbackTimer = knockbackLength;
@@ -29,7 +29,8 @@ public static class Lib {
 				knockbackTimer -= Time.deltaTime;
 
 				if (!rigidBody) break;
-				rigidBody.linearVelocity = new Vector2(knockbackDirectionX, 1f) * knockbackForce;
+				rigidBody.linearVelocity =
+					new Vector2(knockbackDirectionX, 1f) * knockbackForce;
 
 				yield return new WaitForEndOfFrame();
 			}
@@ -43,12 +44,11 @@ public static class Lib {
 					var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
 					lanternEnemy.IsKnockbackActive = false;
 					break;
-				default: Debug.Log("Oopsie");
+				default:
+					Debug.Log("Oopsie");
 					break;
-				
 			}
-			
-			
+
 
 			yield return null;
 		}
