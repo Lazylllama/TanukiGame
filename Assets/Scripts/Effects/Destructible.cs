@@ -76,6 +76,18 @@ namespace Effects {
 					triangles.Add((ushort)(i + 1));
 				}
 				
+				var pos = Vector2.zero;
+
+				foreach (var vert in shard) {
+					pos.x += vert.x;
+					pos.y += vert.y;
+				}
+				
+				pos.x /= vertices.Count;
+				pos.y /= vertices.Count;
+				
+				pos = transform.TransformPoint(pos);
+				
 				var obj      = new GameObject("shard");
 				var collider = obj.AddComponent<PolygonCollider2D>();
 				var rigidbody = obj.AddComponent<Rigidbody2D>();
@@ -85,6 +97,9 @@ namespace Effects {
 				renderer.sprite =  sprite;
 				collider.points = shard.ToArray();
 				obj.transform.SetParent(transform, false);
+				collider.sharedMaterial = shardMat;
+				var dir = (new Vector3(pos.x, pos.y, 0) - transform.position).normalized;
+				rigidbody.AddForce(dir * explosionForce, ForceMode2D.Impulse);
 			}
 			
 			/*_shards[0] = Sprite.Create(_spriteRenderer.sprite.texture,
