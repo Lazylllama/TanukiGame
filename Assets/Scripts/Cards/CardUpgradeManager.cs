@@ -24,15 +24,7 @@ namespace Logic {
 		}
 
 		private void Start() {
-			foreach (var card in fakeCards) {
-				card.SetActive(false);
-			}
-
-			foreach (var card in selectableCards) {
-				card.SetActive(false);
-			}
-
-			RollAllCards();
+			HideCards();
 		}
 
 		#endregion
@@ -63,6 +55,16 @@ namespace Logic {
 		public void RollAllCards() {
 			foreach (var card in fakeCards) RollCardWithLuck(card, 10f);
 			foreach (var card in selectableCards) RollCardWithLuck(card);
+		}
+
+		public void HideCards() {
+			foreach (var card in fakeCards) {
+				card.SetActive(false);
+			}
+
+			foreach (var card in selectableCards) {
+				card.SetActive(false);
+			}
 		}
 
 		#endregion
