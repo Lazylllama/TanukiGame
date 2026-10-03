@@ -16,3 +16,7 @@ MonoBehaviour:
   cardDescription: Give your knife a bit of love. Lorem Ipsum (+1 damage)
   cardImage: {fileID: 21300000, guid: 13db48505bd09464ea4a06ceb45b8429, type: 3}
   cardType: 4
+  statModifiers:
+  - stat: 6
+    flat: 1
+    percent: 0

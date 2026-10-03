@@ -29,7 +29,7 @@ namespace UI {
 			panel = GetComponent<PanelRenderer>();
 			panel.RegisterUIReloadCallback(OnUIReload);
 		}
-
+		
 		private void OnDisable() {
 			panel.UnregisterUIReloadCallback(OnUIReload);
 		}

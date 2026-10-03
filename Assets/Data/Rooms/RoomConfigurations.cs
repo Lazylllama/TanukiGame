@@ -3,14 +3,8 @@ using UnityEngine;
 
 namespace Data.Rooms {
 	[Serializable]
-	public struct EnemyData {
-		public GameObject prefab;
-	}
-
-	[Serializable]
 	public struct RoomConfigurationData {
 		public GameObject     levelPrefab;
-		public EnemyData[]    enemies;
 		public RoomDifficulty difficulty;
 		public RoomType       type;
 		public int            minuteLimit;

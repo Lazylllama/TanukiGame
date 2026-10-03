@@ -9,6 +9,8 @@ namespace Logic {
 
 		public static GameManager Instance;
 
+		public PlayerStats PlayerStats;
+
 		public float playerHearts;
 
 		private void Awake() {
@@ -22,6 +24,7 @@ namespace Logic {
 
 		private void Start() {
 			playerHearts = playerDefaultHearts;
+			PlayerStats  = new PlayerStats();
 		}
 
 		private void FixedUpdate() {
