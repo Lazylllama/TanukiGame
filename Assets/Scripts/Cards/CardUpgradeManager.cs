@@ -69,6 +69,16 @@ namespace Logic {
 			}
 		}
 
+		public void HideCards() {
+			foreach (var card in fakeCards) {
+				card.SetActive(false);
+			}
+
+			foreach (var card in selectableCards) {
+				card.SetActive(false);
+			}
+		}
+
 		#endregion
 	}
 }
