@@ -124,7 +124,7 @@ Shader "Custom/WaterReflection"
                 {
                     float2 o = float2(x, y);
                     float2 h = Hash22(cell + o);
-                    h = 0.5 + 0.5 * sin(t + 6.2831 * h);   // points wobble around over time
+                    h = 0.5 + 0.5 * sin(t + 6.2831 * h);  
                     float2 d = o + h - f;
                     d = dot(d, d);
                     minDist += exp2( -16*d);
@@ -163,16 +163,11 @@ Shader "Custom/WaterReflection"
                 float screenEdgeFadeFactor = 0;
                 if (reflectedUVOnScreen.y > 0.8) screenEdgeFadeFactor = smoothstep(0.8, 1.0, reflectedUVOnScreen.y);
                 screenEdgeFadeFactor = 1 - screenEdgeFadeFactor;
-                
-                //return half4(screenEdgeFadeFactor.xxx, 1.0);
+
                 
                 float waterFadeFactor = 0;
                 waterFadeFactor = smoothstep(1 - _FadeDistance, 1, IN.uv.y);
                 
-                //return half4(waterFadeFactor.xxx, 1);
-                
-                //half3 tinted = lerp(col.rgb, _WaterTint.rgb, 1 - _WaterTint.a * waterFadeFactor * screenEdgeFadeFactor);
-                //half3 tinted = lerp(col.rgb, _WaterTint.rgb, _WaterTint.a);
                 half3 tinted = lerp(half3(1,1,1), _WaterTint.rgb, _WaterTint.a);
                 tinted = col.rgb * tinted;
                 tinted = lerp(tinted, refraction.rgb, 1 - saturate(waterFadeFactor * screenEdgeFadeFactor * _ReflectionStrength));

@@ -7,8 +7,6 @@ using Random = UnityEngine.Random;
 namespace Effects {
 	public class Destructible : MonoBehaviour {
 		[SerializeField] private        float     explosionForce = 1;
-		[SerializeField] private        Vector2   p0             = new Vector2(0, 0);
-		[SerializeField] private        Vector2   p1             = new Vector2(1, 1);
 		[SerializeField] private int       seedCount      = 3;
 		private                         Vector2[] seeds;
 
@@ -16,6 +14,8 @@ namespace Effects {
 
 		private SpriteRenderer _spriteRenderer;
 		private Sprite[]       _shards = new Sprite[4];
+		private List<List<Vector2>> _points = new List<List<Vector2>>();
+		private List<Vector2> _physicsShapePoints = new List<Vector2>();
 
 		private bool isRunning = false;
 		
@@ -60,10 +60,7 @@ namespace Effects {
 			print("Youch I got shattered");
 			print($"rect: {_spriteRenderer.sprite.rect}, pivot: {_spriteRenderer.sprite.pivot}, PixelsPerUnit: {_spriteRenderer.sprite.pixelsPerUnit}");
 
-			var list = GenShards();
-			
-
-			foreach (var shard in list) {
+			foreach (var shard in _points) {
 				var vertices = new List<Vector2>(shard);
 				for (int i = 0; i < vertices.Count; i++) {
 					vertices[i] = vertices[i] * _spriteRenderer.sprite.pixelsPerUnit + _spriteRenderer.sprite.pivot;
@@ -154,6 +151,9 @@ namespace Effects {
 				                         Random.Range(_spriteRenderer.sprite.bounds.min.y,
 				                                      _spriteRenderer.sprite.bounds.max.y));
 			}
+
+			_points = GenShards();
+			_spriteRenderer.sprite.GetPhysicsShape(0, _physicsShapePoints);
 		}
 
 		private List<List<Vector2>> GenShards() {
@@ -177,14 +177,17 @@ namespace Effects {
 
 		private void OnDrawGizmos() {
 			if (!isRunning) return;
-			var list = GenShards();
-			for (int i = 0; i < list.Count; i++) {
+			for (int i = 0; i < _points.Count; i++) {
 				Gizmos.color = Color.HSVToRGB((float)i / seeds.Length, 1f, 1f);
 				Gizmos.DrawSphere(seeds[i], 0.005f);
-				for (int j = 0; j < list[i].Count; j++) {
-					Gizmos.DrawLine(transform.TransformPoint(list[i][j]),
-					                transform.TransformPoint(list[i][(j + 1) % list[i].Count]));
+				for (int j = 0; j < _points[i].Count; j++) {
+					Gizmos.DrawLine(transform.TransformPoint(_points[i][j]),
+					                transform.TransformPoint(_points[i][(j + 1) % _points[i].Count]));
 				}
+			}
+			Gizmos.color = Color.red;
+			foreach (var point in _physicsShapePoints) {
+				Gizmos.DrawSphere( transform.TransformPoint(point), 0.005f);
 			}
 		}
 	}
