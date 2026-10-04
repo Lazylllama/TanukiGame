@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Effects {
 	public class Destructible : MonoBehaviour {
@@ -15,11 +18,12 @@ namespace Effects {
 		private SpriteRenderer _spriteRenderer;
 		private Sprite[]       _shards = new Sprite[4];
 		private List<List<Vector2>> _points = new List<List<Vector2>>();
-		private List<Vector2> _physicsShapePoints = new List<Vector2>();
+		private List<Vector2> _physicsShapePoints = new List<Vector2>(), rubberBandList  = new List<Vector2>();
+		private Vector2 leftmostPoint, nextPoint;
 
 		private bool isRunning = false;
 		
-		private void OnMouseDown() => Shatter();
+		private void OnMouseDown() => Shatter(new Vector3(2.0f, 0.0f, 0.0f));
 
 		private List<Vector2> Cut(List<Vector2> points, Vector2 A, Vector2 B) {
 			var mid    = (A + B) / 2;
@@ -40,6 +44,45 @@ namespace Effects {
 			return result;
 		}
 
+		private int GetLeftmostPoint(List<Vector2> points) {
+			var index = 0;
+			var currentBest = points[0];
+			for (int i = 0; i <  points.Count; i++) {
+				if (points[i].x < currentBest.x) {
+					currentBest = points[i];
+					index       = i;
+				}
+			}
+			return index;
+		}
+
+		private List<Vector2> RubberBand(List<Vector2> points, int leftmost) {
+			var result  = new List<Vector2>();
+			var current = leftmost;
+			var index = (current + points.Count / 2) %  points.Count;
+			
+			
+			for (int h = 0; h < points.Count(); h++) {
+				var p  = points[current];
+				index = (current + points.Count / 2) % points.Count;
+				var ig = points[index];
+				var pd = (ig - p);
+				pd = new Vector2(-pd.y, pd.x);
+				for (int i = 0; i < points.Count; i++) {
+					var g = points[i];
+					var gd = (g - p);
+					if (Vector2.Dot(pd, gd) < 0) {
+						pd    = new Vector2(-gd.y, gd.x);
+						index  = i;
+					}
+				}
+				result.Add(points[index]);
+				current = index;
+				if (current == leftmost) break;
+			}
+			return result;
+		}
+
 		private Vector2 GetLine(Vector2 A, Vector2 B, Vector2 P0, Vector2 P1) {
 			var arrow    = B - A;
 			var mid      = new Vector2(A.x + B.x, A.y + B.y) / 2;
@@ -51,7 +94,7 @@ namespace Effects {
 			return crossing;
 		}
 
-		private void Shatter() {
+		private void Shatter(Vector3 forceDir = new Vector3()) {
 			foreach (var child in gameObject.GetComponentsInChildren<SpriteRenderer>()) {
 				if (child == _spriteRenderer) continue;
 				Destroy(child.gameObject);
@@ -61,6 +104,7 @@ namespace Effects {
 			print($"rect: {_spriteRenderer.sprite.rect}, pivot: {_spriteRenderer.sprite.pivot}, PixelsPerUnit: {_spriteRenderer.sprite.pixelsPerUnit}");
 
 			foreach (var shard in _points) {
+				if (shard.Count < 3) continue;
 				var vertices = new List<Vector2>(shard);
 				for (int i = 0; i < vertices.Count; i++) {
 					vertices[i] = vertices[i] * _spriteRenderer.sprite.pixelsPerUnit + _spriteRenderer.sprite.pivot;
@@ -96,7 +140,7 @@ namespace Effects {
 				obj.transform.SetParent(transform, false);
 				collider.sharedMaterial = shardMat;
 				var dir = (new Vector3(pos.x, pos.y, 0) - transform.position).normalized;
-				rigidbody.AddForce(dir * explosionForce, ForceMode2D.Impulse);
+				rigidbody.AddForce((dir + forceDir).normalized * explosionForce, ForceMode2D.Impulse);
 			}
 			
 			/*_shards[0] = Sprite.Create(_spriteRenderer.sprite.texture,
@@ -152,17 +196,17 @@ namespace Effects {
 				                                      _spriteRenderer.sprite.bounds.max.y));
 			}
 
-			_points = GenShards();
+			
 			_spriteRenderer.sprite.GetPhysicsShape(0, _physicsShapePoints);
+			leftmostPoint  = _physicsShapePoints[GetLeftmostPoint(_physicsShapePoints)];
+			nextPoint      = RubberBand(_physicsShapePoints, GetLeftmostPoint(_physicsShapePoints))[0];
+			rubberBandList = RubberBand(_physicsShapePoints, GetLeftmostPoint(_physicsShapePoints));
+			_points        = GenShards();
 		}
 
 		private List<List<Vector2>> GenShards() {
 			var result = new List<List<Vector2>>();
-			List<Vector2> list = new List<Vector2>();
-			list.Add(new Vector2(_spriteRenderer.sprite.bounds.min.x, _spriteRenderer.sprite.bounds.min.y));
-			list.Add(new Vector2(_spriteRenderer.sprite.bounds.max.x, _spriteRenderer.sprite.bounds.min.y));
-			list.Add(new Vector2(_spriteRenderer.sprite.bounds.max.x, _spriteRenderer.sprite.bounds.max.y));
-			list.Add(new Vector2(_spriteRenderer.sprite.bounds.min.x, _spriteRenderer.sprite.bounds.max.y));
+			List<Vector2> list = new List<Vector2>(rubberBandList);
 			for (int i = 0; i < seeds.Length; i++) {
 				var copy = new List<Vector2>(list);
 				for (int j = 0; j < seeds.Length; j++) {
@@ -179,7 +223,7 @@ namespace Effects {
 			if (!isRunning) return;
 			for (int i = 0; i < _points.Count; i++) {
 				Gizmos.color = Color.HSVToRGB((float)i / seeds.Length, 1f, 1f);
-				Gizmos.DrawSphere(seeds[i], 0.005f);
+				Gizmos.DrawSphere(transform.TransformPoint(seeds[i]), 0.005f);
 				for (int j = 0; j < _points[i].Count; j++) {
 					Gizmos.DrawLine(transform.TransformPoint(_points[i][j]),
 					                transform.TransformPoint(_points[i][(j + 1) % _points[i].Count]));
@@ -188,6 +232,10 @@ namespace Effects {
 			Gizmos.color = Color.red;
 			foreach (var point in _physicsShapePoints) {
 				Gizmos.DrawSphere( transform.TransformPoint(point), 0.005f);
+			}
+			Gizmos.color = Color.yellow;
+			foreach (var point in rubberBandList) {
+				Gizmos.DrawSphere(transform.TransformPoint(point), 0.01f);
 			}
 		}
 	}
