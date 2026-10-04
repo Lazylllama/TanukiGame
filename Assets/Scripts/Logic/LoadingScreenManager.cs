@@ -10,7 +10,8 @@ namespace Logic {
 		[SerializeField] private Image       logoFillImage;
 		[SerializeField] private float       tweenDuration = 1.5f;
 		[SerializeField] private VideoPlayer videoPlayer;
-		
+		[SerializeField] private string      sceneToLoad;
+
 		private void Start() {
 			StartCoroutine(StartLoading());
 		}
@@ -20,9 +21,16 @@ namespace Logic {
 			         .setEase(amount >= 1 ? LeanTweenType.easeOutCubic : LeanTweenType.easeSpring)
 			         .setOnUpdate(val => { logoFillImage.fillAmount = val; });
 		}
+		
 
 		private IEnumerator StartLoading() {
-			var op = SceneManager.LoadSceneAsync($"GameScene");
+			var op = SceneManager.LoadSceneAsync(sceneToLoad);
+
+			if (op == null) {
+				Debug.Log("well shit");
+				yield break;
+			}
+
 			op.allowSceneActivation = false;
 
 			while (op is { progress: < 0.9f }) {
@@ -35,6 +43,7 @@ namespace Logic {
 			yield return new WaitForSeconds((float)(Time.timeSinceLevelLoad < videoPlayer.clip.length
 				                                        ? videoPlayer.clip.length - Time.timeSinceLevelLoad
 				                                        : 0f));
+
 			op.allowSceneActivation = true;
 		}
 	}

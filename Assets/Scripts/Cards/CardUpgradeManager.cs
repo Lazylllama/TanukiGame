@@ -1,5 +1,6 @@
 using System.Linq;
 using Cards;
+using Player;
 using RNG;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -24,15 +25,7 @@ namespace Logic {
 		}
 
 		private void Start() {
-			foreach (var card in fakeCards) {
-				card.SetActive(false);
-			}
-
-			foreach (var card in selectableCards) {
-				card.SetActive(false);
-			}
-
-			RollAllCards();
+			HideCards();
 		}
 
 		#endregion
@@ -62,7 +55,18 @@ namespace Logic {
 
 		public void RollAllCards() {
 			foreach (var card in fakeCards) RollCardWithLuck(card, 10f);
-			foreach (var card in selectableCards) RollCardWithLuck(card);
+			foreach (var card in selectableCards)
+				RollCardWithLuck(card, GameManager.Instance.PlayerStats.Get(Stat.Luck, 1f));
+		}
+
+		public void HideCards() {
+			foreach (var card in fakeCards) {
+				card.SetActive(false);
+			}
+
+			foreach (var card in selectableCards) {
+				card.SetActive(false);
+			}
 		}
 
 		#endregion

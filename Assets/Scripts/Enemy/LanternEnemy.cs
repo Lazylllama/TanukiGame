@@ -27,6 +27,7 @@ namespace Enemy {
 		[Header("Recoil Settings")]
 		[SerializeField] private float recoilForce;
 		[SerializeField] private float recoilLength;
+		[SerializeField] private float returnSpeed;
 
 		//? Getters and Setters
 		[field: SerializeField] public EnemyStates CurrentEnemyState { get; set; }
@@ -112,7 +113,7 @@ namespace Enemy {
 			yield return new WaitForSeconds(attackWindup);
 			attackTimer = attackCooldown;
 
-			var shootDirection = (playerTransform.position - attackPointTransform.position).normalized;
+			var shootDirection = (playerTransform.position - gameObject.transform.position).normalized;
 
 			var projectile   = Instantiate(fireBall, attackPointTransform.position, Quaternion.identity);
 			var projectileRb = projectile.GetComponent<Rigidbody2D>();
@@ -128,22 +129,33 @@ namespace Enemy {
 
 		private IEnumerator LanternRecoil(float force, Vector2 direction, float duration) {
 			var forceToApply = 0f;
+			var timer        = duration;
 			Debug.Log("Entered recoil coroutine");
+			var oldPosition = transform.position;
+			LeanTween.value(gameObject, 0f, force, duration)
+			         .setEaseOutQuart().setOnUpdate(val => { forceToApply = val; });
 
-			LeanTween.value(gameObject, 0f, force, duration / 2)
-			         .setEaseInOutExpo().setOnUpdate((float val) => { forceToApply = val; });
-			while (LeanTween.isTweening(gameObject)) {
-				lanternRb.linearVelocity = direction * forceToApply;
+			while (transform.position != oldPosition || timer > 0f) {
+				timer -= Time.deltaTime;
+
+				while (LeanTween.isTweening(gameObject)) {
+					lanternRb.linearVelocity = direction * forceToApply;
+					yield return new WaitForEndOfFrame();
+				}
+				timer -= Time.deltaTime;
+				gameObject.transform.position =
+					Vector2.MoveTowards(transform.position, oldPosition, returnSpeed * Time.deltaTime);
+
 				yield return new WaitForEndOfFrame();
 			}
 
-			LeanTween.value(gameObject, forceToApply, force, duration / 2)
-			         .setEaseInQuart().setOnUpdate((float val) => { forceToApply = val; });
-			Debug.Log(forceToApply);
+			/*LeanTween.value(gameObject, 0f, force, duration / 2)
+			         .setEaseInQuad().setOnUpdate(val => { forceToApply = val; });
+			lanternRb.linearVelocity = Vector2.zero;
 			while (LeanTween.isTweening(gameObject)) {
 				lanternRb.linearVelocity = -direction * forceToApply;
 				yield return new WaitForEndOfFrame();
-			}
+			}*/
 
 			yield return null;
 		}

@@ -16,3 +16,7 @@ MonoBehaviour:
   cardDescription: Gives you another heart, lorem ipsum dolor sit amet.
   cardImage: {fileID: 21300000, guid: 0939ed9268a72624eb3b3d21798dab1a, type: 3}
   cardType: 1
+  statModifiers:
+  - stat: 4
+    flat: 1
+    percent: 0

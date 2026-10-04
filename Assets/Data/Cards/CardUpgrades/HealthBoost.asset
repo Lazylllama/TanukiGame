@@ -16,3 +16,4 @@ MonoBehaviour:
   cardDescription: Heals you half a heart, lorem ipsum dolor sit amet.
   cardImage: {fileID: 21300000, guid: 01fc222f6221e9f449eb50e4af9d173f, type: 3}
   cardType: 3
+  statModifiers: []
