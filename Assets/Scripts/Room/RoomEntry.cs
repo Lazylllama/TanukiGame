@@ -10,18 +10,18 @@ namespace Room {
 		[SerializeField] private Sprite unlockedTopSprite;
 		[SerializeField] private Sprite unlockedBottomSprite;
 
-		private void Start() {
-			//! hard coded cause we don't have anything before the door *yet
-			UnlockDoor();
-		}
+		private bool isUnlocked;
 
+		// Unlocks via tutorial :)
 		public void UnlockDoor() {
 			topSpriteRenderer.sprite    = unlockedTopSprite;
 			bottomSpriteRenderer.sprite = unlockedBottomSprite;
+			isUnlocked                  = true;
 		}
 
 		private void OnTriggerEnter2D(Collider2D other) {
-			GameManager.Instance.LoadFirstRoom();
+			if (other.CompareTag("Player") && isUnlocked)
+				GameManager.Instance.LoadFirstRoom();
 		}
 	}
 }

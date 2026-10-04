@@ -83,11 +83,9 @@ namespace Enemy {
 		}
 
 		private void Shooting() {
-			if (PlayerDetected()) {
-				Debug.Log("Player detected");
-				if (attackTimer <= 0f && shootCoroutine == null) {
-					shootCoroutine = StartCoroutine(Shoot());
-				}
+			if (!PlayerDetected()) return;
+			if (attackTimer <= 0f && shootCoroutine == null) {
+				shootCoroutine = StartCoroutine(Shoot());
 			}
 		}
 
@@ -142,6 +140,7 @@ namespace Enemy {
 					lanternRb.linearVelocity = direction * forceToApply;
 					yield return new WaitForEndOfFrame();
 				}
+
 				timer -= Time.deltaTime;
 				gameObject.transform.position =
 					Vector2.MoveTowards(transform.position, oldPosition, returnSpeed * Time.deltaTime);
