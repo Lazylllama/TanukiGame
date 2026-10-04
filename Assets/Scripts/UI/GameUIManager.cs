@@ -1,5 +1,6 @@
 using System;
 using Logic;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,11 @@ namespace UI {
 
 		public static GameUIManager Instance;
 
-		[SerializeField] private GameObject cardCanvas;
-		[SerializeField] private Image[]    heartImages;
+		[SerializeField] private Image[] heartBorderImages;
+		[SerializeField] private Image[] heartFillImages;
+
+
+		private CardUpgradeManager cardUpgradeManager;
 
 		#endregion
 
@@ -25,17 +29,35 @@ namespace UI {
 			Instance = this;
 		}
 
+		private void Start() {
+			cardUpgradeManager = FindAnyObjectByType<CardUpgradeManager>();
+			UpdateHeartsUI();
+		}
+
 		#endregion
 
 		#region Public Functions
 
 		public void ShowCardUI() {
-			cardCanvas.SetActive(true);
+			cardUpgradeManager.RollAllCards();
+		}
+
+		public void HideCardUI() {
+			cardUpgradeManager.HideCards();
+			PlayerController.Instance.MovementDisabled = false;
 		}
 
 		public void UpdateHeartsUI() {
-			for (var i = 0; i < heartImages.Length; i++) {
-				heartImages[i].fillAmount = GameManager.Instance.playerHearts - i;
+			var defaultHearts = GameManager.Instance.defaultHearts;
+			var totalHearts   = GameManager.Instance.PlayerStats.Get(Stat.ExtraHearts, defaultHearts);
+			var playerHearts  = GameManager.Instance.playerHearts;
+
+			for (var i = 0; i < heartFillImages.Length; i++) {
+				heartFillImages[i].fillAmount = playerHearts - i;
+			}
+
+			for (var i = 0; i < heartBorderImages.Length; i++) {
+				heartBorderImages[i].enabled = totalHearts >= (i + 1);
 			}
 		}
 

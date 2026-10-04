@@ -685,6 +685,7 @@ MonoBehaviour:
   logoFillImage: {fileID: 807247373}
   tweenDuration: 1.5
   videoPlayer: {fileID: 1395712092}
+  sceneToLoad: GameScene
 --- !u!4 &1303833492
 Transform:
   m_ObjectHideFlags: 0

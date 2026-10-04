@@ -32,29 +32,10 @@ namespace Logic {
 
 		#region Functions
 
-		private void RollCardWithLuck(GameObject card, float luck = 1) {
-			var type = RngHandler.Instance.RollTable("CardUpgrade", luck);
-			var bg   = cardBackgrounds.GetCardBackground(type.name);
-
-			print("Rolled card type: " + type.name + " with weight: " + type.weight);
-
-			var upgradesWithType = cardUpgrades.Where(u => u.CardType == type.name).ToArray();
-			var cardRefs         = card.GetComponent<UpgradeCardRefs>();
-			var randUpgrade      = Random.Range(0, upgradesWithType.Length);
-
-			cardRefs.upgradeCardName.text         = upgradesWithType[randUpgrade].CardName;
-			cardRefs.upgradeCardImage.sprite      = upgradesWithType[randUpgrade].CardImage;
-			cardRefs.upgradeCardDescription.text  = upgradesWithType[randUpgrade].CardDescription;
-			cardRefs.upgradeCardBackground.sprite = bg.cardBackgroundImage;
-
-			cardRefs.upgradeCardName.color        = bg.titleColor;
-			cardRefs.upgradeCardDescription.color = bg.descriptionColor;
-
-			card.SetActive(true);
-		}
-
 		public void RollAllCards() {
-			foreach (var card in fakeCards) RollCardWithLuck(card, 10f);
+			foreach (var card in fakeCards)
+				RollCardWithLuck(card, 10f);
+
 			foreach (var card in selectableCards)
 				RollCardWithLuck(card, GameManager.Instance.PlayerStats.Get(Stat.Luck, 1f));
 		}
@@ -67,6 +48,28 @@ namespace Logic {
 			foreach (var card in selectableCards) {
 				card.SetActive(false);
 			}
+		}
+
+		private void RollCardWithLuck(GameObject card, float luck = 1) {
+			var type = GameManager.Instance.RngHandler.RollTable("CardUpgrade", luck);
+			var bg   = cardBackgrounds.GetCardBackground(type.name);
+
+			var upgradesWithType = cardUpgrades.Where(u => u.CardType == type.name).ToArray();
+			var refs             = card.GetComponent<UpgradeCardRefs>();
+			var randUpgrade      = Random.Range(0, upgradesWithType.Length);
+
+			refs.cardName.text         = upgradesWithType[randUpgrade].CardName;
+			refs.cardImage.sprite      = upgradesWithType[randUpgrade].CardImage;
+			refs.cardDescription.text  = upgradesWithType[randUpgrade].CardDescription;
+			refs.cardBackground.sprite = bg.cardBackgroundImage;
+
+			refs.cardName.color        = bg.titleColor;
+			refs.cardDescription.color = bg.descriptionColor;
+
+			if (refs.cardUIHandler != null)
+				refs.cardUIHandler.selectedCard = upgradesWithType[randUpgrade];
+
+			card.SetActive(true);
 		}
 
 		#endregion
