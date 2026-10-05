@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Player {
 	public enum Stat {
+		HealthBoost, // literally just to get the stat modified call
 		XpGain,
 		Luck,
 		CritChance,
