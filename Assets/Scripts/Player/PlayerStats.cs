@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace Player {
 	public enum Stat {
+		HealthBoost, // literally just to get the stat modified call
 		XpGain,
 		Luck,
 		CritChance,
 		MoveSpeed,
-		MaxHearts,
+		ExtraHearts,
 		ThrowDamage,
 		MeleeDamage
 	}
@@ -21,15 +22,15 @@ namespace Player {
 	}
 
 	public class PlayerStats {
-		private readonly Dictionary<Stat, float> flatModifiers    = new();
-		private readonly Dictionary<Stat, float> percentModifiers = new();
+		private readonly Dictionary<Stat, float> flatModifiers    = new Dictionary<Stat, float>();
+		private readonly Dictionary<Stat, float> percentModifiers = new Dictionary<Stat, float>();
 
-		public event Action OnStatsChanged;
+		public event Action<Stat> OnStatsChanged;
 
 		public void AddStatModifier(StatModifier modifier) {
-			flatModifiers[modifier.stat]    += modifier.flat;
-			percentModifiers[modifier.stat] += modifier.percent;
-			OnStatsChanged?.Invoke();
+			flatModifiers[modifier.stat]    = flatModifiers.GetValueOrDefault(modifier.stat)    + modifier.flat;
+			percentModifiers[modifier.stat] = percentModifiers.GetValueOrDefault(modifier.stat) + modifier.percent;
+			OnStatsChanged?.Invoke(modifier.stat);
 		}
 
 		public float Get(Stat stat, float baseValue) {

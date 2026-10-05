@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2220444708939400682}
   - component: {fileID: 3988941603128925256}
+  - component: {fileID: 2736850151561485185}
   m_Layer: 9
   m_Name: ParryOrb
   m_TagString: Untagged
@@ -161,3 +162,17 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &2736850151561485185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689852089640087168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd25ec884d822543a1b8c7d70f26404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  spawnDelay: 2
+  requirePlayerGrounded: 1

@@ -21,24 +21,20 @@ namespace RNG {
 		}
 	}
 
-	public class RngHandler : MonoBehaviour {
-		[SerializeField] private RngTables tables;
+	public class RngHandler {
+		private readonly RngTables tables;
 
-		public static RngHandler Instance;
-
-		private void Awake() {
-			if (Instance == null) Instance = this;
-			else Destroy(gameObject);
+		public RngHandler(RngTables tables) {
+			this.tables = tables;
 		}
 
 		public Item RollTable(string tableName, float luck) {
 			var table = GetTableByName(tableName);
 			if (table.name == null) {
-				print("Failed to find table " + tableName);
+				Debug.Log("Failed to find table " + tableName);
 				return new Item();
 			}
 
-			;
 			var value = Random.value;
 			value =  Mathf.Pow(value, 1 / (luck));
 			value *= table.GetWeightSum();

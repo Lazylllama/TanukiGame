@@ -83,25 +83,22 @@ namespace Enemy {
 		}
 
 		private void Shooting() {
-			if (PlayerDetected()) {
-				Debug.Log("Player detected");
-				if (attackTimer <= 0f && shootCoroutine == null) {
-					shootCoroutine = StartCoroutine(Shoot());
-				}
+			if (!PlayerDetected()) return;
+			if (attackTimer <= 0f && shootCoroutine == null) {
+				shootCoroutine = StartCoroutine(Shoot());
 			}
 		}
 
 		private void SpriteFlip() {
-			if (PlayerDetected()) {
-				var playerDirectionX = playerTransform.position.x - transform.position.x;
-				isLookingRight = playerDirectionX switch {
-					> 0 => true,
-					< 0 => false,
-					_   => isLookingRight
-				};
-				var rotator = new Vector3(transform.rotation.x, isLookingRight ? 0f : 180f, transform.rotation.z);
-				transform.rotation = Quaternion.Euler(rotator);
-			}
+			if (!PlayerDetected()) return;
+			var playerDirectionX = playerTransform.position.x - transform.position.x;
+			isLookingRight = playerDirectionX switch {
+				> 0 => true,
+				< 0 => false,
+				_   => isLookingRight
+			};
+			var rotator = new Vector3(transform.rotation.x, isLookingRight ? 0f : 180f, transform.rotation.z);
+			transform.rotation = Quaternion.Euler(rotator);
 		}
 
 		private void HandleCooldowns() {
@@ -142,6 +139,7 @@ namespace Enemy {
 					lanternRb.linearVelocity = direction * forceToApply;
 					yield return new WaitForEndOfFrame();
 				}
+
 				timer -= Time.deltaTime;
 				gameObject.transform.position =
 					Vector2.MoveTowards(transform.position, oldPosition, returnSpeed * Time.deltaTime);

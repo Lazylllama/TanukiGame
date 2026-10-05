@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7343259812669976612}
   - component: {fileID: 6731613372520773745}
   m_Layer: 5
-  m_Name: Icon
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,10 +307,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e808e11f6972224396cbdf11564fb4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  upgradeCardName: {fileID: 7192165070575550745}
-  upgradeCardDescription: {fileID: 3530473533066363304}
-  upgradeCardImage: {fileID: 6731613372520773745}
-  upgradeCardBackground: {fileID: 634008823210519420}
+  cardName: {fileID: 7192165070575550745}
+  cardDescription: {fileID: 3530473533066363304}
+  cardImage: {fileID: 6731613372520773745}
+  cardBackground: {fileID: 634008823210519420}
+  cardUIHandler: {fileID: 1725348091501276394}
 --- !u!114 &9032204148053754420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b323b9523ea95bd4397d4cf44da0d75a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  selectedCard: {fileID: 0}
 --- !u!1 &8966661914789068152
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,7 +403,7 @@ GameObject:
   - component: {fileID: 2746127535405838519}
   - component: {fileID: 7192165070575550745}
   m_Layer: 5
-  m_Name: Title
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,7 +1,5 @@
 using System;
 using Data.Rooms;
-using Data.Rooms;
-using Enemy;
 using Player;
 using UnityEngine;
 using Random = UnityEngine.Random;

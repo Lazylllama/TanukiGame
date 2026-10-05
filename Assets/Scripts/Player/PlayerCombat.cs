@@ -1,5 +1,6 @@
 using System.Collections;
 using Enemy;
+using Logic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -149,6 +150,7 @@ namespace Player {
 			var recoilDirection = new Vector2(PlayerController.Instance.IsLookingRight ? -1 : 1, 0f);
 			StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
+			var playerDamage = GameManager.Instance.PlayerStats.Get(Stat.MeleeDamage, slashDamage);
 			foreach (var enemy in enemies) {
 				enemy.GetComponent<EnemyHealth>().ChangeHealth(-slashDamage);
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
@@ -238,7 +240,8 @@ namespace Player {
 					parryHit         = true;
 					parryLengthTimer = 0f;
 					foreach (var parriedCollider in parriedColliders) {
-						Destroy(parriedCollider.gameObject);
+						if (parriedCollider.TryGetComponent(out ParryOrb orb)) orb.OnParry();
+						else Destroy(parriedCollider.gameObject);
 					}
 				}
 

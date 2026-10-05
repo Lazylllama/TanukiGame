@@ -9,19 +9,10 @@ public static class Lib {
 		                                             float       knockbackDirectionX,
 		                                             float       knockbackForce,
 		                                             float       knockbackLength) {
-			switch (gameObject.tag) {
-				case "Player":
-					var playerController = gameObject.GetComponent<PlayerController>();
-					playerController.KnockbackActive = true;
-					break;
-				case "LanternEnemy":
-					var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
-					lanternEnemy.IsKnockbackActive = true;
-					break;
-				default:
-					Debug.Log("Oopsie");
-					break;
-			}
+			if (gameObject.TryGetComponent<LanternEnemy>(out var lanternEnemy1))
+				lanternEnemy1.IsKnockbackActive = true;
+			else if (gameObject.TryGetComponent<PlayerController>(out var playerController1))
+				playerController1.KnockbackActive = true;
 
 			var knockbackTimer = knockbackLength;
 
@@ -35,19 +26,13 @@ public static class Lib {
 				yield return new WaitForEndOfFrame();
 			}
 
-			switch (gameObject.tag) {
-				case "Player":
-					var playerController = gameObject.GetComponent<PlayerController>();
-					playerController.KnockbackActive = false;
-					break;
-				case "LanternEnemy":
-					var lanternEnemy = gameObject.GetComponent<LanternEnemy>();
-					lanternEnemy.IsKnockbackActive = false;
-					break;
-				default:
-					Debug.Log("Oopsie");
-					break;
-			}
+			// edge case: you beat the shit out of the enemy and this runs after its been despawned
+			if (!gameObject) yield break;
+
+			if (gameObject.TryGetComponent<LanternEnemy>(out var lanternEnemy2))
+				lanternEnemy2.IsKnockbackActive = false;
+			else if (gameObject.TryGetComponent<PlayerController>(out var playerController2))
+				playerController2.KnockbackActive = false;
 
 
 			yield return null;

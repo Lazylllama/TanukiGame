@@ -14,10 +14,9 @@ namespace Enemy {
 
 
 		private void Awake() {
-			if (!enemyData) {
-				Debug.LogError("EnemyData is not assigned or does not contain the specified EnemyType.");
-				Destroy(gameObject);
-			}
+			if (enemyData) return;
+			Debug.LogError("EnemyData is not assigned or does not contain the specified EnemyType.");
+			Destroy(gameObject);
 		}
 
 		private void OnDrawGizmos() {
