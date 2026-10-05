@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -19,11 +20,19 @@ namespace Effects {
 		private Sprite[]       _shards = new Sprite[4];
 		private List<List<Vector2>> _points = new List<List<Vector2>>();
 		private List<Vector2> _physicsShapePoints = new List<Vector2>(), rubberBandList  = new List<Vector2>();
-		private Vector2 leftmostPoint, nextPoint;
 
 		private bool isRunning = false;
 		
-		private void OnMouseDown() => Shatter(new Vector3(2.0f, 0.0f, 0.0f));
+		private void OnMouseDown() {
+			var mouseScreenPos = Mouse.current.position.ReadValue();
+			
+			if (Camera.main == null) return;
+			
+			var mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+			mouseWorldPos.z = 0;
+			var dir           = (transform.position - mouseWorldPos).normalized * 10.0f;
+			Shatter(dir);
+		}
 
 		private List<Vector2> Cut(List<Vector2> points, Vector2 A, Vector2 B) {
 			var mid    = (A + B) / 2;
@@ -42,6 +51,16 @@ namespace Effects {
 			}
 
 			return result;
+		}
+
+		private bool IsPointInBand(List<Vector2> band, Vector2 point) {
+			for (int i = 0; i < band.Count; i++) {
+				var d = band[(i + 1) % band.Count()] - band[i];
+				d = new Vector2(-d.y, d.x);
+				if (Vector2.Dot(point - band[i], d) < 0) return false;
+			}
+
+			return true;
 		}
 
 		private int GetLeftmostPoint(List<Vector2> points) {
@@ -143,44 +162,6 @@ namespace Effects {
 				rigidbody.AddForce((dir + forceDir).normalized * explosionForce, ForceMode2D.Impulse);
 			}
 			
-			/*_shards[0] = Sprite.Create(_spriteRenderer.sprite.texture,
-			                           new Rect(_spriteRenderer.sprite.rect.x, _spriteRenderer.sprite.rect.y,
-			                                    _spriteRenderer.sprite.rect.width  / 2,
-			                                    _spriteRenderer.sprite.rect.height / 2),
-			                           new Vector2(0.5f, 0.5f), _spriteRenderer.sprite.pixelsPerUnit);
-			_shards[1] = Sprite.Create(_spriteRenderer.sprite.texture,
-			                           new Rect(_spriteRenderer.sprite.rect.x + _spriteRenderer.sprite.rect.width / 2,
-			                                    _spriteRenderer.sprite.rect.y, _spriteRenderer.sprite.rect.width / 2,
-			                                    _spriteRenderer.sprite.rect.height                               / 2),
-			                           new Vector2(0.5f, 0.5f), _spriteRenderer.sprite.pixelsPerUnit);
-			_shards[2] = Sprite.Create(_spriteRenderer.sprite.texture,
-			                           new Rect(_spriteRenderer.sprite.rect.x,
-			                                    _spriteRenderer.sprite.rect.y + _spriteRenderer.sprite.rect.height / 2,
-			                                    _spriteRenderer.sprite.rect.width  / 2,
-			                                    _spriteRenderer.sprite.rect.height / 2),
-			                           new Vector2(0.5f, 0.5f), _spriteRenderer.sprite.pixelsPerUnit);
-			_shards[3] = Sprite.Create(_spriteRenderer.sprite.texture,
-			                           new Rect(_spriteRenderer.sprite.rect.x + _spriteRenderer.sprite.rect.width  / 2,
-			                                    _spriteRenderer.sprite.rect.y + _spriteRenderer.sprite.rect.height / 2,
-			                                    _spriteRenderer.sprite.rect.width  / 2,
-			                                    _spriteRenderer.sprite.rect.height / 2),
-			                           new Vector2(0.5f, 0.5f), _spriteRenderer.sprite.pixelsPerUnit);
-			for (int i = 0; i < _shards.Length; i++) {
-				var shard       = _shards[i];
-				var shardObject = new GameObject("Shard");
-				var renderer    = shardObject.AddComponent<SpriteRenderer>();
-				renderer.sprite = shard;
-				var cellCenterPx = shard.rect.center - _spriteRenderer.sprite.rect.position;
-				var localPos     = (cellCenterPx - _spriteRenderer.sprite.pivot) / _spriteRenderer.sprite.pixelsPerUnit;
-				shardObject.transform.position = transform.TransformPoint(localPos);
-				shardObject.transform.SetParent(gameObject.transform);
-				var bc = shardObject.AddComponent<BoxCollider2D>();
-				var rb = shardObject.AddComponent<Rigidbody2D>();
-				bc.sharedMaterial = shardMat;
-				var dir = (shardObject.transform.position - transform.position).normalized;
-				rb.AddForce(dir * explosionForce, ForceMode2D.Impulse);
-			}
-			*/
 			gameObject.GetComponent<BoxCollider2D>().enabled = false;
 			_spriteRenderer.enabled                          = false;
 		}
@@ -189,19 +170,21 @@ namespace Effects {
 			isRunning       = true;
 			_spriteRenderer = GetComponent<SpriteRenderer>();
 			seeds           = new Vector2[seedCount];
-			for (int i = 0; i < seedCount; i++) {
-				seeds[i] = new Vector2(Random.Range(_spriteRenderer.sprite.bounds.min.x,
-				                                      _spriteRenderer.sprite.bounds.max.x),
-				                         Random.Range(_spriteRenderer.sprite.bounds.min.y,
-				                                      _spriteRenderer.sprite.bounds.max.y));
-			}
+			
 
 			
 			_spriteRenderer.sprite.GetPhysicsShape(0, _physicsShapePoints);
-			leftmostPoint  = _physicsShapePoints[GetLeftmostPoint(_physicsShapePoints)];
-			nextPoint      = RubberBand(_physicsShapePoints, GetLeftmostPoint(_physicsShapePoints))[0];
 			rubberBandList = RubberBand(_physicsShapePoints, GetLeftmostPoint(_physicsShapePoints));
+			for (int i = 0; i < seedCount; i++) {
+				while (seeds[i] == new Vector2() || !IsPointInBand(rubberBandList, seeds[i])) {
+					seeds[i] = new Vector2(Random.Range(_spriteRenderer.sprite.bounds.min.x,
+					                                    _spriteRenderer.sprite.bounds.max.x),
+					                       Random.Range(_spriteRenderer.sprite.bounds.min.y,
+					                                    _spriteRenderer.sprite.bounds.max.y));
+				}
+			}
 			_points        = GenShards();
+			
 		}
 
 		private List<List<Vector2>> GenShards() {
@@ -222,14 +205,20 @@ namespace Effects {
 		private void OnDrawGizmos() {
 			if (!isRunning) return;
 			for (int i = 0; i < _points.Count; i++) {
-				Gizmos.color = Color.HSVToRGB((float)i / seeds.Length, 1f, 1f);
-				Gizmos.DrawSphere(transform.TransformPoint(seeds[i]), 0.005f);
+				Random.InitState((int)((seeds[i].x * 43176.1746 % 1.0f) * 12473));
+				Gizmos.color = Random.ColorHSV(0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 				for (int j = 0; j < _points[i].Count; j++) {
 					Gizmos.DrawLine(transform.TransformPoint(_points[i][j]),
 					                transform.TransformPoint(_points[i][(j + 1) % _points[i].Count]));
 				}
 			}
-			Gizmos.color = Color.red;
+
+			foreach (var seed in seeds) {
+				Gizmos.color = IsPointInBand(rubberBandList, seed) ? Color.green : Color.red;
+				Gizmos.DrawSphere(transform.TransformPoint(seed), 0.01f);
+			}
+			
+			Gizmos.color = Color.purple;
 			foreach (var point in _physicsShapePoints) {
 				Gizmos.DrawSphere( transform.TransformPoint(point), 0.005f);
 			}
