@@ -1,10 +1,13 @@
+using System.Linq;
 using Room;
 using UnityEngine;
 
 namespace Logic {
 	public class TutorialManager : MonoBehaviour {
-		[SerializeField] private GameObject[] tutorialEnemies;
-		private                  RoomEntry    roomEntry;
+		private GameObject[] tutorialEnemies;
+		private RoomEntry    roomEntry;
+
+		private bool doorUnlocked;
 
 		private void Awake() {
 			tutorialEnemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -12,17 +15,11 @@ namespace Logic {
 		}
 
 		private void FixedUpdate() {
-			print(tutorialEnemies.Length);
+			tutorialEnemies = tutorialEnemies.Where(e => e).ToArray();
 
-			foreach (var enemy in tutorialEnemies) {
-				if (!enemy) {
-					tutorialEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-				}
-			}
-			
-			if (tutorialEnemies.Length == 0) {
-				roomEntry.UnlockDoor();
-			}
+			if (tutorialEnemies.Length != 0 || doorUnlocked) return;
+			roomEntry.UnlockDoor();
+			doorUnlocked = true;
 		}
 	}
 }

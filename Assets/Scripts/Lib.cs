@@ -35,6 +35,9 @@ public static class Lib {
 				yield return new WaitForEndOfFrame();
 			}
 
+			// edge case: you beat the shit out of the enemy and this runs after its been despawned
+			if (!gameObject) yield break;
+			
 			switch (gameObject.tag) {
 				case "Player":
 					var playerController = gameObject.GetComponent<PlayerController>();

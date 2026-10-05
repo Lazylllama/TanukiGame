@@ -1,3 +1,4 @@
+using Logic;
 using Player;
 using UnityEngine;
 
@@ -10,13 +11,13 @@ namespace Enemy {
 
 		private void OnTriggerEnter2D(Collider2D player) {
 			if (player.gameObject.layer != LayerMask.NameToLayer("Player")) return;
-			Debug.Log("Player hit with fireball");
 
 			var knockbackDirection = Mathf.Sign(player.transform.position.x - transform.position.x);
 			FindAnyObjectByType<PlayerController>()
 				.StartCoroutine(Lib.Combat.PreformedKnockback(player.GetComponent<Rigidbody2D>(), player.gameObject,
 				                                              knockbackDirection,
 				                                              knockbackForce, knockbackLength));
+			GameManager.Instance.DamagePlayer(damage);
 			Destroy(gameObject);
 		}
 	}

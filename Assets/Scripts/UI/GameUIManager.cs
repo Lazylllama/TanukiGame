@@ -48,16 +48,15 @@ namespace UI {
 		}
 
 		public void UpdateHeartsUI() {
-			var defaultHearts = GameManager.Instance.defaultHearts;
-			var totalHearts   = GameManager.Instance.PlayerStats.Get(Stat.ExtraHearts, defaultHearts);
-			var playerHearts  = GameManager.Instance.playerHearts;
+			var maxHearts    = GameManager.Instance.MaxHearts;
+			var playerHearts = GameManager.Instance.playerHealth;
 
 			for (var i = 0; i < heartFillImages.Length; i++) {
 				heartFillImages[i].fillAmount = playerHearts - i;
 			}
 
 			for (var i = 0; i < heartBorderImages.Length; i++) {
-				heartBorderImages[i].enabled = totalHearts >= (i + 1);
+				heartBorderImages[i].enabled = maxHearts >= (i + 1);
 			}
 		}
 

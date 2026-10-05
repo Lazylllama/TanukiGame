@@ -90,16 +90,15 @@ namespace Enemy {
 		}
 
 		private void SpriteFlip() {
-			if (PlayerDetected()) {
-				var playerDirectionX = playerTransform.position.x - transform.position.x;
-				isLookingRight = playerDirectionX switch {
-					> 0 => true,
-					< 0 => false,
-					_   => isLookingRight
-				};
-				var rotator = new Vector3(transform.rotation.x, isLookingRight ? 0f : 180f, transform.rotation.z);
-				transform.rotation = Quaternion.Euler(rotator);
-			}
+			if (!PlayerDetected()) return;
+			var playerDirectionX = playerTransform.position.x - transform.position.x;
+			isLookingRight = playerDirectionX switch {
+				> 0 => true,
+				< 0 => false,
+				_   => isLookingRight
+			};
+			var rotator = new Vector3(transform.rotation.x, isLookingRight ? 0f : 180f, transform.rotation.z);
+			transform.rotation = Quaternion.Euler(rotator);
 		}
 
 		private void HandleCooldowns() {

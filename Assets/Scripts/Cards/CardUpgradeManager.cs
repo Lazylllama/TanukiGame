@@ -9,8 +9,8 @@ namespace Logic {
 	public class CardUpgradeManager : MonoBehaviour {
 		#region Fields
 
-		private static GameObject[] fakeCards;
-		private static GameObject[] selectableCards;
+		private GameObject[] fakeCards;
+		private GameObject[] selectableCards;
 
 		[SerializeField] private CardBackgrounds cardBackgrounds;
 		[SerializeField] private CardData[]      cardUpgrades;
