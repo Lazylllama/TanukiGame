@@ -31,13 +31,15 @@ Material:
     m_Floats:
     - _FadeDistance: 0.88
     - _FoamBubbleScale: 2.11
-    - _FoamBubbleSpeed: 1.05
+    - _FoamBubbleSpeed: 0
     - _FoamSoftness: 0.16
     - _FoamThickness: 0.03
+    - _FoamWobble: 0.3
     - _ReflectionStrength: 1.23
     - _RippleFreq: 9.2
-    - _RippleSpeed: 5.12
+    - _RippleSpeed: 0
     - _RippleStrength: 0.003
+    - _screenFadeDistance: 0.8
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DeepWaterTint: {r: 0.24737452, g: 0.42407846, b: 0.4811321, a: 1}
