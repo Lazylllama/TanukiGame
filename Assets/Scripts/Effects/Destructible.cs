@@ -97,7 +97,7 @@ namespace Effects {
 		#endregion
 
 		#region Private Functions
-
+		
 		private List<Vector2> Cut(List<Vector2> points, Vector2 A, Vector2 B) {
 			var mid    = (A + B) / 2;
 			var result = new List<Vector2>();
@@ -181,6 +181,7 @@ namespace Effects {
 		}
 
 		private void Shatter(Vector3 forceDir = new Vector3()) {
+			// Clean up old shards in case the function is called multiple times.
 			foreach (var child in gameObject.GetComponentsInChildren<SpriteRenderer>()) {
 				if (child == _spriteRenderer) continue;
 				Destroy(child.gameObject);
@@ -188,16 +189,19 @@ namespace Effects {
 			
 			int a = 0;
 			foreach (var shard in _points) {
+				// Skip shards that don't have enough points to form a triangle.
 				if (shard.Count < 3) {
 					a++;
 					continue;
 				}
-
+				
+				// transform all points to make them work when making sprites.
 				var vertices = new List<Vector2>(shard);
 				for (int i = 0; i < vertices.Count; i++) {
 					vertices[i] = vertices[i] * _spriteRenderer.sprite.pixelsPerUnit + _spriteRenderer.sprite.pivot;
 				}
-
+				
+				// Triangle fanning to make a sprite out of triangles.
 				List<ushort> triangles = new List<ushort>();
 				for (int i = 1; i <= vertices.Count - 2; i++) {
 					triangles.Add(0);
@@ -205,8 +209,8 @@ namespace Effects {
 					triangles.Add((ushort)(i + 1));
 				}
 
+				// Get the position of the shard by averaging its points.
 				var pos = Vector2.zero;
-
 				foreach (var vert in shard) {
 					pos.x += vert.x;
 					pos.y += vert.y;
@@ -217,6 +221,7 @@ namespace Effects {
 
 				pos = transform.TransformPoint(pos);
 
+				// Create the gameObject and give it a collider, spriteRenderer and rigidbody.
 				var obj       = new GameObject("shard");
 				var collider  = obj.AddComponent<PolygonCollider2D>();
 				var rigidbody = obj.AddComponent<Rigidbody2D>();
@@ -230,17 +235,21 @@ namespace Effects {
 				collider.points = shard.ToArray();
 				obj.transform.SetParent(transform, false);
 				collider.sharedMaterial = shardMat;
+				
+				// Make the shards explode from the center.
 				var dir = (new Vector3(pos.x, pos.y, 0) - transform.position).normalized;
 				rigidbody.AddForce((dir + forceDir).normalized * explosionForce, ForceMode2D.Impulse);
 				shards.Add(obj);
 				a++;
 			}
-
+			
+			// Disable the collider and spriteRenderer so they don't collide
 			gameObject.GetComponent<Collider2D>().enabled = false;
 			_spriteRenderer.enabled                          = false;
 		}
 
-
+		
+		// Generate a list of shards
 		private List<List<Vector2>> GenShards() {
 			var           result = new List<List<Vector2>>();
 			List<Vector2> list   = new List<Vector2>(rubberBandList);
