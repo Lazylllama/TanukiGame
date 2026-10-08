@@ -16,7 +16,7 @@ Shader "Custom/WaterReflection"
         _FoamBubbleSpeed ("Foam bubble speed", Float) = 1
         _FoamSoftness( "Foam softness", Float) = 0.05
         _FadeDistance ("Fade distance", Float) = 0.5
-        _screenFadeDistance("Screen Fade Distance (The distance from the screen edge where the reflection starts to fade)", Float) = 0.8
+        _ScreenFadeDistance("Screen Fade Distance (The distance from the screen edge where the reflection starts to fade)", Float) = 0.8
         _FoamWobble("Foam Wobble", Float) = 0.3
     }
 
@@ -58,9 +58,6 @@ Shader "Custom/WaterReflection"
                 float4 screenPos  : TEXCOORD1;
                 float3 positionWS : TEXCOORD2;
             };
-
-            TEXTURE2D(_MainTex);
-            SAMPLER(sampler_MainTex);
             
             TEXTURE2D(_CameraSortingLayerTexture);
             SAMPLER(sampler_CameraSortingLayerTexture);
@@ -71,11 +68,11 @@ Shader "Custom/WaterReflection"
                 half4  _Color;
                 half4  _WaterTint;
                 half4  _DeepWaterTint;
+                half4  _FoamColor;
                 float  _ReflectionStrength;
                 float  _RippleStrength;
                 float  _RippleFreq;
                 float  _RippleSpeed;
-                half4  _FoamColor;
                 float  _FoamThickness;
                 float  _FoamBubbleScale;
                 float  _FoamBubbleSpeed;
@@ -96,6 +93,7 @@ Shader "Custom/WaterReflection"
                 return OUT;
             }
             
+            // Converts object uv coordinates to screen uv coordinates
             float2 UVToScreen(float2 targetUV, float2 uv, float2 screenUV)
             {
                 float2 duvdx = ddx(uv), duvdy = ddy(uv);
@@ -110,6 +108,7 @@ Shader "Custom/WaterReflection"
                 return screenUV + mul(B, mul(Ainv, targetUV - uv));
             }
             
+            // Generates a pseudo random float2
             float2 Hash22(float2 p)
             {
                 float3 p3 = frac(p.xyx * float3(0.1031, 0.1030, 0.0973));
@@ -117,6 +116,7 @@ Shader "Custom/WaterReflection"
                 return frac((p3.xx + p3.yz) * p3.zy);
             }
             
+            // Generates noise based on how far a point is from other points
             float Worley(float2 p, float t)
             {
                 float2 cell = floor(p);
@@ -145,57 +145,65 @@ Shader "Custom/WaterReflection"
                 float2 p = IN.positionWS.xy * _RippleFreq;
                 float t = _Time.y * _RippleSpeed;
               
+                // Adds the ripplies
                 float2 ripple;
                 ripple.x = sin(p.y + t + sin(p.x * 0.05) * 3) + 0.5 * sin(p.y * 2.3 + p.x * 1.7 - t * 1.3);
                 ripple.y = sin(p.x * 0.2 + t * 0.3) * 6;
                 
+                // The uv coord where the reflected ray hits
                 float2 reflectedUV = float2(IN.uv.x, 2 - IN.uv.y);
-                reflectedUV += ripple * _RippleStrength * (1 - IN.uv.y);
+                float2 wobble = ripple * _RippleStrength * (1 - IN.uv.y);
+                reflectedUV += wobble;
                 
+                // The uv coord on the screen where the reflected ray hits.
                 float2 reflectedUVOnScreen = UVToScreen(reflectedUV, IN.uv, screenUV);
                 
+                // The upper edge of the sprite
                 float2 foamHighEdgeYScreen = UVToScreen(float2(IN.uv.x, 1), IN.uv, screenUV);
                 float2 foamLowEdgeYScreen = foamHighEdgeYScreen;
-                foamLowEdgeYScreen.y -= _FoamThickness;
+                foamLowEdgeYScreen.y -= _FoamThickness; // Where the foam ends
 
+                // The color of the reflection
                 half4 col = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture, reflectedUVOnScreen);
 
-                float2 refractedUV = IN.uv.xy + reflectedUV;
+                // The refracted rays coordinates and sampling
+                float2 refractedUV = IN.uv.xy + wobble;
                 float2 refractedUVOnScreen = UVToScreen(refractedUV, IN.uv, screenUV);
                 half4 refraction = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture, refractedUVOnScreen);
                 refraction = lerp(refraction, _DeepWaterTint, (1 - IN.uv.y));
                 
-                
-                float screenEdgeFadeFactor;
-                if (reflectedUVOnScreen.y > _ScreenFadeDistance) screenEdgeFadeFactor = smoothstep(_ScreenFadeDistance, 1.0, reflectedUVOnScreen.y);
+                // How close the sampled parts are to the edge of the screen, used to dim so it doesnt clamp
+                float screenEdgeFadeFactor = smoothstep(_ScreenFadeDistance, 1.0, reflectedUVOnScreen.y);
                 screenEdgeFadeFactor = 1 - screenEdgeFadeFactor;
-
-
+                
+                // Water becomes more water colored the further from the edge it gets
                 float waterFadeFactor = smoothstep(1 - _FadeDistance, 1, IN.uv.y);
                 
+                // The color of the water decided by the reflection, refraction, and water color.
                 half3 tinted = lerp(half3(1,1,1), _WaterTint.rgb, _WaterTint.a);
                 tinted = col.rgb * tinted;
                 tinted = lerp(tinted, refraction.rgb, 1 - saturate(waterFadeFactor * screenEdgeFadeFactor * _ReflectionStrength));
-                
                
+                // Foam gradient, higher value the closer to the edge it is.
                 float gradient = (foamHighEdgeYScreen.y - screenUV.y) / (foamHighEdgeYScreen.y - foamLowEdgeYScreen.y);
+                
+                // Large sine wave offset
                 float foamGradientOffset = sin(IN.positionWS.x) * 0.625 +
                     sin(IN.positionWS.x * 2 + 8) * 0.25 +
                         sin(IN.positionWS.x * 4 + 3) * 0.125;
                 gradient += foamGradientOffset * _FoamWobble;
-
+                
+                // Smaller noise offset
                 float noise = Worley(IN.positionWS.xy * _FoamBubbleScale, _Time.y * _FoamBubbleSpeed) * 0.625 +
                     Worley(IN.positionWS.xy * _FoamBubbleScale * 2, _Time.y * _FoamBubbleSpeed) * 0.25 +
                         Worley(IN.positionWS.xy * _FoamBubbleScale * 4, _Time.y * _FoamBubbleSpeed) * 0.125;
                 
                 noise = saturate(1 -noise);
                 
+                // Amount of foam based on all the parameters.
                 float foamAmount = smoothstep(gradient - _FoamSoftness, gradient + _FoamSoftness, noise);
                 
                 tinted = lerp(tinted, _FoamColor.rgb, foamAmount);
-                
-                
-                
                 
                 return half4(tinted, 1) * IN.color;
             }
