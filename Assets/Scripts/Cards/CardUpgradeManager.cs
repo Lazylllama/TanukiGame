@@ -1,11 +1,10 @@
 using System.Linq;
-using Cards;
+using Logic;
 using Player;
-using RNG;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Logic {
+namespace Cards {
 	public class CardUpgradeManager : MonoBehaviour {
 		#region Fields
 
@@ -32,6 +31,9 @@ namespace Logic {
 
 		#region Functions
 
+		/// <summary>
+		/// Rolls all cards in the game.
+		/// </summary>
 		public void RollAllCards() {
 			foreach (var card in fakeCards)
 				RollCardWithLuck(card, 10f);
@@ -40,6 +42,9 @@ namespace Logic {
 				RollCardWithLuck(card, GameManager.Instance.PlayerStats.Get(Stat.Luck, 1f));
 		}
 
+		/// <summary>
+		///	Hide all cards in the game.
+		/// </summary>
 		public void HideCards() {
 			foreach (var card in fakeCards) {
 				card.SetActive(false);
@@ -50,6 +55,11 @@ namespace Logic {
 			}
 		}
 
+		/// <summary>
+		/// Rolls one card with a given a luck value. Higher luck increases chance of a better upgrade, defaults to 1.
+		/// </summary>
+		/// <param name="card"></param>
+		/// <param name="luck"></param>
 		private void RollCardWithLuck(GameObject card, float luck = 1) {
 			var type = GameManager.Instance.RngHandler.RollTable("CardUpgrade", luck);
 			var bg   = cardBackgrounds.GetCardBackground(type.name);

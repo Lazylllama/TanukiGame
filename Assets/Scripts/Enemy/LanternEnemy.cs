@@ -74,7 +74,7 @@ namespace Enemy {
 		#endregion
 
 		#region Functions
-
+		
 		private void Hover() {
 			speedCurve += Time.deltaTime * hoverSpeed;
 

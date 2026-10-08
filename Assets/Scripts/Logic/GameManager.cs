@@ -12,8 +12,8 @@ namespace Logic {
 		public        PlayerStats PlayerStats;
 		public        RngHandler  RngHandler;
 
-		public float MaxHearts      => PlayerStats.Get(Stat.ExtraHearts, defaultHearts);
-		public bool  IsInvulnerable => invulnerabilityTimer > 0;
+		public  float MaxHearts      => PlayerStats.Get(Stat.ExtraHearts, defaultHearts);
+		private bool  IsInvulnerable => invulnerabilityTimer > 0;
 
 		[SerializeField] private RngTables rngTables;
 		[SerializeField] public  int       defaultHearts           = 3;
@@ -94,8 +94,6 @@ namespace Logic {
 						playerHealth = MaxHearts;
 
 					//? If they gain the extra heart, increase the health
-					//! this code is broken, if you lose the stat this would still give you a heart
-					//! will implement like a check for this or sum sum
 					playerHealth = Mathf.Min(playerHealth + 1, MaxHearts);
 
 					GameUIManager.Instance.UpdateHeartsUI();
@@ -106,6 +104,7 @@ namespace Logic {
 				case Stat.CritChance:
 				case Stat.MoveSpeed:
 				case Stat.ThrowDamage:
+				case Stat.HealthBoost:
 				case Stat.MeleeDamage:
 					break;
 				default:
