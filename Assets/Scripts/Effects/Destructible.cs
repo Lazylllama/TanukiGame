@@ -34,9 +34,13 @@ namespace Effects {
 			_spriteRenderer = GetComponent<SpriteRenderer>();
 			seeds           = new Vector2[seedCount];
 
-
+    		// More accurate bounds for irregular shapes.
 			_spriteRenderer.sprite.GetPhysicsShape(0, _physicsShapePoints);
+			
+			// Remove concave points from the shape since the triangulation algorithm only works with convex shapes.
 			rubberBandList = RubberBand(_physicsShapePoints, GetLeftmostPoint(_physicsShapePoints));
+			
+			// Generate random seed points within the bounds of the sprite.
 			for (int i = 0; i < seedCount; i++) {
 				var tries = 0;
 				while ((seeds[i] == new Vector2() || !IsPointInBand(rubberBandList, seeds[i])) && tries < 100) {
@@ -50,18 +54,19 @@ namespace Effects {
 
 			_points = GenShards();
 		}
-
-		private void Update() {
-			
-		}
+		
 
 		private void OnMouseDown() {
+			// Get the mouse position in screen space,
 			var mouseScreenPos = Mouse.current.position.ReadValue();
 
 			if (Camera.main == null) return;
-
+			
+			// Convert the mouse position to world space and set z to 0.
 			var mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
 			mouseWorldPos.z = 0;
+			
+			// Get the direction from the click point to the center of the object and use as the explosion direction.
 			var dir = (transform.position - mouseWorldPos).normalized * 10.0f;
 			Shatter(dir);
 		}
@@ -97,7 +102,14 @@ namespace Effects {
 		#endregion
 
 		#region Private Functions
-
+	
+		/// <summary>
+		/// Cuts the polygon which is defined by the list of vertices, with the line defined by points A and B.
+		/// </summary>
+		/// <param name="points"> List of vertices</param>
+		/// <param name="A"> First point, the sprite part that's on this side gets returned.</param>
+		/// <param name="B"> Second point, the sprite part that's on this side gets discarded. </param>
+		/// <returns>Returns a new polygon which is the remaining part of the original polygon after the cut.</returns>
 		private List<Vector2> Cut(List<Vector2> points, Vector2 A, Vector2 B) {
 			var mid    = (A + B) / 2;
 			var result = new List<Vector2>();
@@ -117,6 +129,12 @@ namespace Effects {
 			return result;
 		}
 
+		/// <summary>
+		/// Checks if a point is inside a polygon defined by the list of vertices.
+		/// </summary>
+		/// <param name="band"> List of vertices that defines the polygon.</param>
+		/// <param name="point"> Point that you want to check if it is inside or outside the polygon.</param>
+		/// <returns> Return true if inside polygon, else false.</returns>
 		private bool IsPointInBand(List<Vector2> band, Vector2 point) {
 			for (int i = 0; i < band.Count; i++) {
 				var d = band[(i + 1) % band.Count()] - band[i];
@@ -127,6 +145,11 @@ namespace Effects {
 			return true;
 		}
 
+		/// <summary>
+		/// Gets the index of the leftmost point in a list of points. This is used to find a starting point for the rubber band algorithm.
+		/// </summary>
+		/// <param name="points"> List of points that you want to find the leftmost point in.</param>
+		/// <returns> Return the index of the leftmost point.</returns>
 		private int GetLeftmostPoint(List<Vector2> points) {
 			var index       = 0;
 			var currentBest = points[0];
@@ -140,6 +163,13 @@ namespace Effects {
 			return index;
 		}
 
+		/// <summary>
+		/// Rubber band algorithm, used to find the convex hull of a set of points.
+		/// Used since the physics shape of a sprite can be concave, which is not supported by the triangulation algorithm.
+		/// </summary>
+		/// <param name="points"> List of vertices that define the current polygon. </param>
+		/// <param name="leftmost"> The index of the leftmost vertice, found using GetLeftMostPoint(). </param>
+		/// <returns> Returns a new polygon made of the convex hull of the inputted polygon. </returns>
 		private List<Vector2> RubberBand(List<Vector2> points, int leftmost) {
 			var result  = new List<Vector2>();
 			var current = leftmost;
@@ -169,6 +199,14 @@ namespace Effects {
 			return result;
 		}
 
+		/// <summary>
+		/// Finds the intersection point of a line that goes through points P0 and P1. With the perpendicular bisector of A and B.
+		/// </summary>
+		/// <param name="A">First point that defines the bisector.</param>
+		/// <param name="B">Second point that defines the bisector.</param>
+		/// <param name="P0">Start point of the line being intersected.</param>
+		/// <param name="P1">End point of the line being intersected.</param>
+		/// <returns> Returns </returns>
 		private Vector2 GetLine(Vector2 A, Vector2 B, Vector2 P0, Vector2 P1) {
 			var arrow    = B - A;
 			var mid      = new Vector2(A.x + B.x, A.y + B.y) / 2;
