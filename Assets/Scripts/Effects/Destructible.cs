@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
+using Piece = System.Collections.Generic.List<UnityEngine.Vector2>;
+
 namespace Effects {
 	public class Destructible : MonoBehaviour {
 		#region Fields
@@ -13,15 +15,15 @@ namespace Effects {
 		[Header("Settings")]
 		[SerializeField] private bool debug;
 		[SerializeField] private PhysicsMaterial2D shardMat;
-		[SerializeField] private float             explosionForce = 1;
+		[SerializeField] private float             explosionForce = 1.0f, fadeTime = 2.0f, fadeDelay = 2.0f;
 		[SerializeField] private int               seedCount      = 3;
 
-		private SpriteRenderer _spriteRenderer;
+		private SpriteRenderer spriteRenderer;
 		private Vector2[]      seeds;
 
-		private List<List<Vector2>> _points;
-		private List<Vector2>       _physicsShapePoints = new List<Vector2>(), rubberBandList;
-		private List<GameObject> 	 shards = new List<GameObject>();
+		private          List<List<Piece>> rubberBandPoints, physicsShapePoints;
+		private readonly Piece       physicsShapeList = new List<Vector2>();
+		private          List<Vector2>       rubberBandList;
 
 		private bool isRunning = false;
 
@@ -31,28 +33,29 @@ namespace Effects {
 
 		private void Start() {
 			isRunning       = true;
-			_spriteRenderer = GetComponent<SpriteRenderer>();
+			spriteRenderer = GetComponent<SpriteRenderer>();
 			seeds           = new Vector2[seedCount];
 
     		// More accurate bounds for irregular shapes.
-			_spriteRenderer.sprite.GetPhysicsShape(0, _physicsShapePoints);
+			spriteRenderer.sprite.GetPhysicsShape(0, physicsShapeList);
 			
 			// Remove concave points from the shape since the triangulation algorithm only works with convex shapes.
-			rubberBandList = RubberBand(_physicsShapePoints, GetLeftmostPoint(_physicsShapePoints));
+			rubberBandList = RubberBand(physicsShapeList, GetLeftmostPoint(physicsShapeList));
 			
 			// Generate random seed points within the bounds of the sprite.
 			for (int i = 0; i < seedCount; i++) {
 				var tries = 0;
 				while ((seeds[i] == new Vector2() || !IsPointInBand(rubberBandList, seeds[i])) && tries < 100) {
 					tries++;
-					seeds[i] = new Vector2(Random.Range(_spriteRenderer.sprite.bounds.min.x,
-					                                    _spriteRenderer.sprite.bounds.max.x),
-					                       Random.Range(_spriteRenderer.sprite.bounds.min.y,
-					                                    _spriteRenderer.sprite.bounds.max.y));
+					seeds[i] = new Vector2(Random.Range(spriteRenderer.sprite.bounds.min.x,
+					                                    spriteRenderer.sprite.bounds.max.x),
+					                       Random.Range(spriteRenderer.sprite.bounds.min.y,
+					                                    spriteRenderer.sprite.bounds.max.y));
 				}
 			}
 
-			_points = GenShards();
+			rubberBandPoints = GenShards(rubberBandList);
+			physicsShapePoints = GenShards(physicsShapeList);
 		}
 		
 
@@ -70,11 +73,12 @@ namespace Effects {
 			var dir = (transform.position - mouseWorldPos).normalized * 10.0f;
 			Shatter(dir);
 		}
-
+		
+		/*
 		private void OnDrawGizmos() {
 			if (!isRunning || !debug) return;
-			for (int i = 0; i < _points.Count; i++) {
-				var points = _points[i];
+			for (int i = 0; i < rubberBandPoints.Count; i++) {
+				var points = this.rubberBandPoints[i];
 				Gizmos.color = Color.HSVToRGB(Mathf.Repeat(seeds[i].x * 43176.1746f, 1f), 1f, 1f);
 				for (int j = 0; j < points.Count; j++) {
 					Gizmos.DrawLine(transform.TransformPoint(points[j]),
@@ -89,7 +93,7 @@ namespace Effects {
 			}
 
 			Gizmos.color = Color.purple;
-			foreach (var point in _physicsShapePoints) {
+			foreach (var point in physicsShapeList) {
 				Gizmos.DrawSphere(transform.TransformPoint(point), 0.005f);
 			}
 
@@ -98,7 +102,8 @@ namespace Effects {
 				Gizmos.DrawSphere(transform.TransformPoint(point), 0.01f);
 			}
 		}
-
+		*/
+		
 		#endregion
 
 		#region Private Functions
@@ -110,22 +115,62 @@ namespace Effects {
 		/// <param name="A"> First point, the sprite part that's on this side gets returned.</param>
 		/// <param name="B"> Second point, the sprite part that's on this side gets discarded. </param>
 		/// <returns>Returns a new polygon which is the remaining part of the original polygon after the cut.</returns>
-		private List<Vector2> Cut(List<Vector2> points, Vector2 A, Vector2 B) {
+		private List<Piece> Cut(Piece points, Vector2 A, Vector2 B) {
+			// Indexes for entry and exit, used to make multiple polygons if there's a gap in the mesh.
+			List<int> eIndex = new List<int>(), xIndex = new List<int>();
+			
 			var mid    = (A + B) / 2;
-			var result = new List<Vector2>();
+			var	along = new Vector2(-(B - A).y, (B - A).x);
+			var cutPointOutline = new Piece();
 			for (int i = 0; i < points.Count; i++) {
 				if (Vector2.Dot(points[i] - mid, B - A) <= 0) {
-					result.Add(points[i]);
+					cutPointOutline.Add(points[i]);
 					if (Vector2.Dot(points[(i + 1) % points.Count] - mid, B - A) > 0) {
-						result.Add(GetLine(A, B, points[i], points[(i + 1) % points.Count]));
+						xIndex.Add(cutPointOutline.Count);
+						cutPointOutline.Add(GetLine(A, B, points[i], points[(i + 1) % points.Count]));
 					}
 				} else {
 					if (Vector2.Dot(points[(i + 1) % points.Count] - mid, B - A) <= 0) {
-						result.Add(GetLine(A, B, points[i], points[(i + 1) % points.Count]));
+						eIndex.Add(cutPointOutline.Count);
+						cutPointOutline.Add(GetLine(A, B, points[i], points[(i + 1) % points.Count]));
 					}
 				}
 			}
 
+			eIndex = eIndex.OrderBy(e => Vector2.Dot(cutPointOutline[e], along)).ToList();
+			xIndex = xIndex.OrderBy(e => Vector2.Dot(cutPointOutline[e], along)).ToList();
+			
+			var mango = new int[cutPointOutline.Count];
+
+			for (int i = 0; i < cutPointOutline.Count; i++) {
+				mango[i] = (i + 1) % cutPointOutline.Count;
+			}
+
+			for (int i = 0; i < eIndex.Count; i++) {
+				mango[xIndex[i]] = eIndex[i];
+			}
+
+			var visited = new bool[mango.Length];
+			var result  = new List<Piece>();
+
+			for (int i = 0; i < visited.Length; i++) {
+				if (visited[i]) continue;
+				var temp = new Piece { cutPointOutline[i] };
+				visited[i] = true;
+				var  current        = i;
+				var completedPiece = false;
+				while (!completedPiece) {
+					current = mango[current];
+					if (visited[current]) {
+						completedPiece = true;
+						continue;
+					}
+					temp.Add(cutPointOutline[current]);
+					visited[current] = true;
+				}
+				result.Add(temp);
+			}
+			
 			return result;
 		}
 
@@ -135,7 +180,7 @@ namespace Effects {
 		/// <param name="band"> List of vertices that defines the polygon.</param>
 		/// <param name="point"> Point that you want to check if it is inside or outside the polygon.</param>
 		/// <returns> Return true if inside polygon, else false.</returns>
-		private bool IsPointInBand(List<Vector2> band, Vector2 point) {
+		private bool IsPointInBand(Piece band, Vector2 point) {
 			for (int i = 0; i < band.Count; i++) {
 				var d = band[(i + 1) % band.Count()] - band[i];
 				d = new Vector2(-d.y, d.x);
@@ -150,7 +195,7 @@ namespace Effects {
 		/// </summary>
 		/// <param name="points"> List of points that you want to find the leftmost point in.</param>
 		/// <returns> Return the index of the leftmost point.</returns>
-		private int GetLeftmostPoint(List<Vector2> points) {
+		private int GetLeftmostPoint(Piece points) {
 			var index       = 0;
 			var currentBest = points[0];
 			for (int i = 0; i < points.Count; i++) {
@@ -170,17 +215,16 @@ namespace Effects {
 		/// <param name="points"> List of vertices that define the current polygon. </param>
 		/// <param name="leftmost"> The index of the leftmost vertice, found using GetLeftMostPoint(). </param>
 		/// <returns> Returns a new polygon made of the convex hull of the inputted polygon. </returns>
-		private List<Vector2> RubberBand(List<Vector2> points, int leftmost) {
-			var result  = new List<Vector2>();
+		private Piece RubberBand(Piece points, int leftmost) {
+			var result  = new Piece();
 			var current = leftmost;
-			var index   = (current + points.Count / 2) % points.Count;
 
 
 			for (int h = 0; h < points.Count(); h++) {
-				var p = points[current];
-				index = (current + points.Count / 2) % points.Count;
-				var ig = points[index];
-				var pd = (ig - p);
+				var p     = points[current];
+				var index = (current + points.Count / 2) % points.Count;
+				var ig    = points[index];
+				var pd    = (ig - p);
 				pd = new Vector2(-pd.y, pd.x);
 				for (int i = 0; i < points.Count; i++) {
 					var g  = points[i];
@@ -221,12 +265,19 @@ namespace Effects {
 		private void Shatter(Vector3 forceDir = new Vector3()) {
 			// Clean up old shards in case the function is called multiple times.
 			foreach (var child in gameObject.GetComponentsInChildren<SpriteRenderer>()) {
-				if (child == _spriteRenderer) continue;
+				if (child == spriteRenderer) continue;
 				Destroy(child.gameObject);
 			}
 			
 			int a = 0;
-			foreach (var shard in _points) {
+			foreach (var pieces in rubberBandPoints) {
+				if (pieces.Count == 0 || physicsShapePoints[a].Count == 0) {
+					a++;
+					continue;
+				}
+				
+				var shard = pieces[0];
+				
 				// Skip shards that don't have enough points to form a triangle.
 				if (shard.Count < 3) {
 					a++;
@@ -234,9 +285,9 @@ namespace Effects {
 				}
 				
 				// transform all points to make them work when making sprites.
-				var vertices = new List<Vector2>(shard);
+				var vertices = new Piece(shard);
 				for (int i = 0; i < vertices.Count; i++) {
-					vertices[i] = vertices[i] * _spriteRenderer.sprite.pixelsPerUnit + _spriteRenderer.sprite.pivot;
+					vertices[i] = vertices[i] * spriteRenderer.sprite.pixelsPerUnit + spriteRenderer.sprite.pivot;
 				}
 				
 				// Triangle fanning to make a sprite out of triangles.
@@ -264,38 +315,48 @@ namespace Effects {
 				var collider  = obj.AddComponent<PolygonCollider2D>();
 				var rigidbody = obj.AddComponent<Rigidbody2D>();
 				var renderer  = obj.AddComponent<SpriteRenderer>();
-				var sprite = Sprite.Create(_spriteRenderer.sprite.texture, _spriteRenderer.sprite.rect,
-				                           _spriteRenderer.sprite.pivot / _spriteRenderer.sprite.rect.size,
-				                           _spriteRenderer.sprite.pixelsPerUnit);
+				var sprite = Sprite.Create(spriteRenderer.sprite.texture, spriteRenderer.sprite.rect,
+				                           spriteRenderer.sprite.pivot / spriteRenderer.sprite.rect.size,
+				                           spriteRenderer.sprite.pixelsPerUnit);
 				sprite.OverrideGeometry(vertices.ToArray(), triangles.ToArray());
 				renderer.sprite = sprite;
 				if (debug) renderer.color = Color.HSVToRGB(Mathf.Repeat(seeds[a].x * 43176.1746f, 1f), 1f, 1f);
-				collider.points = shard.ToArray();
+				collider.pathCount = physicsShapePoints[a].Count;
+				for (int i = 0; i < physicsShapePoints[a].Count; i++) {
+					collider.SetPath(i, physicsShapePoints[a][i]);
+				}
+				
 				obj.transform.SetParent(transform, false);
 				collider.sharedMaterial = shardMat;
 				
 				// Make the shards explode from the center.
 				var dir = (new Vector3(pos.x, pos.y, 0) - transform.position).normalized;
 				rigidbody.AddForce((dir + forceDir).normalized * explosionForce, ForceMode2D.Impulse);
-				shards.Add(obj);
 				a++;
+				
+				// Make the shards disappear after a few seconds.
+				LeanTween.alpha(obj, 0.0f, fadeTime).setDestroyOnComplete(true).setDelay(fadeDelay);
 			}
 			
 			// Disable the collider and spriteRenderer so they don't collide
 			gameObject.GetComponent<Collider2D>().enabled = false;
-			_spriteRenderer.enabled                          = false;
+			spriteRenderer.enabled                          = false;
 		}
 
 		
 		// Generate a list of shards
-		private List<List<Vector2>> GenShards() {
-			var           result = new List<List<Vector2>>();
-			List<Vector2> list   = new List<Vector2>(rubberBandList);
+		private List<List<Piece>> GenShards(Piece points) {
+			var           result = new List<List<Piece>>();
+			var           list   = new Piece(points);
 			for (int i = 0; i < seeds.Length; i++) {
-				var copy = new List<Vector2>(list);
+				var copy = new List<Piece> { list };
 				for (int j = 0; j < seeds.Length; j++) {
 					if (j == i) continue;
-					copy = Cut(copy, seeds[i], seeds[j]);
+					var temp = new List<Piece>();
+					foreach (var piece in copy) {
+						temp.AddRange(Cut(piece, seeds[i], seeds[j]));
+					}
+					copy = temp;
 				}
 
 				result.Add(copy);
