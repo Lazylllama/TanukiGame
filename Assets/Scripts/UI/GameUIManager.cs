@@ -57,7 +57,8 @@ namespace UI {
 			}
 
 			for (var i = 0; i < heartBorderImages.Length; i++) {
-				heartBorderImages[i].enabled = maxHearts >= (i + 1);
+				//? Shows always 3 containers, if health is over 3, then show what is needed
+				heartBorderImages[i].enabled = i <= 2 || playerHearts >= (i + 1);
 			}
 		}
 

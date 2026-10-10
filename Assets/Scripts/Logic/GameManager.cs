@@ -20,6 +20,7 @@ namespace Logic {
 		[SerializeField] public  float     invulnerabilityDuration = 0.5f;
 
 		// state
+		public  bool  inRoom;
 		public  float playerHealth;
 		private float invulnerabilityTimer;
 
@@ -60,7 +61,7 @@ namespace Logic {
 			playerHealth = MaxHearts;
 
 			KeepOnLoad.DestroyAll();
-			SceneManager.LoadScene("GameScene");
+			SceneManager.LoadScene("PreGameScene");
 			PlayerController.Instance.transform.position = new Vector3(0f, 1f, 0f);
 		}
 
@@ -75,28 +76,32 @@ namespace Logic {
 
 		//? rooms
 		public void LoadFirstRoom() {
+			inRoom = true;
 			SceneManager.LoadScene("RoomScene");
 		}
 
 		public void FinishRoom() {
+			inRoom = false;
 			GameUIManager.Instance.ShowCardUI();
 		}
 
 		#endregion
 
 		//? handlers
+		public void OnEnemyDeath() {
+		}
+
 		private void OnStatsChangedHandler(Stat stat) {
 			switch (stat) {
 				case Stat.ExtraHearts: {
-					var extraHearts = PlayerStats.Get(Stat.ExtraHearts, 0f);
-					//? If they somehow lose the extra heart, lower the health
-					if (playerHealth > MaxHearts)
-						playerHealth = MaxHearts;
-
 					//? If they gain the extra heart, increase the health
 					playerHealth = Mathf.Min(playerHealth + 1, MaxHearts);
 
 					GameUIManager.Instance.UpdateHeartsUI();
+				}
+					break;
+				case Stat.HealthBoost: {
+					playerHealth = Mathf.Min(playerHealth + 0.5f, MaxHearts);
 				}
 					break;
 				case Stat.XpGain:
@@ -104,7 +109,6 @@ namespace Logic {
 				case Stat.CritChance:
 				case Stat.MoveSpeed:
 				case Stat.ThrowDamage:
-				case Stat.HealthBoost:
 				case Stat.MeleeDamage:
 					break;
 				default:
