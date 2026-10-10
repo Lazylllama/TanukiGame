@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -24,6 +25,9 @@ namespace Effects {
 		private          List<List<Piece>> rubberBandPoints, physicsShapePoints;
 		private readonly Piece       physicsShapeList = new List<Vector2>();
 		private          List<Vector2>       rubberBandList;
+
+
+		private List<SpriteRenderer> shardRenderers = new List<SpriteRenderer>();
 
 		private bool isRunning = false;
 
@@ -317,7 +321,8 @@ namespace Effects {
 				var renderer  = obj.AddComponent<SpriteRenderer>();
 				var sprite = Sprite.Create(spriteRenderer.sprite.texture, spriteRenderer.sprite.rect,
 				                           spriteRenderer.sprite.pivot / spriteRenderer.sprite.rect.size,
-				                           spriteRenderer.sprite.pixelsPerUnit);
+				                           spriteRenderer.sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect
+				                           );
 				sprite.OverrideGeometry(vertices.ToArray(), triangles.ToArray());
 				renderer.sprite = sprite;
 				if (debug) renderer.color = Color.HSVToRGB(Mathf.Repeat(seeds[a].x * 43176.1746f, 1f), 1f, 1f);
@@ -335,8 +340,15 @@ namespace Effects {
 				a++;
 				
 				// Make the shards disappear after a few seconds.
-				LeanTween.alpha(obj, 0.0f, fadeTime).setDestroyOnComplete(true).setDelay(fadeDelay);
+				shardRenderers.Add(renderer);
 			}
+			
+			LeanTween.value(gameObject, 1, 0, fadeTime).setDelay(fadeDelay).setDestroyOnComplete(true).setOnUpdate(e => {foreach
+				(var renderer in shardRenderers) {
+				var col = renderer.color;
+				col.a = e;
+				renderer.color = col;
+			}});
 			
 			// Disable the collider and spriteRenderer so they don't collide
 			gameObject.GetComponent<Collider2D>().enabled = false;
