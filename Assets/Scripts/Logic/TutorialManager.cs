@@ -5,20 +5,20 @@ using UnityEngine;
 namespace Logic {
 	public class TutorialManager : MonoBehaviour {
 		private GameObject[] tutorialEnemies;
-		private RoomEntry    roomEntry;
+		private RoomDoor    roomDoor;
 
 		private bool doorUnlocked;
 
 		private void Awake() {
 			tutorialEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-			roomEntry       = FindAnyObjectByType<RoomEntry>();
+			roomDoor       = FindAnyObjectByType<RoomDoor>();
 		}
 
 		private void FixedUpdate() {
 			tutorialEnemies = tutorialEnemies.Where(e => e).ToArray();
 
 			if (tutorialEnemies.Length != 0 || doorUnlocked) return;
-			roomEntry.UnlockDoor();
+			roomDoor.UnlockDoor();
 			doorUnlocked = true;
 		}
 	}
