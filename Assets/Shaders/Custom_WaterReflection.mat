@@ -37,8 +37,9 @@ Material:
     - _FoamWobble: 0.3
     - _ReflectionStrength: 1.23
     - _RippleFreq: 9.2
-    - _RippleSpeed: 0
+    - _RippleSpeed: 1
     - _RippleStrength: 0.003
+    - _ScreenFadeDistance: 0.8
     - _screenFadeDistance: 0.8
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

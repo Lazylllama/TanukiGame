@@ -147,7 +147,7 @@ Shader "Custom/WaterReflection"
               
                 // Adds the ripplies
                 float2 ripple;
-                ripple.x = sin(p.y + t + sin(p.x * 0.05) * 3) + 0.5 * sin(p.y * 2.3 + p.x * 1.7 - t * 1.3);
+                ripple.x = sin(p.y + p.x * 0.8 + t + sin(p.x * 0.05) * 3) + 0.5 * sin(p.y * 2.3 + p.x * 1.7 - t * 1.3);
                 ripple.y = sin(p.x * 0.2 + t * 0.3) * 6;
                 
                 // The uv coord where the reflected ray hits
