@@ -7,6 +7,12 @@
       "dependencies": {},
       "hash": "5ac210a9a287428cb876ce9ea4ef14fe31e115b7"
     },
+    "com.fmod.fmod-for-unity.v204": {
+      "version": "file:com.fmod.fmod-for-unity.v204",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "15.1.0",
       "depth": 0,
