@@ -4,6 +4,8 @@ Shader "Custom/Lightning"
     {
         [MainTexture] _MainTex ("Sprite Texture", 2D) = "white" {} // SpriteRenderer wants this, not used
         [HDR] _Color ("Color", Color) = (1, 1, 1, 1)
+        _Flash ("Flash", float) = 1.0
+        _Seed ("seed", float) = 1.0
     }
 
     SubShader
@@ -45,6 +47,8 @@ Shader "Custom/Lightning"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
+                float  _Flash;
+                float  _Seed;
             CBUFFER_END
 
             Varyings vert (Attributes IN)
@@ -106,13 +110,11 @@ Shader "Custom/Lightning"
             {
                 float2 uv = IN.uv;
                 
-                float seed = floor(_Time.y * 0.5);
-                
-                float sum = octaves_sum(uv.y, 3, seed);
+                float sum = octaves_sum(uv.y, 3, _Seed);
                 
                 float brightness = bolt_intensity(abs(uv.x - sum));
                 
-                brightness *= exp(-frac(_Time.y * 0.5) * 10);
+                brightness *= max(_Flash, 0.0);
 
                 half3 col = _Color.rgb * brightness * IN.color.rgb;
                 return half4(col, brightness);
