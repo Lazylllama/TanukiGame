@@ -29,12 +29,25 @@ public class LightningController : MonoBehaviour {
     public IEnumerator StrikeSequence(float x) {
 	    transform.localPosition = new Vector3(x, 0, 10.0f);
 	    thunderMat.SetFloat("_Seed", Random.Range(0, 100.0f));
+	    
+	    float dist = Random.Range(300.0f, 3000.0f);
+	    StartCoroutine(PlayThunderSound(dist));
+	    
 	    int strikes = Random.Range(0, 3);
 	    for (int i = 0; i < strikes; i++) {
 		    Strike(0.1f);
 		    yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
 	    }
 	    Strike(0.4f);
+    }
+
+    private IEnumerator PlayThunderSound(float dist) {
+	    yield return new WaitForSeconds(dist / 343.0f);
+
+	    var instance = RuntimeManager.CreateInstance(thunderSound);
+	    instance.setParameterByName("StrikeDistance", dist);
+	    instance.start();
+	    instance.release();
     }
 
     

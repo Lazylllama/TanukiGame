@@ -1,5 +1,29 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2261330913358694559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Thunder/StrikeDistance
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: StrikeDistance
+  StudioPath: 
+  Min: 300
+  Max: 3000
+  Default: 1000
+  ID:
+    data1: 266555900
+    data2: 498165285
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-1778674113655136987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,10 +39,10 @@ MonoBehaviour:
   Path: FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639273559803920564
+  lastModified: 639273586276066022
   FileSizes:
   - Name: Desktop
-    Value: 374304
+    Value: 375488
   Exists: 1
 --- !u!114 &-221897351488348745
 MonoBehaviour:
@@ -43,7 +67,8 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: -2261330913358694559}
   MinDistance: 1
   MaxDistance: 20
   Length: 2000
@@ -70,7 +95,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 2148562624459162936}
   cacheVersion: 132096
-  cacheTime: 639273559803930742
+  cacheTime: 639273586276081145
   SerializableEventsDict:
   - key: event:/Thunder
     index: 0
@@ -89,8 +114,8 @@ MonoBehaviour:
   Path: FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639273559803930742
+  lastModified: 639273586276081145
   FileSizes:
   - Name: Desktop
-    Value: 922
+    Value: 978
   Exists: 1
