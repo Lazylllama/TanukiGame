@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639272579265325311
+  lastModified: 639272728064995227
   FileSizes:
   - Name: Desktop
     Value: 1090
@@ -42,7 +42,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 2148562624459162936}
   cacheVersion: 132096
-  cacheTime: 639272579265340663
+  cacheTime: 639272728065000394
   SerializableEventsDict: []
 --- !u!114 &2148562624459162936
 MonoBehaviour:
@@ -59,7 +59,7 @@ MonoBehaviour:
   Path: FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639272579265340663
+  lastModified: 639272728065000394
   FileSizes:
   - Name: Desktop
     Value: 736
