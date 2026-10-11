@@ -15,11 +15,38 @@ MonoBehaviour:
   Path: FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639272702791170527
+  lastModified: 639273559803920564
   FileSizes:
   - Name: Desktop
-    Value: 1694
+    Value: 374304
   Exists: 1
+--- !u!114 &-221897351488348745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Thunder
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Thunder
+  Guid:
+    Data1: 1361888988
+    Data2: 1083549866
+    Data3: -1332063870
+    Data4: -1151429930
+  Banks:
+  - {fileID: -1778674113655136987}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,15 +62,18 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: 2148562624459162936}
   - {fileID: -1778674113655136987}
-  EditorEvents: []
+  EditorEvents:
+  - {fileID: -221897351488348745}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1778674113655136987}
   StringsBanks:
   - {fileID: 2148562624459162936}
   cacheVersion: 132096
-  cacheTime: 639272702791180776
-  SerializableEventsDict: []
+  cacheTime: 639273559803930742
+  SerializableEventsDict:
+  - key: event:/Thunder
+    index: 0
 --- !u!114 &2148562624459162936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,8 +89,8 @@ MonoBehaviour:
   Path: FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639272702791180776
+  lastModified: 639273559803930742
   FileSizes:
   - Name: Desktop
-    Value: 878
+    Value: 922
   Exists: 1

@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using FMODUnity;
 
 public class LightningController : MonoBehaviour {
 
 	
 	[SerializeField] private SpriteRenderer flashRenderer;
+	[SerializeField] private EventReference thunderSound;
 	
 	private Material thunderMat;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
