@@ -109,14 +109,14 @@ Assets/Hierarchy Designer/Editor/Scripts*
 Build/*
 
 # Never ignore DLLs in the FMOD subfolder.
-!/[Aa]ssets/Plugins/FMOD/**/lib/*
+!/Packages/com.fmod.fmod-for-unity.v204/**/lib/*
 
 # Don't ignore images and gizmos used by FMOD in the Unity Editor.
 !/[Aa]ssets/Gizmos/FMOD/*
 !/[Aa]ssets/Editor Default Resources/FMOD/*
 
 # Ignore the Cache folder since it is updated locally.
-/[Aa]ssets/Plugins/FMOD/Cache/*
+/Packages/com.fmod.fmod-for-unity.v204/Cache/*
 
 # Ignore bank files in the StreamingAssets folder.
 /[Aa]ssets/StreamingAssets/**/*.bank
