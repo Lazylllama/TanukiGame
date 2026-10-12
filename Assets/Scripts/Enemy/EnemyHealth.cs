@@ -1,4 +1,5 @@
 using System;
+using Logic;
 using UnityEngine;
 
 namespace Enemy {
@@ -8,7 +9,7 @@ namespace Enemy {
 
 		private SpriteRenderer[] spriteRenderers;
 
-		//? Private floats
+		public  bool  IsDead => currentEnemyHealth <= 0;
 		private float currentEnemyHealth;
 
 		private void Awake() {
@@ -17,7 +18,7 @@ namespace Enemy {
 		}
 
 		public void ChangeHealth(float amount) {
-			Debug.Log("ChangeHealth");
+			if (IsDead) return;
 			currentEnemyHealth += amount;
 
 			foreach (var renderer in spriteRenderers) {
@@ -25,7 +26,11 @@ namespace Enemy {
 				LeanTween.value(renderer.gameObject, Color.red, Color.white, 0.15f);
 			}
 
-			if (currentEnemyHealth <= 0) Destroy(gameObject);
+			if (currentEnemyHealth <= 0) {
+				GameManager.Instance.OnEnemyDeath(maxEnemyHealth);
+				Destroy(gameObject);
+			}
+
 			if (currentEnemyHealth > maxEnemyHealth) currentEnemyHealth = maxEnemyHealth;
 		}
 	}

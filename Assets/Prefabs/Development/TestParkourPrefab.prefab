@@ -13906,6 +13906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   playerSpawnPoint: {fileID: 352393243903758830}
+  roomDoor: {fileID: 5672622306575339127}
 --- !u!1 &5014170619687424800
 GameObject:
   m_ObjectHideFlags: 0

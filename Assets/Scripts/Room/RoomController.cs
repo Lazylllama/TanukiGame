@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Data.Rooms;
+using Enemy;
 using Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -35,7 +37,10 @@ namespace Room {
 			PlayerController.Instance.transform.position = selectedRoomRefs.playerSpawnPoint.transform.position;
 		}
 
-		public void UnlockEscape() => Debug.Log("unlock escape");
-		public void EscapeRoom()   => Debug.Log("escape ze room");
+		public void OnEnemyDeath() {
+			if (FindObjectsByType<EnemyHealth>().All(enemy => enemy.IsDead)) UnlockEscape();
+		}
+
+		public void UnlockEscape() => selectedRoomRefs.roomDoor.UnlockDoor();
 	}
 }

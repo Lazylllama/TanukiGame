@@ -1,6 +1,7 @@
 using System;
 using Player;
 using RNG;
+using Room;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,7 @@ namespace Logic {
 		[SerializeField] private RngTables rngTables;
 		[SerializeField] public  int       defaultHearts           = 3;
 		[SerializeField] public  float     invulnerabilityDuration = 0.5f;
+		[SerializeField] private int       xpPerEnemyHealth        = 10;
 
 		// state
 		public  bool  inRoom;
@@ -46,9 +48,8 @@ namespace Logic {
 		}
 
 		private void FixedUpdate() {
-			if (invulnerabilityTimer > 0) {
+			if (invulnerabilityTimer > 0)
 				invulnerabilityTimer -= Time.fixedDeltaTime;
-			}
 		}
 
 		#endregion
@@ -69,7 +70,9 @@ namespace Logic {
 		public void DamagePlayer(float damage) {
 			if (IsInvulnerable) return;
 			playerHealth -= damage;
+
 			GameUIManager.Instance.UpdateHeartsUI();
+
 			invulnerabilityTimer = invulnerabilityDuration;
 			if (playerHealth <= 0) LooseGame();
 		}
@@ -88,7 +91,9 @@ namespace Logic {
 		#endregion
 
 		//? handlers
-		public void OnEnemyDeath() {
+		public void OnEnemyDeath(float enemyMaxHealth) {
+			Progression.AddXp(Mathf.RoundToInt(PlayerStats.Get(Stat.XpGain, xpPerEnemyHealth * enemyMaxHealth)));
+			if (RoomController.Instance) RoomController.Instance.OnEnemyDeath();
 		}
 
 		private void OnStatsChangedHandler(Stat stat) {

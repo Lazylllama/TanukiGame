@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using Logic;
 using UI.Settings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,6 +49,7 @@ namespace UI {
 
 			LoadOptionsScreen(settingsPage);
 			ShowScreen(startScreen);
+			UpdateExpUI();
 		}
 
 		private void LoadOptionsScreen(SettingsPage page) {
@@ -121,6 +123,23 @@ namespace UI {
 
 		private void HandleOnStart() {
 			SceneManager.LoadScene($"LoadingScreen");
+		}
+
+		private void UpdateExpUI() {
+			var xp     = SaveSystem.Data.totalXp;
+			var level  = Progression.Level;
+			var start  = Progression.XpForLevel(level);
+			var end    = Progression.XpForLevel(level + 1);
+			var points = Progression.SkillPoints;
+
+			startScreen.Q<Label>("ExpLabel").text         = $"{xp - start}/{end - start}";
+			startScreen.Q<Label>("LevelLabel").text       = level.ToString();
+			startScreen.Q<Label>("SkillPointsLabel").text = points > 0 ? $"{points} skill points available" : "";
+
+			var bar = startScreen.Q<ProgressBar>("ExpBar");
+			bar.lowValue  = 0;
+			bar.highValue = end - start;
+			bar.value     = xp  - start;
 		}
 
 		#endregion

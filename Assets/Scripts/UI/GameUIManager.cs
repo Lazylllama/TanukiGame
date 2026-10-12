@@ -14,7 +14,6 @@ namespace UI {
 		[SerializeField] private Image[] heartBorderImages;
 		[SerializeField] private Image[] heartFillImages;
 
-
 		private CardUpgradeManager cardUpgradeManager;
 
 		#endregion
@@ -41,11 +40,13 @@ namespace UI {
 
 		public void ShowCardUI() {
 			cardUpgradeManager.RollAllCards();
+			PlayerController.Instance.MovementDisabled = true;
 		}
 
 		public void HideCardUI() {
 			cardUpgradeManager.HideCards();
 			PlayerController.Instance.MovementDisabled = false;
+			GameManager.Instance.LoadFirstRoom();
 		}
 
 		public void UpdateHeartsUI() {
