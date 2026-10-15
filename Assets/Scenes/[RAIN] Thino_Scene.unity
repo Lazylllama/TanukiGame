@@ -244,11 +244,11 @@ MonoBehaviour:
   flashRenderer: {fileID: 1411732184}
   thunderSound:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1361888988
+      Data2: 1083549866
+      Data3: -1332063870
+      Data4: -1151429930
+    Path: event:/Thunder
 --- !u!212 &222130967
 SpriteRenderer:
   serializedVersion: 3
