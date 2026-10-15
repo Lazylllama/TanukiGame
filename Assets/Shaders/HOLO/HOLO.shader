@@ -7,6 +7,7 @@ Shader "Custom/HOLO"
         _MaskLow("Mask Low", Range(0, 1)) = 0.0
         _MaskHigh("Mask High", Range(0, 1)) = 0.375
         _Point("Point", float) = 0.5
+        _Tilt("Tilt", Vector) = (0, 0, 0, 0)
     }
 
     SubShader
@@ -41,6 +42,7 @@ Shader "Custom/HOLO"
             SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
+                vector _Tilt;
                 float4 _MainTex_ST;
                 float  _HoloStrength;
                 float  _MaskLow;
@@ -68,8 +70,8 @@ Shader "Custom/HOLO"
                 float brightness = dot(color.rgb, float3(0.299, 0.587, 0.114));
                 float mask = smoothstep(_MaskLow, _MaskHigh, brightness);
                 
-                float diagonal = IN.uv.x + IN.uv.y + (_Time.y * 0.1) % 2.0;
-                float dist = abs(diagonal - _Point - (_Time.y * 0.1) % 2.0);
+                float diagonal = IN.uv.x + IN.uv.y - (_Tilt.x + _Tilt.y) * 0.5;
+                float dist = abs(((IN.uv.x + IN.uv.y) - ((_Tilt.x + _Tilt.y + 2.0) / 4.0) * 2.2 + 0.1 ));
                 float glow = 1 - smoothstep(0, 0.1, dist);
                 float3 rainBow = 0.5 + 0.5 * cos(6.28318 * (diagonal + float3(0, 0.33, 0.67)));
                 
@@ -77,6 +79,7 @@ Shader "Custom/HOLO"
                 
                 color.rgb += glow;
                 
+                //return half4(_Tilt.xy, 0.0, 1.0);
                 //return half4(mask.xxx, color.a);
                 
                 return color;
