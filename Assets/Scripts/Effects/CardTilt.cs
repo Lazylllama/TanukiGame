@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class CardTilt : MonoBehaviour {
-	[SerializeField] private float tiltAmount = 8.0f;
+	[SerializeField] private float  tiltAmount = 8.0f;
+	[SerializeField] private Camera cardCamera;
 	
 	private RectTransform rectTransform;
 	private Material mat;
@@ -16,13 +17,15 @@ public class CardTilt : MonoBehaviour {
 	    rectTransform = GetComponent<RectTransform>();
         mat = new Material(GetComponent<Image>().material);
         GetComponent<Image>().material = mat;
+        
+        mat.SetFloat("_Aspect", rectTransform.rect.width / rectTransform.rect.height);
     }
 
     // Update is called once per frame
     void Update()
     {
 	    var mousePos = Mouse.current.position.ReadValue();
-	    RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mousePos, Camera.main, out var localPos);
+	    RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mousePos, cardCamera, out var localPos);
 	    localPos.x /= rectTransform.sizeDelta.x / 2.0f;
 	    localPos.y /= rectTransform.sizeDelta.y / 2.0f;
 
