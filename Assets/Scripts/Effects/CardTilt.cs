@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class CardTilt : MonoBehaviour {
+	[SerializeField] private float tiltAmount = 8.0f;
+	
 	private RectTransform rectTransform;
 	private Material mat;
 	private Vector2  currentMouse;
@@ -20,7 +22,7 @@ public class CardTilt : MonoBehaviour {
     void Update()
     {
 	    var mousePos = Mouse.current.position.ReadValue();
-	    RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mousePos, null, out Vector2 localPos);
+	    RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, mousePos, Camera.main, out var localPos);
 	    localPos.x /= rectTransform.sizeDelta.x / 2.0f;
 	    localPos.y /= rectTransform.sizeDelta.y / 2.0f;
 
@@ -33,10 +35,12 @@ public class CardTilt : MonoBehaviour {
 		    firstFrame = false;
 	    } else {
 		    currentMouse = isOnCard ? Vector2.Lerp(currentMouse, localPos, t) : Vector2.Lerp(currentMouse, Vector2.zero, t);
+		    var rot = transform.rotation;
+		    rot.y              = -currentMouse.x * tiltAmount;
+		    rot.x              = currentMouse.y * tiltAmount;
+		    transform.rotation = Quaternion.Euler(new Vector3(rot.x, rot.y, 0.0f));
 	    }
-	    
-	    
-	    
+
 	    mat.SetVector("_Tilt", currentMouse);
 	    Debug.Log(localPos + " " + currentMouse + " " + t + " "  + isOnCard);
     }

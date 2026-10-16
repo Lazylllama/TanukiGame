@@ -187,8 +187,8 @@ Canvas:
   m_GameObject: {fileID: 404006063}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1419925386}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -362,7 +362,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -460,6 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3bbe39d2a2a5844bed6b426aba07a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  tiltAmount: 8
 --- !u!1001 &1636075954
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -495,7 +496,7 @@ PrefabInstance:
     - target: {fileID: 6731613372520773745, guid: ee645c5f645988f4994790b110f5a791, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 2100000, guid: cf2a3f8e5a8261f45aa32b7ce81210e7, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7150273747733556747, guid: ee645c5f645988f4994790b110f5a791, type: 3}
       propertyPath: m_Name
       value: UpgradeCard

@@ -17,6 +17,7 @@ Shader "Custom/HOLO"
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite off
             HLSLPROGRAM
 
             #pragma vertex vert
