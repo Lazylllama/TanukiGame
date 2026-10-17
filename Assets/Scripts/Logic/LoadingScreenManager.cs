@@ -21,7 +21,7 @@ namespace Logic {
 			         .setEase(amount >= 1 ? LeanTweenType.easeOutCubic : LeanTweenType.easeSpring)
 			         .setOnUpdate(val => { logoFillImage.fillAmount = val; });
 		}
-		
+
 
 		private IEnumerator StartLoading() {
 			var op = SceneManager.LoadSceneAsync(sceneToLoad);

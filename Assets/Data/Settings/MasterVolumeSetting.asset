@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d2f8c4a74ab8c4699d1abaf884272d, type: 3}
   m_Name: MasterVolumeSetting
   m_EditorClassIdentifier: Assembly-CSharp::UI.Settings.SliderSettings
-  id: MasVol
+  id: MasterVolume
   label: Master Volume
   description: Affects the volume of everything.
   defaultValue: 5

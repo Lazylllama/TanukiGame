@@ -5,10 +5,31 @@ using UnityEngine;
 
 namespace Logic {
 	[Serializable]
+	public struct IntSetting {
+		public string id;
+		public int    value;
+	}
+
+	[Serializable]
+	public struct BoolSetting {
+		public string id;
+		public bool   value;
+	}
+
+	[Serializable]
+	public struct StringSetting {
+		public string id;
+		public string value;
+	}
+
+	[Serializable]
 	public class SaveData {
-		public int          totalXp;
-		public List<string> unlockedSkills = new();
-		public bool         TutorialCompleted;
+		public int                 totalXp;
+		public List<string>        unlockedSkills = new();
+		public List<IntSetting>    intSettings    = new();
+		public List<BoolSetting>   boolSettings   = new();
+		public List<StringSetting> stringSettings = new();
+		public bool                tutorialCompleted;
 	}
 
 	public static class SaveSystem {
