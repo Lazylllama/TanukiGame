@@ -7,7 +7,7 @@ Shader "Custom/SpriteUnlitHLSL"
         _Ref1Tint ("Reflection Tint (A = strength)", Color) = (1,0.4,0.4,0.6)
         _OffsetWorld ("Offset (percent of distance from center)", Float) = 0.5
         _BlurWorld   ("Blur (world units)", Float) = 0.02
-    }
+    }   
 
     SubShader
     {

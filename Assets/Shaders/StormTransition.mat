@@ -41,8 +41,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EdgeAmount: 0.188
+    - _EdgeSoftness: 0.01
     - _EnableExternalAlpha: 0
-    - _Progress: 0.135
+    - _Progress: 0.549
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.8773585, g: 0.3600481, b: 0.3600481, a: 1}

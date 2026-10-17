@@ -2,11 +2,11 @@ Shader "Custom/StormTransition"
 {
     Properties
     {
-        [MainTexture] _MainTex ("Sprite Texture", 2D) = "white" {} // SpriteRenderer wants this, not used
-        _Color ("Color", Color) = (1, 1, 1, 1)
-        _Progress ("Progress", Range(0,1)) = 0
-        _EdgeAmount ("Edge wobble", Range(0,0.5)) = 0.15
-        _EdgeSoftness ("Edge softness", Range(0,0.1)) = 0.01
+        [MainTexture] _MainTex ("Sprite Texture", 2D) = "white" {} //? SpriteRenderer wants this, not used
+        _Color ("Color", Color) = (1, 1, 1, 1) //? transition color
+        _Progress ("Progress", Range(0,1)) = 0 //? less value = less fill
+        _EdgeAmount ("Edge wobble", Range(0,0.5)) = 0.15 //? how drastic the wobble is
+        _EdgeSoftness ("Edge softness", Range(0,0.1)) = 0.01 //? basically how much to fade out the edges
     }
 
     SubShader
@@ -81,7 +81,8 @@ Shader "Custom/StormTransition"
             {
                 float2 uv = IN.uv;
 
-                float offset = (wobble(uv.y, _Time.y) - 0.5) * _EdgeAmount;
+                //? first 0.5 is half speed, second is to retract it so you cant see it at 0% progress
+                float offset = (wobble(uv.y, _Time.y * 0.5) - 0.5) * _EdgeAmount;
 
                 float margin = _EdgeAmount * 0.5 + _EdgeSoftness;
                 float edge = lerp(-margin, 1 + margin, _Progress) + offset;
