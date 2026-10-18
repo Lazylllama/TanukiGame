@@ -639,6 +639,30 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6623577260490844222, guid: d85d3e4930af3ba41a10f358fb9ff0bc, type: 3}
   m_PrefabInstance: {fileID: 469256645}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &638685098 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2167482947795282202, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
+  m_PrefabInstance: {fileID: 4031720703594700218}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &638685103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638685098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82067651ab6720444b05e1e0e77d5fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardUpgradeManager
+  cardBackgrounds: {fileID: 11400000, guid: f7bf1abf0b1a6204cac92a2c68230129, type: 2}
+  cardUpgrades:
+  - {fileID: 11400000, guid: 732b13fc8f36b6d4ab9bde43ae469eb4, type: 2}
+  - {fileID: 11400000, guid: ac4c548a2a4bada45b81d58a597f52d7, type: 2}
+  - {fileID: 11400000, guid: 064726763d624e34097b08a52d2bd5be, type: 2}
+  - {fileID: 11400000, guid: 0c3b5cfe7599c6947af0dbeaab028d99, type: 2}
+  - {fileID: 11400000, guid: db3ad6cde0c0e8d49b1b9f2023b4e94d, type: 2}
 --- !u!1 &753230094
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,6 +852,143 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.5, y: 2.3}
   m_EdgeRadius: 0
+--- !u!1 &903344002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903344006}
+  - component: {fileID: 903344005}
+  - component: {fileID: 903344004}
+  - component: {fileID: 903344003}
+  m_Layer: 0
+  m_Name: cardcamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &903344003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903344002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
+--- !u!81 &903344004
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903344002}
+  m_Enabled: 1
+--- !u!20 &903344005
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903344002}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 2340.2964
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 32
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &903344006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903344002}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 998.2665, y: 599.162, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1030131400 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4212467576766030725, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
@@ -2322,6 +2483,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2872481086835485597, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
+      propertyPath: cardCamera
+      value: 
+      objectReference: {fileID: 903344005}
     - target: {fileID: 2909481316188610385, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2382,6 +2547,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5348918678778558910, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
+      propertyPath: cardCamera
+      value: 
+      objectReference: {fileID: 903344005}
     - target: {fileID: 5645014177005940914, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2466,10 +2635,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8844914771922590902, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
+      propertyPath: cardCamera
+      value: 
+      objectReference: {fileID: 903344005}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2167482947795282202, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 638685103}
   m_SourcePrefab: {fileID: 100100000, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
 --- !u!1001 &6022699144942455902
 PrefabInstance:
@@ -2555,3 +2731,4 @@ SceneRoots:
   - {fileID: 469256645}
   - {fileID: 309858346}
   - {fileID: 1398568100}
+  - {fileID: 903344006}
