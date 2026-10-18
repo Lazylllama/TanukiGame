@@ -74,10 +74,20 @@ namespace Logic {
 			TweenProgress(true, coverTime);
 			yield return new WaitForSecondsRealtime(coverTime);
 
-			onScreenCovered.Invoke();
-			yield return SceneManager.LoadSceneAsync(sceneName);
+			var loadScene = SceneManager.LoadSceneAsync(sceneName);
 
-			yield return new WaitForSecondsRealtime(holdTime);
+			if (loadScene != null) {
+				loadScene.allowSceneActivation = false;
+
+				yield return new WaitForSecondsRealtime(holdTime);
+
+				while (loadScene.progress < 0.9f) yield return null;
+
+				onScreenCovered.Invoke();
+
+				loadScene.allowSceneActivation = true;
+				yield return loadScene;
+			}
 
 			TweenProgress(false, coverTime);
 			yield return new WaitForSecondsRealtime(coverTime);

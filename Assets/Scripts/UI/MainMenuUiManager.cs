@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Logic;
@@ -21,6 +22,8 @@ namespace UI {
 		private TemplateContainer startScreen;
 		private TemplateContainer optionsScreen;
 		private VisualElement     optionsContainer;
+
+		private bool isLoading;
 
 		#endregion
 
@@ -121,8 +124,22 @@ namespace UI {
 
 		#region Functions
 
-		private void HandleOnStart() {
-			SceneManager.LoadScene($"LoadingScreen");
+		private IEnumerator HandleOnStart() {
+			if (isLoading) yield break;
+			isLoading = true;
+			var load = SceneManager.LoadSceneAsync($"LoadingScreen");
+
+			if (load == null) {
+				isLoading = false;
+				yield break;
+			}
+
+			load.allowSceneActivation = false;
+			while (load.progress < 0.9f) yield return null;
+			load.allowSceneActivation = true;
+			yield return load;
+
+			isLoading = false;
 		}
 
 		private void UpdateExpUI() {
@@ -146,7 +163,7 @@ namespace UI {
 
 		#region Actions
 
-		private void OnStart()   => HandleOnStart();
+		private void OnStart()   => StartCoroutine(HandleOnStart());
 		private void OnOptions() => ShowScreen(optionsScreen);
 		private void OnBack()    => ShowScreen(startScreen);
 		private void OnExit()    => Application.Quit();

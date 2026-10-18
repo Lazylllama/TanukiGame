@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player {
+	// DO NOT REMOVE OR ADD, THEESE ARE SAVED AS INDEX INTS CAUSE ENUM DUM DUM 
 	public enum Stat {
 		HealthBoost, // literally just to get the stat modified call
 		XpGain,
