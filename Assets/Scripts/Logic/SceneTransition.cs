@@ -100,14 +100,17 @@ namespace Logic {
 				yield return null; // render frame
 
 				loadScene.allowSceneActivation = true;
-				yield return loadScene;
+
+				var followObject = FindAnyObjectByType<CameraFollowObject>();
+				if (followObject) followObject.FlingCamera();
+
+
+				TweenProgress(false, coverTime);
+				yield return new WaitForSecondsRealtime(coverTime);
+
+				busy = false;
+				if (PlayerController.Instance) PlayerController.Instance.MovementDisabled = false;
 			}
-
-			TweenProgress(false, coverTime);
-			yield return new WaitForSecondsRealtime(coverTime);
-
-			busy = false;
-			if (PlayerController.Instance) PlayerController.Instance.MovementDisabled = false;
 		}
 
 		private void TestTransition()        => TransitionToScene("PreGameScene", () => { });

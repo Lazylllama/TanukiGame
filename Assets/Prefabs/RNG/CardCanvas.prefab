@@ -213,6 +213,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 064726763d624e34097b08a52d2bd5be, type: 2}
   - {fileID: 11400000, guid: 0c3b5cfe7599c6947af0dbeaab028d99, type: 2}
   - {fileID: 11400000, guid: db3ad6cde0c0e8d49b1b9f2023b4e94d, type: 2}
+  holographicCardMaterial: {fileID: 2100000, guid: cf2a3f8e5a8261f45aa32b7ce81210e7, type: 2}
+  normalCardMaterial: {fileID: 0}
 --- !u!114 &215263850401299236
 MonoBehaviour:
   m_ObjectHideFlags: 0

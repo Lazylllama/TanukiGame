@@ -71,20 +71,16 @@ namespace Cards {
 			var refs             = card.GetComponent<UpgradeCardRefs>();
 			var randUpgrade      = Random.Range(0, upgradesWithType.Length);
 
-			bool IsHolographic() {
-				var oneInChance = upgradesWithType[randUpgrade].OneInEveryHolo;
-				if (oneInChance < 1) return false;
-
-				return Random.Range(1, oneInChance + 1) == 1;
-			}
+			var oneInChance   = upgradesWithType[randUpgrade].OneInEveryHolo;
+			var IsHolographic = oneInChance >= 1 && Random.Range(1, oneInChance + 1) == 1;
 
 			refs.cardName.text         = upgradesWithType[randUpgrade].CardName;
 			refs.cardImage.sprite      = upgradesWithType[randUpgrade].CardImage;
 			refs.cardDescription.text  = upgradesWithType[randUpgrade].CardDescription;
 			refs.cardBackground.sprite = bg.cardBackgroundImage;
 
-			refs.cardBackground.material = IsHolographic() ? holographicCardMaterial : normalCardMaterial;
-			refs.cardImage.material      = IsHolographic() ? holographicCardMaterial : normalCardMaterial;
+			refs.cardBackground.material = IsHolographic ? holographicCardMaterial : normalCardMaterial;
+			refs.cardImage.material      = IsHolographic ? holographicCardMaterial : normalCardMaterial;
 
 			refs.cardName.color        = bg.titleColor;
 			refs.cardDescription.color = bg.descriptionColor;

@@ -26,10 +26,7 @@ namespace Logic {
 		private IEnumerator StartLoading() {
 			var op = SceneManager.LoadSceneAsync(sceneToLoad);
 
-			if (op == null) {
-				Debug.Log("well shit");
-				yield break;
-			}
+			if (op == null) yield break;
 
 			op.allowSceneActivation = false;
 
@@ -40,9 +37,11 @@ namespace Logic {
 
 			SetLogoFillAmount(1f);
 			yield return new WaitForSeconds(tweenDuration);
-			yield return new WaitForSeconds((float)(Time.timeSinceLevelLoad < videoPlayer.clip.length
-				                                        ? videoPlayer.clip.length - Time.timeSinceLevelLoad
-				                                        : 0f));
+
+			var whatRemains = Time.timeSinceLevelLoad < videoPlayer.clip.length
+				                  ? videoPlayer.clip.length - Time.timeSinceLevelLoad
+				                  : 0f;
+			yield return new WaitForSeconds((float)(whatRemains));
 
 			op.allowSceneActivation = true;
 		}

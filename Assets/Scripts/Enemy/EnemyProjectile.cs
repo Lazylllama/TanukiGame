@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Enemy {
 	public class EnemyProjectile : MonoBehaviour {
-		[SerializeField] private float timeToLive = 5f;
+		[SerializeField] private float timeToLive = 2f;
 		[SerializeField] private float damage     = 1f;
 		[SerializeField] private float speed      = 5f;
 

@@ -61,15 +61,14 @@ namespace Logic {
 
 	public static class Progression {
 		//? Make higher = more xp need for level up
-		private const float XpScale = 100f;
+		private const float XpScale = 500f;
 
 		public static int Level       => LevelFromXp(SaveSystem.Data.totalXp);
 		public static int SkillPoints => Level - 1 - SaveSystem.Data.unlockedSkills.Count;
 
-		public static int LevelFromXp(float xp)    => Mathf.FloorToInt(Mathf.Sqrt(xp / XpScale)) + 1;
-		public static int XpForLevel(int    level) => Mathf.RoundToInt(XpScale * (level - 1) * (level - 1));
-
-		public static bool HasSkill(string id) => SaveSystem.Data.unlockedSkills.Contains(id);
+		public static int  LevelFromXp(float xp)    => Mathf.FloorToInt(Mathf.Sqrt(xp / XpScale)) + 1;
+		public static int  XpForLevel(int    level) => Mathf.RoundToInt(XpScale * (level - 1) * (level - 1));
+		public static bool HasSkill(string   id)    => SaveSystem.Data.unlockedSkills.Contains(id);
 
 		public static void AddXp(float xp) {
 			SaveSystem.Data.totalXp += Mathf.RoundToInt(xp);

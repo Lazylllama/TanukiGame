@@ -23,6 +23,7 @@ namespace Logic {
 
 		// state
 		public  bool  inRoom;
+		public  float roomTimeLeft;
 		public  float playerHealth;
 		private float invulnerabilityTimer;
 
@@ -50,6 +51,11 @@ namespace Logic {
 		private void FixedUpdate() {
 			if (invulnerabilityTimer > 0)
 				invulnerabilityTimer -= Time.fixedDeltaTime;
+
+			if (roomTimeLeft > 0) {
+				roomTimeLeft -= Time.deltaTime;
+				if (GameUIManager.Instance) GameUIManager.Instance.UpdateTimerUI(roomTimeLeft);
+			}
 		}
 
 		#endregion
@@ -99,12 +105,11 @@ namespace Logic {
 		}
 
 		private void OnStatsChangedHandler(Stat stat) {
+			print($"PlayerStats changed: {stat}");
 			switch (stat) {
 				case Stat.ExtraHearts: {
 					//? If they gain the extra heart, increase the health
 					playerHealth = Mathf.Min(playerHealth + 1, MaxHearts);
-
-					if (GameUIManager.Instance != null) GameUIManager.Instance.UpdateHeartsUI();
 				}
 					break;
 				case Stat.HealthBoost: {
@@ -120,6 +125,10 @@ namespace Logic {
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(stat), stat, null);
+			}
+
+			if (GameUIManager.Instance != null) {
+				GameUIManager.Instance.UpdateHeartsUI();
 			}
 		}
 	}
