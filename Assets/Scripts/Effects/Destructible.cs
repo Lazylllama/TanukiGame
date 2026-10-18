@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
-
 using Piece = System.Collections.Generic.List<UnityEngine.Vector2>;
 
 namespace Effects {
@@ -23,8 +22,8 @@ namespace Effects {
 		private Vector2[]      seeds;
 
 		private          List<List<Piece>> rubberBandPoints, physicsShapePoints;
-		private readonly Piece       physicsShapeList = new List<Vector2>();
-		private          List<Vector2>       rubberBandList;
+		private readonly Piece             physicsShapeList = new List<Vector2>();
+		private          List<Vector2>     rubberBandList;
 
 
 		private List<SpriteRenderer> shardRenderers = new List<SpriteRenderer>();
@@ -36,16 +35,16 @@ namespace Effects {
 		#region Unity Functions
 
 		private void Start() {
-			isRunning       = true;
+			isRunning      = true;
 			spriteRenderer = GetComponent<SpriteRenderer>();
-			seeds           = new Vector2[seedCount];
+			seeds          = new Vector2[seedCount];
 
-    		// More accurate bounds for irregular shapes.
+			// More accurate bounds for irregular shapes.
 			spriteRenderer.sprite.GetPhysicsShape(0, physicsShapeList);
-			
+
 			// Remove concave points from the shape since the triangulation algorithm only works with convex shapes.
 			rubberBandList = RubberBand(physicsShapeList, GetLeftmostPoint(physicsShapeList));
-			
+
 			// Generate random seed points within the bounds of the sprite.
 			for (int i = 0; i < seedCount; i++) {
 				var tries = 0;
@@ -58,26 +57,26 @@ namespace Effects {
 				}
 			}
 
-			rubberBandPoints = GenShards(rubberBandList);
+			rubberBandPoints   = GenShards(rubberBandList);
 			physicsShapePoints = GenShards(physicsShapeList);
 		}
-		
+
 
 		private void OnMouseDown() {
 			// Get the mouse position in screen space,
 			var mouseScreenPos = Mouse.current.position.ReadValue();
 
 			if (Camera.main == null) return;
-			
+
 			// Convert the mouse position to world space and set z to 0.
 			var mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
 			mouseWorldPos.z = 0;
-			
+
 			// Get the direction from the click point to the center of the object and use as the explosion direction.
 			var dir = (transform.position - mouseWorldPos).normalized * 10.0f;
 			Shatter(dir);
 		}
-		
+
 		/*
 		private void OnDrawGizmos() {
 			if (!isRunning || !debug) return;
@@ -107,11 +106,11 @@ namespace Effects {
 			}
 		}
 		*/
-		
+
 		#endregion
 
 		#region Private Functions
-	
+
 		/// <summary>
 		/// Cuts the polygon which is defined by the list of vertices, with the line defined by points A and B.
 		/// </summary>
@@ -122,9 +121,9 @@ namespace Effects {
 		private List<Piece> Cut(Piece points, Vector2 A, Vector2 B) {
 			// Indexes for entry and exit, used to make multiple polygons if there's a gap in the mesh.
 			List<int> eIndex = new List<int>(), xIndex = new List<int>();
-			
-			var mid    = (A + B) / 2;
-			var	along = new Vector2(-(B - A).y, (B - A).x);
+
+			var mid             = (A + B) / 2;
+			var along           = new Vector2(-(B - A).y, (B - A).x);
 			var cutPointOutline = new Piece();
 			for (int i = 0; i < points.Count; i++) {
 				if (Vector2.Dot(points[i] - mid, B - A) <= 0) {
@@ -143,7 +142,7 @@ namespace Effects {
 
 			eIndex = eIndex.OrderBy(e => Vector2.Dot(cutPointOutline[e], along)).ToList();
 			xIndex = xIndex.OrderBy(e => Vector2.Dot(cutPointOutline[e], along)).ToList();
-			
+
 			var mango = new int[cutPointOutline.Count];
 
 			for (int i = 0; i < cutPointOutline.Count; i++) {
@@ -161,7 +160,7 @@ namespace Effects {
 				if (visited[i]) continue;
 				var temp = new Piece { cutPointOutline[i] };
 				visited[i] = true;
-				var  current        = i;
+				var current        = i;
 				var completedPiece = false;
 				while (!completedPiece) {
 					current = mango[current];
@@ -169,12 +168,14 @@ namespace Effects {
 						completedPiece = true;
 						continue;
 					}
+
 					temp.Add(cutPointOutline[current]);
 					visited[current] = true;
 				}
+
 				result.Add(temp);
 			}
-			
+
 			return result;
 		}
 
@@ -272,28 +273,28 @@ namespace Effects {
 				if (child == spriteRenderer) continue;
 				Destroy(child.gameObject);
 			}
-			
+
 			int a = 0;
 			foreach (var pieces in rubberBandPoints) {
 				if (pieces.Count == 0 || physicsShapePoints[a].Count == 0) {
 					a++;
 					continue;
 				}
-				
+
 				var shard = pieces[0];
-				
+
 				// Skip shards that don't have enough points to form a triangle.
 				if (shard.Count < 3) {
 					a++;
 					continue;
 				}
-				
+
 				// transform all points to make them work when making sprites.
 				var vertices = new Piece(shard);
 				for (int i = 0; i < vertices.Count; i++) {
 					vertices[i] = vertices[i] * spriteRenderer.sprite.pixelsPerUnit + spriteRenderer.sprite.pivot;
 				}
-				
+
 				// Triangle fanning to make a sprite out of triangles.
 				List<ushort> triangles = new List<ushort>();
 				for (int i = 1; i <= vertices.Count - 2; i++) {
@@ -322,7 +323,7 @@ namespace Effects {
 				var sprite = Sprite.Create(spriteRenderer.sprite.texture, spriteRenderer.sprite.rect,
 				                           spriteRenderer.sprite.pivot / spriteRenderer.sprite.rect.size,
 				                           spriteRenderer.sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect
-				                           );
+				                          );
 				sprite.OverrideGeometry(vertices.ToArray(), triangles.ToArray());
 				renderer.sprite = sprite;
 				if (debug) renderer.color = Color.HSVToRGB(Mathf.Repeat(seeds[a].x * 43176.1746f, 1f), 1f, 1f);
@@ -330,37 +331,40 @@ namespace Effects {
 				for (int i = 0; i < physicsShapePoints[a].Count; i++) {
 					collider.SetPath(i, physicsShapePoints[a][i]);
 				}
-				
+
 				obj.transform.SetParent(transform, false);
 				collider.sharedMaterial = shardMat;
-				
+
 				// Make the shards explode from the center.
 				var dir = (new Vector3(pos.x, pos.y, 0) - transform.position).normalized;
 				rigidbody.AddForce((dir + forceDir).normalized * explosionForce, ForceMode2D.Impulse);
 				a++;
-				
+
 				// Make the shards disappear after a few seconds.
 				shardRenderers.Add(renderer);
 			}
-			
-			LeanTween.value(gameObject, 1, 0, fadeTime).setDelay(fadeDelay).setDestroyOnComplete(true).setOnUpdate(e => {foreach
-				(var renderer in shardRenderers) {
-				var col = renderer.color;
-				col.a = e;
-				renderer.color = col;
-			}});
-			
+
+			LeanTween.value(gameObject, 1, 0, fadeTime).setDelay(fadeDelay).setDestroyOnComplete(true)
+			         .setOnUpdate(e => {
+				                      foreach
+					                      (var renderer in shardRenderers) {
+					                      var col = renderer.color;
+					                      col.a          = e;
+					                      renderer.color = col;
+				                      }
+			                      });
+
 			// Disable the collider and spriteRenderer so they don't collide
-			if(gameObject.GetComponent<Collider2D>() != null) 
+			if (gameObject.GetComponent<Collider2D>() != null)
 				gameObject.GetComponent<Collider2D>().enabled = false;
-			spriteRenderer.enabled                          = false;
+			spriteRenderer.enabled = false;
 		}
 
-		
+
 		// Generate a list of shards
 		private List<List<Piece>> GenShards(Piece points) {
-			var           result = new List<List<Piece>>();
-			var           list   = new Piece(points);
+			var result = new List<List<Piece>>();
+			var list   = new Piece(points);
 			for (int i = 0; i < seeds.Length; i++) {
 				var copy = new List<Piece> { list };
 				for (int j = 0; j < seeds.Length; j++) {
@@ -369,6 +373,7 @@ namespace Effects {
 					foreach (var piece in copy) {
 						temp.AddRange(Cut(piece, seeds[i], seeds[j]));
 					}
+
 					copy = temp;
 				}
 

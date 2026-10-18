@@ -8,11 +8,11 @@ using UnityEngine.SceneManagement;
 
 namespace Logic {
 	public class SceneTransition : MonoBehaviour {
-		[SerializeField] private RawImage       transitionImage;
-		[SerializeField] private float          coverTime       = 1f;
-		[SerializeField] private float          holdTime        = 0.5f;
-		[SerializeField] private float          flashTime       = 0.2f;
-		[SerializeField] private bool           enableTestKeys;
+		[SerializeField] private RawImage transitionImage;
+		[SerializeField] private float    coverTime = 1f;
+		[SerializeField] private float    holdTime  = 0.5f;
+		[SerializeField] private float    flashTime = 0.2f;
+		[SerializeField] private bool     enableTestKeys;
 
 		public static SceneTransition Instance;
 
@@ -78,7 +78,7 @@ namespace Logic {
 			         .setOnUpdate(value => mat.SetFloat(FlashStrengthPropId, value))
 			         .setIgnoreTimeScale(true);
 		}
-		
+
 		private IEnumerator TransitionCoroutine(string sceneName, Action onScreenCovered) {
 			if (PlayerController.Instance) PlayerController.Instance.MovementDisabled = true;
 			busy = true;
