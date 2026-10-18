@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Effects.Destructible
   debug: 0
   shardMat: {fileID: 6200000, guid: 2c17c1252c4240841b916aa9a5192200, type: 2}
-  explosionForce: 3
+  explosionForce: 5
   fadeTime: 2
   fadeDelay: 2
   seedCount: 15

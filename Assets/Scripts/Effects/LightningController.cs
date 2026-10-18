@@ -13,7 +13,7 @@ public class LightningController : MonoBehaviour {
     void Start()
     {
         thunderMat = GetComponent<SpriteRenderer>().material;
-        
+        thunderMat.SetFloat("_Width", transform.localScale.x);
     }
 
     [ContextMenu("Strike")]

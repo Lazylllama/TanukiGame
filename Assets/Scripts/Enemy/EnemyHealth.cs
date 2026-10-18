@@ -33,7 +33,7 @@ namespace Enemy {
 				if (GetComponentInChildren<Destructible>() != null) {
 					var dest =  GetComponentInChildren<Destructible>();
 					dest.gameObject.transform.parent = null;
-					dest.Shatter(transform.position - PlayerController.Instance.transform.position);
+					dest.Shatter((transform.position - PlayerController.Instance.transform.position).normalized);
 				}
 				Destroy(gameObject);
 			}

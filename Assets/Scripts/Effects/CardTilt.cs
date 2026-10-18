@@ -15,7 +15,6 @@ public class CardTilt : MonoBehaviour {
 	private                  Vector2       currentMouse;
 	private                  bool          firstFrame = true;
 	private                  Vector3       startScale;
-	private                  bool          showingBackSide;
 	
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,6 +34,7 @@ public class CardTilt : MonoBehaviour {
     }
 
     private void Flip() {
+	    LeanTween.cancel(gameObject);
 	    backImage.SetActive(true);
 	    
 	    LeanTween.value(gameObject, 0f, 90f, 0.25f).setOnUpdate(e => flipAngle = e).setOnComplete(() => {

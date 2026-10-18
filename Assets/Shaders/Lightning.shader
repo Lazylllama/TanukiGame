@@ -7,6 +7,7 @@ Shader "Custom/Lightning"
         _Flash ("Flash", float) = 1.0
         _Seed ("seed", float) = 1.0
         _Reveal ("Reveal", Range(0, 1)) = 1
+        _Width("Width", Float) = 1
     }
 
     SubShader
@@ -51,6 +52,7 @@ Shader "Custom/Lightning"
                 float  _Flash;
                 float  _Seed;
                 float  _Reveal;
+                float  _Width;
             CBUFFER_END
 
             Varyings vert (Attributes IN)
@@ -108,28 +110,45 @@ Shader "Custom/Lightning"
                 return sum;
             }
             
-            half4 frag (Varyings IN) : SV_Target
+            float lightning(float2 uv, float offset, float seed)
             {
-                float2 uv = IN.uv;
+                float x = uv.x - offset;
                 
-                float sum = octaves_sum(uv.y, 3, _Seed);
+                float sum = octaves_sum(uv.y, 3, seed);
+                float brightness = bolt_intensity(abs(x - sum));
                 
-                float brightness = bolt_intensity(abs(uv.x - sum));
-                
-                for (int i = 1; i <= 10; i++)
+                 for (int i = 1; i <= 10; i++)
                 {
-                    float start_y = 0.3 + hash(_Seed * i + 14 * i + 4) * 0.5;
-                    float start_x = octaves_sum(start_y,3, _Seed);
-                    float branch = octaves_sum(uv.y, 3, _Seed * 3 + i * 17 + 1);
-                    float branch_start = octaves_sum(start_y, 3, _Seed * 3 + i * 17 + 1);
+                    float start_y = 0.3 + hash(seed * i + 14 * i + 4) * 0.5;
+                    float start_x = octaves_sum(start_y,3, seed);
+                    float branch = octaves_sum(uv.y, 3, seed * 3 + i * 17 + 1);
+                    float branch_start = octaves_sum(start_y, 3, seed * 3 + i * 17 + 1);
                     float below = start_y - uv.y;
-                    float branch_x = start_x + below * (hash(_Seed + 5 * i + 17) * 6.0 - 3.0) - branch_start + branch;
-                    float branch_fade = 1 - smoothstep(0, 0.05 + hash(_Seed + 3 * 14 + 3 * i) * 0.15, below);
-                    float branch_brightness = bolt_intensity(abs(uv.x - branch_x) * 2.0) * branch_fade * step(0.0, below);
+                    float branch_x = start_x + below * (hash(seed + 5 * i + 17) * 6.0 - 3.0) - branch_start + branch;
+                    float branch_fade = 1 - smoothstep(0, 0.05 + hash(seed + 3 * 14 + 3 * i) * 0.15, below);
+                    float branch_brightness = bolt_intensity(abs(x - branch_x) * 2.0) * branch_fade * step(0.0, below);
                     brightness = max(brightness, branch_brightness * 0.6);
                 }
                 
-                brightness *= max(_Flash, 0.0) * step(1 - _Reveal, uv.y);
+                float boltReveal = saturate(_Reveal * 1.5 - hash(seed * 13 + 12) * 0.5);
+                
+                brightness *= max(_Flash, 0.0) * smoothstep(1 - boltReveal -0.04, 1 - boltReveal, uv.y);
+                
+                return brightness;
+            }
+            
+            half4 frag (Varyings IN) : SV_Target
+            {
+                float2 uv = IN.uv;
+                uv.x = (uv.x - 0.5) * _Width + 0.5;
+                
+                float brightness = 0;
+                
+                for (int i = 0; i < 3; i++)
+                {
+                    if (i > 0 && hash(_Seed * 12 + i * 2) > 0.3) continue;
+                    brightness = max(lightning(uv, (hash(_Seed + i * 13) - 0.5) * 2.0, _Seed + i * 13), brightness);
+                }
 
                 half3 col = _Color.rgb * brightness * IN.color.rgb;
                 return half4(col, brightness);
