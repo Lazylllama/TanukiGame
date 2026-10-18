@@ -38,6 +38,7 @@ namespace UI {
 
 		#region Public Functions
 
+		[ContextMenu("Show Card UI")]
 		public void ShowCardUI() {
 			cardUpgradeManager.RollAllCards();
 		}

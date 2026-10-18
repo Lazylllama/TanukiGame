@@ -10,6 +10,8 @@ Shader "Custom/HOLO"
         _Tilt("Tilt", Vector) = (0, 0, 0, 0)
         _Aspect("Aspect Ratio", float) = 1.0
         _SparkleStrength("Sparkle Strength", float) = 4.0
+        _FlakeCount("Flake Count", int) = 30
+        _GlowWidth("Glow Width", Float) = 0.4
     }
 
     SubShader
@@ -53,6 +55,8 @@ Shader "Custom/HOLO"
                 float  _Point;
                 float  _Aspect;
                 float  _SparkleStrength;
+                float  _GlowWidth;
+                int    _FlakeCount;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -125,12 +129,12 @@ Shader "Custom/HOLO"
                 float diagonal = IN.uv.x + IN.uv.y - (_Tilt.x + _Tilt.y) * 0.5;
                 float dist = abs(((IN.uv.x + IN.uv.y) - ((_Tilt.x + _Tilt.y + 2.0) / 4.0) * 2.2 + 0.1 ));
                 
-                float3 voro = voronoi(IN.uv, 30);
+                float3 voro = voronoi(IN.uv, _FlakeCount);
                 
                 float favoriteTilt = distance(hash2(voro.xy) * 2.0 - 1.0, _Tilt.xy);
                 float colorShift = hash2(voro.xy * 3 + 15).x;
                 
-                float glow = 1 - smoothstep(0, 0.4, favoriteTilt);
+                float glow = 1 - smoothstep(0, _GlowWidth, favoriteTilt);
                 float3 rainBow = 0.5 + 0.5 * cos(6.28318 * (diagonal + float3(0, 0.33, 0.67)));
                 
                 color.rgb = lerp(color.rgb,  screen(color.rgb, rainBow), _HoloStrength * mask);

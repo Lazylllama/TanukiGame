@@ -114,6 +114,19 @@ Shader "Custom/Lightning"
                 
                 float brightness = bolt_intensity(abs(uv.x - sum));
                 
+                for (int i = 1; i <= 10; i++)
+                {
+                    float start_y = 0.3 + hash(_Seed * i + 14 * i + 4) * 0.5;
+                    float start_x = octaves_sum(start_y,3, _Seed);
+                    float branch = octaves_sum(uv.y, 3, _Seed * 3 + i * 17 + 1);
+                    float branch_start = octaves_sum(start_y, 3, _Seed * 3 + i * 17 + 1);
+                    float below = start_y - uv.y;
+                    float branch_x = start_x + below * (hash(_Seed + 5 * i + 17) * 6.0 - 3.0) - branch_start + branch;
+                    float branch_fade = 1 - smoothstep(0, 0.24, below);
+                    float branch_brightness = bolt_intensity(abs(uv.x - branch_x)) * branch_fade * step(0.0, below);
+                    brightness = max(brightness, branch_brightness);
+                }
+                
                 brightness *= max(_Flash, 0.0);
 
                 half3 col = _Color.rgb * brightness * IN.color.rgb;
