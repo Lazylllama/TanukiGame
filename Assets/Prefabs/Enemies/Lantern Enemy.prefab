@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 760077360841188530}
   - component: {fileID: 9011887576885901405}
+  - component: {fileID: 9131046805681910693}
   m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
@@ -92,6 +93,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &9131046805681910693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2837138750729046150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd26da8935eae7141af11750c91d5948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Effects.Destructible
+  debug: 0
+  shardMat: {fileID: 6200000, guid: 2c17c1252c4240841b916aa9a5192200, type: 2}
+  explosionForce: 3
+  fadeTime: 2
+  fadeDelay: 2
+  seedCount: 15
 --- !u!1 &2947608490742940785
 GameObject:
   m_ObjectHideFlags: 0

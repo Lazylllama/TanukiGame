@@ -34,6 +34,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Aspect: 1
+    - _Dissolve: 0
+    - _FlakeCount: 30
+    - _GlowWidth: 0.4
     - _HoloStrength: 1
     - _MaskHigh: 0.375
     - _MaskLow: 0

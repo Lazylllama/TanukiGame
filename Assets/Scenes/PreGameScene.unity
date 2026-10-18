@@ -459,6 +459,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 3.58}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &402329380 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4843457879877849910, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 499162622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &435525074
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,6 +744,26 @@ PrefabInstance:
       propertyPath: cardCamera
       value: 
       objectReference: {fileID: 1424120716}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: fakeCards.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: selectableCards.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'selectableCards.Array.data[0]'
+      value: 
+      objectReference: {fileID: 402329380}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'selectableCards.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1227809359}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'selectableCards.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2125033453}
     - target: {fileID: 6022518704955394011, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardCamera
       value: 
@@ -948,6 +973,11 @@ BoxCollider2D:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4212467576766030725, guid: 8b9a4603831eb624aae0ff397026f440, type: 3}
   m_PrefabInstance: {fileID: 2841414791467691585}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1227809359 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8025919553576087845, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 499162622}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1398568097
 GameObject:
@@ -2228,6 +2258,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeepOnLoad
   checkForDuplicates: 1
+--- !u!1 &2125033453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4726429661899786780, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 499162622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2841414791467691585
 PrefabInstance:
   m_ObjectHideFlags: 0

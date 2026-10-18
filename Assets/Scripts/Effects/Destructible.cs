@@ -266,7 +266,7 @@ namespace Effects {
 			return crossing;
 		}
 
-		private void Shatter(Vector3 forceDir = new Vector3()) {
+		public void Shatter(Vector3 forceDir = new Vector3()) {
 			// Clean up old shards in case the function is called multiple times.
 			foreach (var child in gameObject.GetComponentsInChildren<SpriteRenderer>()) {
 				if (child == spriteRenderer) continue;
@@ -351,7 +351,8 @@ namespace Effects {
 			}});
 			
 			// Disable the collider and spriteRenderer so they don't collide
-			gameObject.GetComponent<Collider2D>().enabled = false;
+			if(gameObject.GetComponent<Collider2D>() != null) 
+				gameObject.GetComponent<Collider2D>().enabled = false;
 			spriteRenderer.enabled                          = false;
 		}
 
