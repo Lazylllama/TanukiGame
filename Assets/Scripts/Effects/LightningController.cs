@@ -30,6 +30,13 @@ public class LightningController : MonoBehaviour {
 	    transform.localPosition = new Vector3(x, 0, 10.0f);
 	    thunderMat.SetFloat("_Seed", Random.Range(0, 100.0f));
 	    
+	    thunderMat.SetFloat("_Reveal", 0.0f);
+	    thunderMat.SetFloat("_Flash", 0.3f);
+	    
+	    LeanTween.value(gameObject, 0.0f, 1.0f, 0.12f).setOnUpdate(e => thunderMat.SetFloat("_Reveal", e));
+	    
+	    yield return new WaitForSeconds(0.12f);
+	    
 	    float dist = Random.Range(300.0f, 3000.0f);
 	    StartCoroutine(PlayThunderSound(dist));
 	    
