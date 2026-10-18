@@ -6,6 +6,7 @@ Shader "Custom/Lightning"
         [HDR] _Color ("Color", Color) = (1, 1, 1, 1)
         _Flash ("Flash", float) = 1.0
         _Seed ("seed", float) = 1.0
+        _Reveal ("Reveal", Range(0, 1)) = 1
     }
 
     SubShader
@@ -49,6 +50,7 @@ Shader "Custom/Lightning"
                 float4 _Color;
                 float  _Flash;
                 float  _Seed;
+                float  _Reveal;
             CBUFFER_END
 
             Varyings vert (Attributes IN)
@@ -122,12 +124,12 @@ Shader "Custom/Lightning"
                     float branch_start = octaves_sum(start_y, 3, _Seed * 3 + i * 17 + 1);
                     float below = start_y - uv.y;
                     float branch_x = start_x + below * (hash(_Seed + 5 * i + 17) * 6.0 - 3.0) - branch_start + branch;
-                    float branch_fade = 1 - smoothstep(0, 0.24, below);
-                    float branch_brightness = bolt_intensity(abs(uv.x - branch_x)) * branch_fade * step(0.0, below);
-                    brightness = max(brightness, branch_brightness);
+                    float branch_fade = 1 - smoothstep(0, 0.05 + hash(_Seed + 3 * 14 + 3 * i) * 0.15, below);
+                    float branch_brightness = bolt_intensity(abs(uv.x - branch_x) * 2.0) * branch_fade * step(0.0, below);
+                    brightness = max(brightness, branch_brightness * 0.6);
                 }
                 
-                brightness *= max(_Flash, 0.0);
+                brightness *= max(_Flash, 0.0) * step(1 - _Reveal, uv.y);
 
                 half3 col = _Color.rgb * brightness * IN.color.rgb;
                 return half4(col, brightness);

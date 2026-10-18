@@ -30,7 +30,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _Flash: 1
-    - _Seed: 1
+    - _Reveal: 1
+    - _Seed: 316.8
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

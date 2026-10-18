@@ -119,6 +119,21 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &217386136 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4726429661899786780, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &566879781 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8025919553576087845, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &754440411 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4843457879877849910, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &836108666
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,6 +579,30 @@ PrefabInstance:
       propertyPath: cardCamera
       value: 
       objectReference: {fileID: 871555024}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: fakeCards.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'fakeCards.Array.data[0]'
+      value: 
+      objectReference: {fileID: 217386136}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: selectableCards.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'selectableCards.Array.data[0]'
+      value: 
+      objectReference: {fileID: 754440411}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'selectableCards.Array.data[1]'
+      value: 
+      objectReference: {fileID: 566879781}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'selectableCards.Array.data[2]'
+      value: 
+      objectReference: {fileID: 217386136}
     - target: {fileID: 6022518704955394011, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardCamera
       value: 
@@ -571,6 +610,10 @@ PrefabInstance:
     - target: {fileID: 7664318218358850908, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_Name
       value: NewCardCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8496566242507783106, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

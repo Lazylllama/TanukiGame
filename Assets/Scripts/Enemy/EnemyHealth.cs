@@ -1,5 +1,7 @@
 using System;
+using Effects;
 using Logic;
+using Player;
 using UnityEngine;
 
 namespace Enemy {
@@ -28,6 +30,11 @@ namespace Enemy {
 
 			if (currentEnemyHealth <= 0) {
 				GameManager.Instance.OnEnemyDeath(maxEnemyHealth);
+				if (GetComponentInChildren<Destructible>() != null) {
+					var dest =  GetComponentInChildren<Destructible>();
+					dest.gameObject.transform.parent = null;
+					dest.Shatter(transform.position - PlayerController.Instance.transform.position);
+				}
 				Destroy(gameObject);
 			}
 

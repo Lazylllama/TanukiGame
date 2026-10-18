@@ -22,7 +22,7 @@ namespace Cards {
 			HideCards();
 
 			if (fakeCards.Length == 0 || selectableCards.Length == 0) {
-				Debug.LogError("missing something arent you");
+				Debug.LogWarning("missing something arent you");
 			}
 		}
 
