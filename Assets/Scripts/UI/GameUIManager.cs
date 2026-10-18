@@ -40,13 +40,11 @@ namespace UI {
 
 		public void ShowCardUI() {
 			cardUpgradeManager.RollAllCards();
-			PlayerController.Instance.MovementDisabled = true;
 		}
 
 		public void HideCardUI() {
 			cardUpgradeManager.HideCards();
-			PlayerController.Instance.MovementDisabled = false;
-			GameManager.Instance.LoadFirstRoom();
+			GameManager.Instance.LoadRoom();
 		}
 
 		public void UpdateHeartsUI() {

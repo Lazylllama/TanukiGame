@@ -26,12 +26,12 @@ namespace Player {
 		[SerializeField] private float groundCheckDistance;
 
 		//? Getters and setters
-		[field: SerializeField] public MovingStates MovingState     { get; set; }
-		public                         bool         IsLookingRight  { get; private set; }
-		public                         bool         GetIsGrounded() => IsGrounded();
-		[field: SerializeField] public bool         KnockbackActive { get;         set; }
-		public                         Vector2      ExtraForce      { private get; set; }
-		public                         Rigidbody2D  PlayerRb        { get;         set; }
+		[field: SerializeField] public MovingStates MovingState      { get; set; }
+		public                         bool         IsLookingRight   { get; private set; }
+		public                         bool         GetIsGrounded()  => IsGrounded();
+		[field: SerializeField] public bool         KnockbackActive  { get;         set; }
+		public                         Vector2      ExtraForce       { private get; set; }
+		public                         Rigidbody2D  PlayerRb         { get;         set; }
 		public                         bool         MovementDisabled { get;         set; }
 
 		//? Private floats
@@ -107,7 +107,7 @@ namespace Player {
 		#endregion
 
 		private void MovementHandler() {
-			if (dashActive || MovementDisabled) return;
+			if (dashActive) return;
 
 			if (MovingState == MovingStates.Knockback) return;
 			PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
@@ -196,16 +196,16 @@ namespace Player {
 		#region Input Callbacks
 
 		private void OnMove(InputValue value) {
-			moveVector = value.Get<Vector2>();
+			moveVector = MovementDisabled ? new Vector2(0, 0) : value.Get<Vector2>();
 			moveVector.Normalize();
 		}
 
 		private void OnJump(InputValue value) {
-			jumpPressed = value.isPressed;
+			jumpPressed = !MovementDisabled && value.isPressed;
 		}
 
 		private void OnDash(InputValue value) {
-			dashPressed = value.isPressed;
+			dashPressed = !MovementDisabled && value.isPressed;
 			if (!dashPressed || dashTimer > 0 || dashCoroutine != null) return;
 			dashTimer     = dashCooldown;
 			dashCoroutine = StartCoroutine(Dash());

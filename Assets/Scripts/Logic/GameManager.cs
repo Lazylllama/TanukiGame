@@ -58,12 +58,15 @@ namespace Logic {
 
 		//? game state
 		private void LooseGame() {
-			PlayerStats  = new PlayerStats();
-			playerHealth = MaxHearts;
+			SceneTransition.Instance.TransitionToScene("PreGameScene",
+			                                           () => {
+				                                           PlayerStats  = new PlayerStats();
+				                                           playerHealth = MaxHearts;
 
-			KeepOnLoad.DestroyAll();
-			SceneManager.LoadScene("PreGameScene");
-			PlayerController.Instance.transform.position = new Vector3(0f, 1f, 0f);
+				                                           KeepOnLoad.DestroyAll();
+				                                           PlayerController.Instance.transform.position =
+					                                           new Vector3(0f, 1f, 0f);
+			                                           });
 		}
 
 		//? player health
@@ -78,9 +81,8 @@ namespace Logic {
 		}
 
 		//? rooms
-		public void LoadFirstRoom() {
-			inRoom = true;
-			SceneManager.LoadScene("RoomScene");
+		public void LoadRoom() {
+			SceneTransition.Instance.TransitionToScene("RoomScene", () => { inRoom = true; });
 		}
 
 		public void FinishRoom() {

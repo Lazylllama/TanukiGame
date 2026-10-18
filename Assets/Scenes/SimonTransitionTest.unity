@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 1562292839}
   - component: {fileID: 1562292838}
   - component: {fileID: 1562292837}
+  - component: {fileID: 1562292841}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -301,6 +302,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1562292841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562292836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0a6b21c33e42f8a0bf5cb1ab7be3a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Logic.SceneTransition
+  transitionImage: {fileID: 1580282582}
+  coverTime: 1
+  holdTime: 123123
+  enableTestKeys: 1
 --- !u!1 &1580282580
 GameObject:
   m_ObjectHideFlags: 0
