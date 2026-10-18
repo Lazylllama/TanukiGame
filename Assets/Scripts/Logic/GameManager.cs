@@ -44,7 +44,7 @@ namespace Logic {
 			PlayerStats.OnStatsChanged += OnStatsChangedHandler;
 
 			playerHealth = MaxHearts;
-			GameUIManager.Instance.UpdateHeartsUI();
+			if (GameUIManager.Instance != null) GameUIManager.Instance.UpdateHeartsUI();
 		}
 
 		private void FixedUpdate() {
@@ -87,7 +87,7 @@ namespace Logic {
 
 		public void FinishRoom() {
 			inRoom = false;
-			GameUIManager.Instance.ShowCardUI();
+			GameUIManager.Instance.ShowCardUI(LoadRoom);
 		}
 
 		#endregion
@@ -104,7 +104,7 @@ namespace Logic {
 					//? If they gain the extra heart, increase the health
 					playerHealth = Mathf.Min(playerHealth + 1, MaxHearts);
 
-					GameUIManager.Instance.UpdateHeartsUI();
+					if (GameUIManager.Instance != null) GameUIManager.Instance.UpdateHeartsUI();
 				}
 					break;
 				case Stat.HealthBoost: {

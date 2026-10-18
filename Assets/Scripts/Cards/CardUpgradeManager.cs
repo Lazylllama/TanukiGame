@@ -33,6 +33,7 @@ namespace Cards {
 		/// <summary>
 		/// Rolls all cards in the game.
 		/// </summary>
+		[ContextMenu("Roll All Cards")]
 		public void RollAllCards() {
 			foreach (var card in fakeCards)
 				RollCardWithLuck(card, 10f);

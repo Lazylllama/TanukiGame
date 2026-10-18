@@ -15,6 +15,7 @@ namespace UI {
 		[SerializeField] private Image[] heartFillImages;
 
 		private CardUpgradeManager cardUpgradeManager;
+		private Action             onCardUpgrade;
 
 		#endregion
 
@@ -39,13 +40,15 @@ namespace UI {
 		#region Public Functions
 
 		[ContextMenu("Show Card UI")]
-		public void ShowCardUI() {
+		public void ShowCardUI(Action callAction = null) {
 			cardUpgradeManager.RollAllCards();
+			onCardUpgrade = callAction;
 		}
 
 		public void HideCardUI() {
 			cardUpgradeManager.HideCards();
-			GameManager.Instance.LoadRoom();
+			onCardUpgrade?.Invoke();
+			onCardUpgrade = null;
 		}
 
 		public void UpdateHeartsUI() {
