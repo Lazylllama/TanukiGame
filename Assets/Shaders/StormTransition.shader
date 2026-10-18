@@ -69,7 +69,7 @@ Shader "Custom/StormTransition"
 
             float hash1D(float n) { return frac(sin(n * 127.1) * 43758.5453); }
             float hash2D(float2 p) { return frac(sin(dot(p, float2(127.1, 311.7))) * 43758.5453); }
-
+            
             float noise1D(float x)
             {
                 float i = floor(x);
@@ -78,6 +78,7 @@ Shader "Custom/StormTransition"
                 return lerp(hash1D(i), hash1D(i + 1.0), f);
             }
 
+            //? perlin noise
             float noise2D(float2 p)
             {
                 float2 i = floor(p);
