@@ -21,7 +21,7 @@ namespace Room {
 		private void OnTriggerEnter2D(Collider2D other) {
 			print($"{isUnlocked} {other.CompareTag("Player")} {GameManager.Instance.inRoom}");
 			if (!other.CompareTag("Player") || !isUnlocked) return;
-			if (!GameManager.Instance.inRoom) GameManager.Instance.LoadFirstRoom();
+			if (!GameManager.Instance.inRoom) GameManager.Instance.LoadRoom();
 			else GameManager.Instance.FinishRoom();
 		}
 	}

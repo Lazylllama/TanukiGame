@@ -8,8 +8,8 @@ namespace Cards {
 	public class CardUpgradeManager : MonoBehaviour {
 		#region Fields
 
-		private GameObject[] fakeCards;
-		private GameObject[] selectableCards;
+		[SerializeField] private GameObject[] fakeCards;
+		[SerializeField] private GameObject[] selectableCards;
 
 		[SerializeField] private CardBackgrounds cardBackgrounds;
 		[SerializeField] private CardData[]      cardUpgrades;
@@ -18,13 +18,12 @@ namespace Cards {
 
 		#region Unity Functions
 
-		private void Awake() {
-			fakeCards       = GameObject.FindGameObjectsWithTag("FakeUpgradeCard");
-			selectableCards = GameObject.FindGameObjectsWithTag("UpgradeCard");
-		}
-
 		private void Start() {
 			HideCards();
+
+			if (fakeCards.Length == 0 || selectableCards.Length == 0) {
+				Debug.LogError("missing something arent you");
+			}
 		}
 
 		#endregion
