@@ -119,6 +119,21 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &68206195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 243284433989950403, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &563250698 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5474347635465692499, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &670077175 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 978444901162226883, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &836108666
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,10 +213,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &846393090 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8713307299438357322, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!20 &871555024 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7337584391983255008, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
   m_PrefabInstance: {fileID: 4093669746414633918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &902100649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1761471907561631557, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &983054589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4398683525088988407, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1240613242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9086683674117309807, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1419925384
 GameObject:
@@ -341,6 +376,16 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1937240119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5059007179452968421, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2138628278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2661790031037722071, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+  m_PrefabInstance: {fileID: 5396934192648797371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4093669746414633918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408,7 +453,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 243284433989950403, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 386777255441286213, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardUIHandler
@@ -418,6 +463,10 @@ PrefabInstance:
       propertyPath: cardCamera
       value: 
       objectReference: {fileID: 871555024}
+    - target: {fileID: 1218046647966570295, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1642914051965957030, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -512,12 +561,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2661790031037722071, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3185652203282250355, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 871555024}
+    - target: {fileID: 3996835750565945635, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4157300510551488095, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardCamera
       value: 
@@ -530,30 +583,58 @@ PrefabInstance:
       propertyPath: cardCamera
       value: 
       objectReference: {fileID: 871555024}
+    - target: {fileID: 5547361367802876330, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694239133949847712, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: 33847962e0cad2e48809cd452f7b524a, type: 2}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: fakeCards.Array.size
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'fakeCards.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1937240119}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'fakeCards.Array.data[1]'
+      value: 
+      objectReference: {fileID: 902100649}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'fakeCards.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1240613242}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'fakeCards.Array.data[3]'
+      value: 
+      objectReference: {fileID: 670077175}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'fakeCards.Array.data[4]'
+      value: 
+      objectReference: {fileID: 563250698}
+    - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: 'fakeCards.Array.data[5]'
+      value: 
+      objectReference: {fileID: 983054589}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: selectableCards.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'selectableCards.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 68206195}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'selectableCards.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 846393090}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'selectableCards.Array.data[2]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2138628278}
     - target: {fileID: 6022518704955394011, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardCamera
       value: 
@@ -576,17 +657,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8713307299438357322, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9139396737218802892, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardUIHandler
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
-    - {fileID: 8623015611447580962, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
-    - {fileID: 873883280652773803, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
-    - {fileID: 5781453185328394038, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

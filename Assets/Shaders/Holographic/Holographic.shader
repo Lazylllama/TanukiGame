@@ -171,7 +171,7 @@ Shader "Custom/HOLO"
 
                 float3 shiftedRainBow = 0.5 + 0.5 * cos(6.28318 * (diagonal + colorShift + float3(0, 0.33, 0.67)));
 
-                color.rgb += (glow * _SparkleStrength) * shiftedRainBow * mask;
+                color.rgb += (glow * _SparkleStrength * _HoloStrength) * shiftedRainBow * mask;
                 
                 float burnEdge = smoothstep(1 - _Burn - _GlowThickness, 1 - _Burn, burnNoise);
                 

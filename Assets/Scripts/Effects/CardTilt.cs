@@ -12,6 +12,7 @@ namespace Effects {
 		[SerializeField] private Camera     cardCamera;
 		[SerializeField] private float      flipAngle;
 		[SerializeField] private GameObject backImage;
+		[SerializeField] private CanvasGroup contentGroup;
 
 		private RectTransform rectTransform;
 		private Material      mat;
@@ -32,6 +33,13 @@ namespace Effects {
 
 		private void OnEnable() {
 			Flip();
+		}
+
+		
+		[ContextMenu("Burn")]
+		private void Burn() {
+			LeanTween.value(gameObject, 0f, 1f, 1.0f).setOnUpdate(e => mat.SetFloat("_Burn", e));
+			LeanTween.alphaCanvas(contentGroup, 0f, 0.6f);
 		}
 
 		private void Flip() {
