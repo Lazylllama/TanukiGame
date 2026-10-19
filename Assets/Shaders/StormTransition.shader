@@ -78,7 +78,7 @@ Shader "Custom/StormTransition"
                 return lerp(hash1D(i), hash1D(i + 1.0), f);
             }
 
-            //? perlin noise
+            //? value noise not perlin noise
             float noise2D(float2 p)
             {
                 float2 i = floor(p);

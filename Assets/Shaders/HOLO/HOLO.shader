@@ -3,6 +3,7 @@ Shader "Custom/HOLO"
     Properties
     {
         [MainTexture] _MainTex("Sprite Texture", 2D) = "white" {}
+        _BurnColor("Burn Color", Color) = (0.9, 0.4, 0.2, 1.0)
         _HoloStrength("Holo Strength", Range(0, 1)) = 1.0
         _MaskLow("Mask Low", Range(0, 1)) = 0.0
         _MaskHigh("Mask High", Range(0, 1)) = 0.375
@@ -12,6 +13,8 @@ Shader "Custom/HOLO"
         _SparkleStrength("Sparkle Strength", float) = 4.0
         _FlakeCount("Flake Count", int) = 30
         _GlowWidth("Glow Width", Float) = 0.4
+        _Burn("Burn", Range(0, 1)) = 0
+        _GlowThickness("Glow Thickness", Range(0, 1)) = 0.1
     }
 
     SubShader
@@ -49,6 +52,7 @@ Shader "Custom/HOLO"
             CBUFFER_START(UnityPerMaterial)
                 vector _Tilt;
                 float4 _MainTex_ST;
+                float4 _BurnColor;
                 float  _HoloStrength;
                 float  _MaskLow;
                 float  _MaskHigh;
@@ -56,6 +60,8 @@ Shader "Custom/HOLO"
                 float  _Aspect;
                 float  _SparkleStrength;
                 float  _GlowWidth;
+                float  _Burn;
+                float  _GlowThickness;
                 int    _FlakeCount;
             CBUFFER_END
 
@@ -92,6 +98,20 @@ Shader "Custom/HOLO"
                 return frac(sin(float3(a, b, c)) * 43758.5453);
             }
             
+            float noise2D(float2 p)
+            {
+                float2 i = floor(p);
+                float2 f = frac(p);
+                f = f * f * (3.0 - 2.0 * f);
+
+                float a = hash2(i).x;
+                float b = hash2(i + float2(1.0, 0.0)).x;
+                float c = hash2(i + float2(0.0, 1.0)).x;
+                float d = hash2(i + float2(1.0, 1.0)).x;
+
+                return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y);
+            }
+            
             float3 voronoi(float2 uv, int cells)
             {
                 int2 correctedCells = float2(cells, cells / _Aspect);
@@ -123,6 +143,12 @@ Shader "Custom/HOLO"
             {
                 half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color;
                 
+                float burnNoise = noise2D(float2(IN.uv.x * 10.0 * _Aspect, IN.uv.y * 10.0)) * 0.625;
+                burnNoise += noise2D(float2(IN.uv.x * 17.0 * _Aspect, IN.uv.y * 17.0)) * 0.25;
+                burnNoise += noise2D(float2(IN.uv.x * 29.0 * _Aspect, IN.uv.y * 29.0)) * 0.125;
+                
+                color.a *= step(burnNoise, 1 - _Burn);
+                
                 float brightness = dot(color.rgb, float3(0.299, 0.587, 0.114));
                 float mask = smoothstep(_MaskLow, _MaskHigh, brightness);
                 
@@ -143,7 +169,9 @@ Shader "Custom/HOLO"
                 
                 color.rgb += (glow * _SparkleStrength) * shiftedRainBow * mask;
                 
-               
+                float burnEdge = smoothstep(1 - _Burn - _GlowThickness, 1 - _Burn, burnNoise);
+                
+                color.rgb = lerp(color.rgb, _BurnColor.rgb, burnEdge);
                 
                 //return half4(_Tilt.xy, 0.0, 1.0);
                 //return half4(mask.xxx, color.a);

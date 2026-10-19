@@ -119,21 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &217386136 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4726429661899786780, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
-  m_PrefabInstance: {fileID: 5396934192648797371}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &566879781 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8025919553576087845, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
-  m_PrefabInstance: {fileID: 5396934192648797371}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &754440411 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4843457879877849910, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
-  m_PrefabInstance: {fileID: 5396934192648797371}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &836108666
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,134 +198,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &871555022
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 871555025}
-  - component: {fileID: 871555024}
-  - component: {fileID: 871555023}
-  m_Layer: 0
-  m_Name: CardCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &871555023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871555022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 1
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
-  m_Version: 2
---- !u!20 &871555024
+--- !u!20 &871555024 stripped
 Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 7337584391983255008, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+  m_PrefabInstance: {fileID: 4093669746414633918}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871555022}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 4
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 12.786401
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 32
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &871555025
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871555022}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8702997, y: 5.846965, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1419925384
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +341,63 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1001 &4093669746414633918
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.8702997
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.846965
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4338451227397759340, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8319648020021427081, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
+      propertyPath: m_Name
+      value: CardCamera
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e00688e0f2859ef4e9d8f76cc17c41ca, type: 3}
 --- !u!1001 &5396934192648797371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -487,6 +406,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 243284433989950403, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 386777255441286213, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: cardUIHandler
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1078086068593848560, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardCamera
       value: 
@@ -571,10 +498,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2090343268886919164, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2171140468829519947, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: cardCamera
+      value: 
+      objectReference: {fileID: 871555024}
+    - target: {fileID: 2508181548058079825, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: cardUIHandler
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2661790031037722071, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3185652203282250355, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 871555024}
+    - target: {fileID: 4157300510551488095, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: cardCamera
+      value: 
+      objectReference: {fileID: 871555024}
+    - target: {fileID: 4220618498664399336, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4499799427419231736, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardCamera
       value: 
@@ -586,7 +537,7 @@ PrefabInstance:
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'fakeCards.Array.data[0]'
       value: 
-      objectReference: {fileID: 217386136}
+      objectReference: {fileID: 0}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: selectableCards.Array.size
       value: 2
@@ -594,19 +545,27 @@ PrefabInstance:
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'selectableCards.Array.data[0]'
       value: 
-      objectReference: {fileID: 754440411}
+      objectReference: {fileID: 0}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'selectableCards.Array.data[1]'
       value: 
-      objectReference: {fileID: 566879781}
+      objectReference: {fileID: 0}
     - target: {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: 'selectableCards.Array.data[2]'
       value: 
-      objectReference: {fileID: 217386136}
+      objectReference: {fileID: 0}
     - target: {fileID: 6022518704955394011, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: cardCamera
       value: 
       objectReference: {fileID: 871555024}
+    - target: {fileID: 7325883202659299522, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: cardCamera
+      value: 
+      objectReference: {fileID: 871555024}
+    - target: {fileID: 7388673150922196853, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7664318218358850908, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
       propertyPath: m_Name
       value: NewCardCanvas
@@ -615,7 +574,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8713307299438357322, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9139396737218802892, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+      propertyPath: cardUIHandler
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5969857113912672210, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+    - {fileID: 8623015611447580962, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+    - {fileID: 873883280652773803, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
+    - {fileID: 5781453185328394038, guid: 1bb1676f874c277428ca2406c5790991, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -627,4 +598,4 @@ SceneRoots:
   - {fileID: 1419925387}
   - {fileID: 5396934192648797371}
   - {fileID: 836108669}
-  - {fileID: 871555025}
+  - {fileID: 4093669746414633918}
