@@ -74,7 +74,7 @@ namespace Enemy {
 		#endregion
 
 		#region Functions
-		
+
 		private void Hover() {
 			speedCurve += Time.deltaTime * hoverSpeed;
 
@@ -179,6 +179,7 @@ namespace Enemy {
 		}
 
 		private bool PlayerDetected() {
+			if (!playerTransform || !transform) return false; // idk wierd edge case thing
 			if (!(Vector2.Distance(transform.position, playerTransform.position) < detectionRange)) return false;
 			var hit = Physics2D.Linecast(transform.position, playerTransform.position,
 			                             ~LayerMask.GetMask("Enemy"));

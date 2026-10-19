@@ -19,7 +19,9 @@ namespace Cards {
 		[SerializeField]            private Sprite         cardImage;
 		[SerializeField]            private CardType       cardType;
 		[SerializeField]            private StatModifier[] statModifiers;
+		[SerializeField]            private int            oneInEveryHolo = 100;
 
+		public int            OneInEveryHolo  => oneInEveryHolo;
 		public string         CardName        => cardName;
 		public string         CardDescription => cardDescription;
 		public Sprite         CardImage       => cardImage;

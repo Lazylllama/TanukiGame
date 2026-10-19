@@ -1,6 +1,4 @@
-using System;
 using Enemy;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player {

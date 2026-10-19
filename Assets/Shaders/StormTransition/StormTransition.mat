@@ -41,18 +41,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeAmount: 0.15
-    - _EdgeLean: 0.268
+    - _EdgeAmount: 0.259
+    - _EdgeLean: 0.276
     - _EdgeSoftness: 0.1
     - _EnableExternalAlpha: 0
-    - _Progress: 0.498
-    - _RainColumns: 160.7
-    - _RainSlant: -0.72
+    - _FlashStrength: 0
+    - _Progress: 0
+    - _RainColumns: 190.4
+    - _RainIntensity: 0.35
+    - _RainSlant: -0.62
     - _Reversed: 0
     - _RimWidth: 0.437
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.09433961, g: 0.083214656, b: 0.083214656, a: 1}
+    - _FlashColor: {r: 0.85, g: 0.9, b: 1, a: 1}
     - _RainColor: {r: 0.6, g: 0.65, b: 0.8, a: 0.5}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.2264151, g: 0.2253471, b: 0.2253471, a: 1}

@@ -11,12 +11,14 @@ namespace Logic {
 		[SerializeField] private RawImage transitionImage;
 		[SerializeField] private float    coverTime = 1f;
 		[SerializeField] private float    holdTime  = 0.5f;
+		[SerializeField] private float    flashTime = 0.2f;
 		[SerializeField] private bool     enableTestKeys;
 
 		public static SceneTransition Instance;
 
-		private static readonly int ProgressPropId = Shader.PropertyToID("_Progress");
-		private static readonly int ReversedPropId = Shader.PropertyToID("_Reversed");
+		private static readonly int ProgressPropId      = Shader.PropertyToID("_Progress");
+		private static readonly int ReversedPropId      = Shader.PropertyToID("_Reversed");
+		private static readonly int FlashStrengthPropId = Shader.PropertyToID("_FlashStrength");
 
 		private Material mat;
 		private bool     busy;
@@ -31,7 +33,9 @@ namespace Logic {
 
 			mat                      = new Material(transitionImage.material);
 			transitionImage.material = mat;
-			mat.SetFloat(ProgressPropId, 0f);
+
+			mat.SetFloat(ProgressPropId,      0f);
+			mat.SetFloat(FlashStrengthPropId, 0f);
 
 			DontDestroyOnLoad(gameObject);
 		}
@@ -54,16 +58,24 @@ namespace Logic {
 		private void TweenProgress(bool newState, float duration) {
 			var target = newState ? 1 : 0;
 			var from   = mat.GetFloat(ProgressPropId);
-			if (Mathf.Approximately(from, target)) {
-				busy = false;
-				return;
-			}
+
+			//? if already transitioned, return
+			if (Mathf.Approximately(from, target)) return;
 
 			LeanTween.cancel(gameObject);
 			mat.SetFloat(ReversedPropId, newState ? 0 : 1);
 			LeanTween.value(gameObject, from, target, duration)
 			         .setEase(LeanTweenType.easeInOutSine)
 			         .setOnUpdate(value => mat.SetFloat(ProgressPropId, value))
+			         .setIgnoreTimeScale(true);
+		}
+
+		private void Flash() {
+			mat.SetFloat(FlashStrengthPropId, 0.1f);
+
+			LeanTween.value(transitionImage.gameObject, 0.1f, 0f, flashTime)
+			         .setEase(LeanTweenType.easeOutExpo)
+			         .setOnUpdate(value => mat.SetFloat(FlashStrengthPropId, value))
 			         .setIgnoreTimeScale(true);
 		}
 
@@ -83,17 +95,22 @@ namespace Logic {
 
 				while (loadScene.progress < 0.9f) yield return null;
 
+				Flash();
 				onScreenCovered.Invoke();
+				yield return null; // render frame
 
 				loadScene.allowSceneActivation = true;
-				yield return loadScene;
+
+				var followObject = FindAnyObjectByType<CameraFollowObject>();
+				if (followObject) followObject.FlingCamera();
+
+
+				TweenProgress(false, coverTime);
+				yield return new WaitForSecondsRealtime(coverTime);
+
+				busy = false;
+				if (PlayerController.Instance) PlayerController.Instance.MovementDisabled = false;
 			}
-
-			TweenProgress(false, coverTime);
-			yield return new WaitForSecondsRealtime(coverTime);
-
-			busy = false;
-			if (PlayerController.Instance) PlayerController.Instance.MovementDisabled = false;
 		}
 
 		private void TestTransition()        => TransitionToScene("PreGameScene", () => { });

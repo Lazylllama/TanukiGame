@@ -6,16 +6,16 @@ using UnityEngine;
 public class KeepOnLoad : MonoBehaviour {
 	[SerializeField] private bool checkForDuplicates;
 
-	private static readonly List<GameObject> kept = new();
+	private static readonly List<GameObject> Kept = new();
 
 	private void Awake() {
 		DontDestroyOnLoad(gameObject);
 
-		if (checkForDuplicates) kept.Add(gameObject);
+		if (checkForDuplicates) Kept.Add(gameObject);
 	}
 
 	public static void DestroyAll() {
-		foreach (var gameObject in kept.Where(gameObject => gameObject)) Destroy(gameObject);
-		kept.Clear();
+		foreach (var gameObject in Kept.Where(gameObject => gameObject)) Destroy(gameObject);
+		Kept.Clear();
 	}
 }

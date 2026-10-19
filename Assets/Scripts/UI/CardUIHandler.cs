@@ -13,7 +13,7 @@ namespace UI {
 				GameManager.Instance.PlayerStats.AddStatModifier(modifier);
 			}
 
-			GameUIManager.Instance.HideCardUI();
+			if (GameUIManager.Instance != null) GameUIManager.Instance.HideCardUI();
 		}
 	}
 }

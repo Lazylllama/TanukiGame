@@ -7,7 +7,7 @@ namespace Data.Rooms {
 		public GameObject     levelPrefab;
 		public RoomDifficulty difficulty;
 		public RoomType       type;
-		public int            minuteLimit;
+		public int            secondLimit;
 	}
 
 	public enum RoomDifficulty {

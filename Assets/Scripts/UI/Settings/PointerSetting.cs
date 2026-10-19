@@ -11,7 +11,6 @@ namespace UI.Settings {
 		}
 
 		public override void Step(bool forward = true, int set = -1) {
-			
 		}
 	}
 }

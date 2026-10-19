@@ -14,6 +14,9 @@ namespace Cards {
 		[SerializeField] private CardBackgrounds cardBackgrounds;
 		[SerializeField] private CardData[]      cardUpgrades;
 
+		[SerializeField] private Material holographicCardMaterial;
+		[SerializeField] private Material normalCardMaterial;
+
 		#endregion
 
 		#region Unity Functions
@@ -33,6 +36,7 @@ namespace Cards {
 		/// <summary>
 		/// Rolls all cards in the game.
 		/// </summary>
+		[ContextMenu("Roll All Cards")]
 		public void RollAllCards() {
 			foreach (var card in fakeCards)
 				RollCardWithLuck(card, 10f);
@@ -67,16 +71,23 @@ namespace Cards {
 			var refs             = card.GetComponent<UpgradeCardRefs>();
 			var randUpgrade      = Random.Range(0, upgradesWithType.Length);
 
+			var oneInChance   = upgradesWithType[randUpgrade].OneInEveryHolo;
+			var IsHolographic = oneInChance >= 1 && Random.Range(1, oneInChance + 1) == 1;
+
 			refs.cardName.text         = upgradesWithType[randUpgrade].CardName;
 			refs.cardImage.sprite      = upgradesWithType[randUpgrade].CardImage;
 			refs.cardDescription.text  = upgradesWithType[randUpgrade].CardDescription;
 			refs.cardBackground.sprite = bg.cardBackgroundImage;
+
+			refs.cardBackground.material = IsHolographic ? holographicCardMaterial : normalCardMaterial;
+			refs.cardImage.material      = IsHolographic ? holographicCardMaterial : normalCardMaterial;
 
 			refs.cardName.color        = bg.titleColor;
 			refs.cardDescription.color = bg.descriptionColor;
 
 			if (refs.cardUIHandler != null)
 				refs.cardUIHandler.selectedCard = upgradesWithType[randUpgrade];
+
 
 			card.SetActive(true);
 		}

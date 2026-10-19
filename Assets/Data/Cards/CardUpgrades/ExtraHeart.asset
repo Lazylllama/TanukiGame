@@ -18,5 +18,6 @@ MonoBehaviour:
   cardType: 1
   statModifiers:
   - stat: 5
-    flat: 0
+    flat: 1
     percent: 0
+  oneInEveryHolo: 100

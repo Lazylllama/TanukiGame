@@ -5,13 +5,13 @@ using UnityEngine;
 namespace Logic {
 	public class TutorialManager : MonoBehaviour {
 		private GameObject[] tutorialEnemies;
-		private RoomDoor    roomDoor;
+		private RoomDoor     roomDoor;
 
 		private bool doorUnlocked;
 
 		private void Awake() {
 			tutorialEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-			roomDoor       = FindAnyObjectByType<RoomDoor>();
+			roomDoor        = FindAnyObjectByType<RoomDoor>();
 		}
 
 		private void FixedUpdate() {

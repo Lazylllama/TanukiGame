@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:Data.Rooms:RoomConfigurations
   data:
   - levelPrefab: {fileID: 3933742463068306061, guid: 3fcbfff86930e6d4ea6e3da35f73b314, type: 3}
-    enemies: []
+    difficulty: 0
+    type: 1
+    secondLimit: 323
+  - levelPrefab: {fileID: 3933742463068306061, guid: 2a919e607c20aaa4abb018526341437d, type: 3}
     difficulty: 0
     type: 0
-    playerSpawnPosition: {x: -40, y: 0, z: 0}
-    minuteLimit: 67
+    secondLimit: 232

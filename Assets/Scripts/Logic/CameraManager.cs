@@ -71,7 +71,7 @@ namespace Logic {
 				                        lerpedFromPlayerFall = isPlayerFalling;
 			                        });
 		}
-
+		
 		#endregion
 	}
 }

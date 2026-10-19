@@ -3,20 +3,24 @@ Shader "Custom/StormTransition"
     Properties
     {
         [MainTexture] _MainTex ("Sprite Texture", 2D) = "white" {} //? SpriteRenderer wants this, not used
-        _Color ("Color", Color) = (1, 1, 1, 1) //? transition color
-        _Progress ("Progress", Range(0,1)) = 0 //? less value = less fill
-        _EdgeAmount ("Edge wobble", Range(0,0.5)) = 0.15 //? how drastic the wobble is
-        _EdgeSoftness ("Edge softness", Range(0,0.1)) = 0.01 //? basically how much to fade out the edges
+        [ToggleUI] _Reversed ("Reversed", Float) = 0
+        _Color ("Color", Color) = (1, 1, 1, 1)
+        _Progress ("Progress", Range(0,1)) = 0
+        _EdgeAmount ("Edge wobble", Range(0,0.5)) = 0.15
+        _EdgeSoftness ("Edge softness", Range(0,0.1)) = 0.01
         _EdgeLean ("Edge lean", Range(0,0.5)) = 0.1
 
         _RainColor ("Rain Color", Color) = (0.6, 0.65, 0.8, 0.5)
         _RainColumns ("Rain Columns", Range(10,200)) = 80
         _RainSlant ("Rain Slant", Range(-2,2)) = 0.5
+        _RainIntensity ("Rain Intensity", Range(0,1)) = 0.5
 
         _RimColor ("Rim Color", Color) = (0.2, 0.2, 0.2, 1)
         _RimWidth ("Rim Width", Range(0,0.5)) = 0.1
 
-        [ToggleUI] _Reversed ("Reversed", Float) = 0
+        _FlashColor ("Flash Color", Color) = (0.85, 0.9, 1, 1)
+        _FlashStrength ("Flash Strength", Range(0,0.1)) = 0.1
+
     }
 
     SubShader
@@ -56,20 +60,26 @@ Shader "Custom/StormTransition"
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
                 float _Progress;
+                float _Reversed;
                 float _EdgeAmount;
                 float _EdgeSoftness;
-                float _Reversed;
+                float _EdgeLean;
+
                 float4 _RainColor;
                 float _RainColumns;
                 float _RainSlant;
-                float _EdgeLean;
+                float _RainIntensity;
+
                 float4 _RimColor;
                 float _RimWidth;
+
+                float4 _FlashColor;
+                float _FlashStrength;
             CBUFFER_END
 
             float hash1D(float n) { return frac(sin(n * 127.1) * 43758.5453); }
             float hash2D(float2 p) { return frac(sin(dot(p, float2(127.1, 311.7))) * 43758.5453); }
-            
+
             float noise1D(float x)
             {
                 float i = floor(x);
@@ -122,9 +132,11 @@ Shader "Custom/StormTransition"
                 float y = frac(uv.y * 1.5 + t * (1.5 + rand) + rand * 10);
 
                 float streak = smoothstep(0.0, 0.2, y) * (1.0 - smoothstep(0.02, 0.05 * (rand * 4), y));
+
                 //? fading rain drop
                 float thin = 1.0 - smoothstep(0.05, 0.15, abs(inCol - 0.5));
-                float hasDrop = step(0.75, rand);
+
+                float hasDrop = step(1 - _RainIntensity, rand);
 
                 return streak * thin * hasDrop;
             }
@@ -156,9 +168,10 @@ Shader "Custom/StormTransition"
 
                 float3 storm = 0;
 
-                storm += _Color.rgb * lerp(0.4, 1.4, clouds(noFlipUV, _Time.y)); //? clouds
-                storm += _RainColor.rgb * rain(noFlipUV, _Time.y) * _RainColor.a; //? rain
-                storm = lerp(storm, _RimColor.rgb, rim) ; //? rim + fade rain
+                storm += _Color.rgb * lerp(0.4, 1.4, clouds(noFlipUV, _Time.y)); //? add clouds
+                storm += _RainColor.rgb * rain(noFlipUV, _Time.y) * _RainColor.a; //? add rain
+                storm = lerp(storm, _RimColor.rgb, rim); //? add rim
+                storm = lerp(storm, _FlashColor.rgb, _FlashStrength); //? add flash
 
                 return half4(storm, covered);
             }

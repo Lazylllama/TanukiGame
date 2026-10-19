@@ -21,7 +21,7 @@ namespace Player {
 
 		private void Respawn() {
 			if (!requirePlayerGrounded || PlayerController.Instance.GetIsGrounded()) SetActive(true);
-			else Invoke(nameof(Respawn), 0.2f);
+			else Invoke(nameof(Respawn), 0.05f);
 		}
 
 		private void SetActive(bool isActive) {
