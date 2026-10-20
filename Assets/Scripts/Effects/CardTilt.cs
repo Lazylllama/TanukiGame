@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -7,39 +8,58 @@ namespace Effects {
 		private static readonly int Aspect = Shader.PropertyToID("_Aspect");
 		private static readonly int Tilt   = Shader.PropertyToID("_Tilt");
 
-		[SerializeField] private float      tiltAmount = 8.0f;
-		[SerializeField] private float      hoverScale = 1.08f;
-		[SerializeField] private Camera     cardCamera;
-		[SerializeField] private float      flipAngle;
-		[SerializeField] private GameObject backImage;
+		[SerializeField] private float       burnDuration = 1.0f;
+		[SerializeField] private float       tiltAmount   = 8.0f;
+		[SerializeField] private float       hoverScale   = 1.08f;
+		[SerializeField] private Camera      cardCamera;
+		[SerializeField] private float       flipAngle;
+		[SerializeField] private GameObject  backImage;
 		[SerializeField] private CanvasGroup contentGroup;
 
 		private RectTransform rectTransform;
 		private Material      mat;
+		private Image         image;
 		private Vector2       currentMouse;
 		private Vector3       startScale;
 		private Canvas        canvas;
 		private bool          firstFrame = true;
-
+		
+		private static readonly int           BurnId     = Shader.PropertyToID("_Burn");
+		
+		
+		private void Awake() {
+			rectTransform = GetComponent<RectTransform>();
+			image = GetComponent<Image>();
+		}
 		private void Start() {
 			startScale                     = transform.localScale;
-			rectTransform                  = GetComponent<RectTransform>();
-			mat                            = new Material(GetComponent<Image>().material);
 			canvas                         = GetComponentInParent<Canvas>().rootCanvas;
-			GetComponent<Image>().material = mat;
-
-			mat.SetFloat(Aspect, rectTransform.rect.width / rectTransform.rect.height);
 		}
 
 		private void OnEnable() {
+			RefreshMaterial();
 			Flip();
 		}
 
-		
+		private void RefreshMaterial() {
+			var fresh = new Material(image.material);
+			if (mat != null) Destroy(mat);
+			mat            = fresh;
+			image.material = mat;
+			
+			mat.SetFloat(Aspect, rectTransform.rect.width / rectTransform.rect.height);
+			mat.SetFloat(BurnId, 0f);
+			contentGroup.alpha = 1f;
+		}
+
+
 		[ContextMenu("Burn")]
-		private void Burn() {
-			LeanTween.value(gameObject, 0f, 1f, 1.0f).setOnUpdate(e => mat.SetFloat("_Burn", e));
-			LeanTween.alphaCanvas(contentGroup, 0f, 0.6f);
+		public void Burn() => Burn(null);
+		private void Burn(Action onDone) {
+			LeanTween.value(gameObject, 0f, 1f, burnDuration)
+			         .setOnUpdate(e => mat.SetFloat("_Burn", e))
+			         .setOnComplete(onDone);
+			LeanTween.alphaCanvas(contentGroup, 0f, burnDuration * 0.6f);
 		}
 
 		private void Flip() {
