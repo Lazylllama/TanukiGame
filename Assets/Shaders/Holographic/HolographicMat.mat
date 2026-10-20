@@ -34,8 +34,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _Aspect: 1
+    - _Burn: 0.379
     - _Dissolve: 0
     - _FlakeCount: 30
+    - _GlowThickness: 0.082
     - _GlowWidth: 0.4
     - _HoloStrength: 1
     - _MaskHigh: 0.375
@@ -44,6 +46,7 @@ Material:
     - _SparkleStrength: 4.16
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BurnColor: {r: 0.9, g: 0.39999998, b: 0.19999996, a: 1}
     - _Tilt: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

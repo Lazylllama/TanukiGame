@@ -13,16 +13,16 @@ namespace Effects {
 		[SerializeField] private float       hoverScale   = 1.08f;
 		[SerializeField] private Camera      cardCamera;
 		[SerializeField] private float       flipAngle;
-		[SerializeField] private GameObject  backImage;
+		[SerializeField] private GameObject  backImage, icon;
 		[SerializeField] private CanvasGroup contentGroup;
 
-		private RectTransform rectTransform;
-		private Material      mat;
-		private Image         image;
-		private Vector2       currentMouse;
-		private Vector3       startScale;
-		private Canvas        canvas;
-		private bool          firstFrame = true;
+		private RectTransform rectTransform, iconRectTransform;
+		private Material      mat,   iconMat;
+		private Image         image, iconImage;
+		private Vector2 currentMouse;
+		private Vector3 startScale;
+		private Canvas  canvas;
+		private bool    firstFrame = true;
 		
 		private static readonly int           BurnId     = Shader.PropertyToID("_Burn");
 		
@@ -30,6 +30,9 @@ namespace Effects {
 		private void Awake() {
 			rectTransform = GetComponent<RectTransform>();
 			image = GetComponent<Image>();
+			
+			iconRectTransform = icon.GetComponent<RectTransform>();
+			iconImage = icon.GetComponent<Image>();
 		}
 		private void Start() {
 			startScale                     = transform.localScale;
@@ -49,15 +52,23 @@ namespace Effects {
 			
 			mat.SetFloat(Aspect, rectTransform.rect.width / rectTransform.rect.height);
 			mat.SetFloat(BurnId, 0f);
+			
+			var imageFresh = new Material(iconImage.material);
+			if (iconMat != null) Destroy(iconMat);
+			iconMat = imageFresh;
+			iconImage.material = iconMat;
+			
+			iconMat.SetFloat(Aspect, iconRectTransform.rect.width / iconRectTransform.rect.height);
+			iconMat.SetFloat(BurnId, 0f);
+			
 			contentGroup.alpha = 1f;
 		}
 
 
-		[ContextMenu("Burn")]
-		public void Burn() => Burn(null);
-		private void Burn(Action onDone) {
+	
+		public void Burn(Action onDone) {
 			LeanTween.value(gameObject, 0f, 1f, burnDuration)
-			         .setOnUpdate(e => mat.SetFloat("_Burn", e))
+			         .setOnUpdate(e => mat.SetFloat(BurnId, e))
 			         .setOnComplete(onDone);
 			LeanTween.alphaCanvas(contentGroup, 0f, burnDuration * 0.6f);
 		}
@@ -71,8 +82,11 @@ namespace Effects {
 							 LeanTween.value(gameObject, -90f, 0f, 0.25f).setOnUpdate(e => flipAngle = e);
 						 });
 		}
-		
-		private void OnDestroy() => Destroy(mat);
+
+		private void OnDestroy() {
+			Destroy(mat);
+			Destroy(iconMat);
+		}
 
 		// Update is called once per frame
 		private void Update() {
@@ -109,6 +123,7 @@ namespace Effects {
 				                                    : startScale, t);
 
 			mat.SetVector(Tilt, currentMouse);
+			iconMat.SetVector(Tilt, currentMouse);
 		}
 	}
 }

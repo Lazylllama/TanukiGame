@@ -175,7 +175,9 @@ Shader "Custom/HOLO"
                 
                 float burnEdge = smoothstep(1 - _Burn - _GlowThickness, 1 - _Burn, burnNoise);
                 
-                color.rgb = lerp(color.rgb, _BurnColor.rgb, burnEdge);
+                float burnBrightness = noise2D(IN.uv + 232 + float2(332, fmod(_Time.y, 100))) * 2.0;
+                
+                color.rgb = lerp(color.rgb, _BurnColor.rgb * burnBrightness, burnEdge);
                 
                 //return half4(_Tilt.xy, 0.0, 1.0);
                 //return half4(mask.xxx, color.a);

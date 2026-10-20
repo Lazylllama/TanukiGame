@@ -541,11 +541,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3bbe39d2a2a5844bed6b426aba07a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  burnDuration: 1
   tiltAmount: 8
   hoverScale: 1.08
   cardCamera: {fileID: 0}
   flipAngle: 0
   backImage: {fileID: 6281726540879189227}
+  icon: {fileID: 5745424986123298264}
   contentGroup: {fileID: 6069474729073735897}
 --- !u!1 &8966661914789068152
 GameObject:
