@@ -8,6 +8,7 @@ using UnityEngine;
 namespace UI {
 	public class CardUIHandler : MonoBehaviour {
 		public CardData selectedCard;
+
 		static bool cardSelected = false;
 
 		public void SelectCard() {
@@ -21,16 +22,21 @@ namespace UI {
 			Debug.Log(cards.Length);
 
 			cardSelected = true;
-			
+			var firstCard = true;
 			foreach (var card in cards) {
 				if (gameObject == card.gameObject) continue;
-				card.Burn(() => {
-					          if (GameUIManager.Instance) GameUIManager.Instance.HideCardUI();
-					          cardSelected = false;
-				          });
+				if (firstCard) {
+					card.Burn(() => {
+						          if (GameUIManager.Instance) GameUIManager.Instance.HideCardUI();
+						          cardSelected = false;
+					          });
+					firstCard = false;
+				} else {
+					card.Burn(null);
+				}
 			}
 
-			
+			firstCard = true;
 		}
 	}
 }

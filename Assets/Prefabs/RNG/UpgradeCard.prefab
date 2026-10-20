@@ -541,7 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3bbe39d2a2a5844bed6b426aba07a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  burnDuration: 1
+  burnDuration: 3
   tiltAmount: 8
   hoverScale: 1.08
   cardCamera: {fileID: 0}

@@ -14,6 +14,7 @@ Shader "Custom/HOLO"
         _FlakeCount("Flake Count", int) = 30
         _GlowWidth("Glow Width", Float) = 0.4
         _Burn("Burn", Range(0, 1)) = 0
+        _BurnBrightness("Burn Brightness", Float) = 4.0
         _GlowThickness("Glow Thickness", Range(0, 1)) = 0.1
     }
 
@@ -63,6 +64,7 @@ Shader "Custom/HOLO"
                 float  _SparkleStrength;
                 float  _GlowWidth;
                 float  _Burn;
+                float  _BurnBrightness;
                 float  _GlowThickness;
                 int    _FlakeCount;
             CBUFFER_END
@@ -175,9 +177,11 @@ Shader "Custom/HOLO"
                 
                 float burnEdge = smoothstep(1 - _Burn - _GlowThickness, 1 - _Burn, burnNoise);
                 
-                float burnBrightness = noise2D(IN.uv + 232 + float2(332, fmod(_Time.y, 100))) * 2.0;
+                float burnBrightness = noise2D(IN.uv * 10 + 232 + float2(0, fmod(_Time.y, 100))) * 0.625;
+                burnBrightness += noise2D(IN.uv * 17 + 123 + float2(0, fmod(_Time.y * 2, 100))) * 0.25;
+                burnBrightness += noise2D(IN.uv * 29 + 534 + float2(0, fmod(_Time.y * 5, 100))) * 0.125;
                 
-                color.rgb = lerp(color.rgb, _BurnColor.rgb * burnBrightness, burnEdge);
+                color.rgb = lerp(color.rgb, _BurnColor.rgb * burnBrightness * _BurnBrightness, burnEdge);
                 
                 //return half4(_Tilt.xy, 0.0, 1.0);
                 //return half4(mask.xxx, color.a);
