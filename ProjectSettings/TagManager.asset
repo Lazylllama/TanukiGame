@@ -57,6 +57,9 @@ TagManager:
   - name: UI
     uniqueID: 1047421623
     locked: 0
+  - name: DeathShatter
+    uniqueID: 939002085
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

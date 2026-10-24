@@ -20,9 +20,10 @@ namespace Logic {
 		[SerializeField] public  int       defaultHearts           = 3;
 		[SerializeField] public  float     invulnerabilityDuration = 0.5f;
 		[SerializeField] private int       xpPerEnemyHealth        = 10;
+		[SerializeField] private bool      useDeathShatter;
 
-		// state
-		public  bool  inRoom;
+	// state
+		public  bool  inRoom, dead;
 		public  float roomTimeLeft;
 		public  float playerHealth;
 		private float invulnerabilityTimer;
@@ -63,21 +64,27 @@ namespace Logic {
 		#region Functions
 
 		//? game state
+		[ContextMenu("Loose")]
 		private void LooseGame() {
-			SceneTransition.Instance.TransitionToScene("PreGameScene",
-			                                           () => {
-				                                           PlayerStats  = new PlayerStats();
-				                                           playerHealth = MaxHearts;
+			dead = true;
+			void Transition() {
+				SceneTransition.Instance.TransitionToScene("PreGameScene", () => {
+					                                                           PlayerStats  = new PlayerStats();
+					                                                           playerHealth = MaxHearts;
 
-				                                           KeepOnLoad.DestroyAll();
-				                                           PlayerController.Instance.transform.position =
-					                                           new Vector3(0f, 1f, 0f);
-			                                           });
+					                                                           KeepOnLoad.DestroyAll();
+					                                                           PlayerController.Instance.transform.position = new Vector3(0f, 1f, 0f);
+					                                                           dead = false;
+				                                                           });
+			}
+
+			if (useDeathShatter) DeathShatterManager.instance.GrabScreenshot(Transition);
+			else Transition();
 		}
 
 		//? player health
 		public void DamagePlayer(float damage) {
-			if (IsInvulnerable) return;
+			if (IsInvulnerable || dead) return;
 			playerHealth -= damage;
 
 			GameUIManager.Instance.UpdateHeartsUI();

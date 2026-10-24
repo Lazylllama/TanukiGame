@@ -1,26 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Player;
 using UI;
 using UnityEngine;
-
+using UnityEngine.Networking.PlayerConnection;
 using Piece = System.Collections.Generic.List<UnityEngine.Vector2>;
+using Random = UnityEngine.Random;
 
 public class DeathShatterManager : MonoBehaviour {
+	
+	public static DeathShatterManager instance;
 
-	[SerializeField] private int seedCount = 10;
+	[SerializeField] private int            seedCount = 10;
 	[SerializeField] private SpriteRenderer background;
+	[SerializeField] private float          shatterSpeed = 0.08f, shatterDelay = 0.2f;
 	
 	private SpriteRenderer spriteRenderer;
 	private List<Vector2>  spritePoints = new List<Vector2>();
 	private Texture2D      screenShot;
+	private Vector3 tanukiPos;
 	private Vector2[]      seeds;
+
+	
+	private void Awake() {
+		if (instance == null) {
+			instance = this;
+		} else {
+			Destroy(gameObject);
+		}
+	}
+
+	private void OnDestroy() {
+		Destroy(screenShot);
+	}
 	
 	[ContextMenu("Grab Screenshot")]
-	private void GrabScreenshot() {
+	public void GrabScreenshot(Action callback = null) {
 		spriteRenderer = GetComponent<SpriteRenderer>();
-		
+		StartCoroutine(TransitionTimer(callback));
 		StartCoroutine(GrabScreenShot());
+	}
+
+	IEnumerator TransitionTimer(Action callback) {
+		yield return new WaitForSeconds(5f);
+		callback();
 	}
 
 	IEnumerator GrabScreenShot() {
@@ -32,8 +57,8 @@ public class DeathShatterManager : MonoBehaviour {
 		
 		var pixelsPerUnit = (float)screenShot.height / Camera.main.orthographicSize * 2;
 		
-		spriteRenderer.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f), pixelsPerUnit);
-
+		spriteRenderer.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f), pixelsPerUnit, 0, SpriteMeshType.FullRect);
+		tanukiPos = transform.InverseTransformPoint(PlayerController.Instance.transform.position);
 		yield return null;
 		
 		Shatter();
@@ -43,10 +68,17 @@ public class DeathShatterManager : MonoBehaviour {
 		seeds = new Vector2[seedCount];
 		
 		for (int i = 0; i < seedCount; i++) {
-			seeds[i] = new Vector2(Random.Range(spriteRenderer.sprite.bounds.min.x,
+			/*seeds[i] = new Vector2(Random.Range(spriteRenderer.sprite.bounds.min.x,
 			                                    spriteRenderer.sprite.bounds.max.x),
 			                       Random.Range(spriteRenderer.sprite.bounds.min.y,
-			                                    spriteRenderer.sprite.bounds.max.y));
+			                                    spriteRenderer.sprite.bounds.max.y));*/
+			var angle  = Random.Range(0, 360);
+			var offset = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+			offset *= Mathf.Pow(Random.Range(0f, 1f), 2) * Camera.main.orthographicSize * Camera.main.aspect * 1.2f / transform.localScale.x;
+
+			
+			
+			seeds[i] = new Vector2(offset.x + tanukiPos.x, offset.y + tanukiPos.y);
 		}
 
 		spritePoints.Clear();
@@ -91,25 +123,34 @@ public class DeathShatterManager : MonoBehaviour {
 			
 			pos /= shard.Count;
 			
-			pos = transform.TransformPoint(pos);
 			
 			var obj       = new GameObject("shard");
+			obj.transform.SetParent(transform, false);
+			obj.transform.localPosition = pos;
+			
 			var rigidbody = obj.AddComponent<Rigidbody2D>();
 			var renderer  = obj.AddComponent<SpriteRenderer>();
 			var sprite = Sprite.Create(spriteRenderer.sprite.texture, spriteRenderer.sprite.rect,
-			                           spriteRenderer.sprite.pivot / spriteRenderer.sprite.rect.size,
+			                           spriteRenderer.sprite.pivot / spriteRenderer.sprite.rect.size + pos * spriteRenderer.sprite.pixelsPerUnit / spriteRenderer.sprite.rect.size,
 			                           spriteRenderer.sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect
 			                          );
 			sprite.OverrideGeometry(vertices.ToArray(), triangles.ToArray());
-			renderer.sprite = sprite;
-			obj.transform.SetParent(transform, false);
-
-
+			renderer.sprite  = sprite;
+			
+			LeanTween.delayedCall(Vector3.Distance(obj.transform.localPosition, tanukiPos) * shatterSpeed,
+			                      () => { renderer.color   = Random.ColorHSV(1f, 1f, 0f, 0f, 0.7f, 1f); });
 
 			renderer.sortingLayerID = SortingLayer.NameToID("DeathShatter");
 			
-			var dir = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
-			rigidbody.AddForce(dir, ForceMode2D.Impulse);
+			var dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+			var ang = Random.Range(-1f, 1f);
+			rigidbody.AddForce(dir * 3f, ForceMode2D.Impulse);
+			rigidbody.AddTorque(ang, ForceMode2D.Impulse);
+
+			rigidbody.simulated = false;
+
+			LeanTween.delayedCall(Vector3.Distance(obj.transform.localPosition, tanukiPos) * shatterSpeed + shatterDelay,
+			                      () => { rigidbody.simulated = true; });
 		}
 		spriteRenderer.enabled = false;
 
