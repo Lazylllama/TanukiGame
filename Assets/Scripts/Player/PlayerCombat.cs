@@ -48,16 +48,19 @@ namespace Player {
 
 		[Header("Drag and Drop")]
 		[SerializeField] private GameObject slashVFX;
-		[SerializeField] private GameObject throwObject;
 		[SerializeField] private Camera     mainCamera;
+		[SerializeField] public  GameObject throwObject;
 
-		public bool IsChargingThrow => throwAttackCoroutine != null;
+		public bool    IsChargingThrow => throwAttackCoroutine != null;
+		public float   ThrowCharge     => Mathf.InverseLerp(throwMinForce, throwMaxForce, currentThrowForce);
+		public Vector2 ThrowImpulse    => ((Vector2)(mouseVector - transform.position).normalized) * currentThrowForce;
 
 		//? Private floats
 		private float slashTimer;
 		private float parryTimer;
 		private float throwTimer;
 		private float throwHeldInputTimer;
+		private float currentThrowForce;
 
 		//? Getters and setters
 		public bool IsParrying { get; private set; }
@@ -172,7 +175,7 @@ namespace Player {
 		}
 
 		private IEnumerator ThrowAttackIEnumerator() {
-			var forceToApply       = throwMinForce;
+			currentThrowForce = throwMinForce;
 			var inAriTimeSlowTimer = inAirTimeSlowLength;
 			var stopTimeScaling    = false;
 
@@ -188,8 +191,8 @@ namespace Player {
 					Time.timeScale += Time.unscaledDeltaTime * 5;
 				}
 
-				if (forceToApply < throwMaxForce) {
-					forceToApply += throwChargeSpeed;
+				if (currentThrowForce < throwMaxForce) {
+					currentThrowForce += throwChargeSpeed * Time.fixedDeltaTime;
 				}
 
 				yield return null;
@@ -202,12 +205,10 @@ namespace Player {
 			var direction            = (mouseVector - transform.position);
 			direction.Normalize();
 
-			instantiatedObjectRb.AddForce(forceToApply * direction,
-			                              ForceMode2D.Impulse);
+			instantiatedObjectRb.AddForce(ThrowImpulse, ForceMode2D.Impulse);
 			StartCoroutine(ExtraForce(throwRecoilForce, direction * -1, throwRecoilLength));
 			throwTimer = throwCooldown;
 
-			Debug.Log(forceToApply);
 			throwAttackCoroutine = null;
 			yield return null;
 		}

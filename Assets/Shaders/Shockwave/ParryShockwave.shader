@@ -75,19 +75,16 @@ Shader "Custom/ParryShockwave"
 
                 offset.x *= _ScreenParams.x / _ScreenParams.y;
 
-                ring *= 1.0 - _Progress;
-
                 float2 screenUV = IN.screenPos.xy / IN.screenPos.w;
-                half4 scene = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture,
-                                               screenUV - offset);
 
                 float2 split = offset * _ChromaticSplit;
 
                 half r = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture,
                                           screenUV - offset- split).r;
-                half g = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture, screenUV).g;
+                half g = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture,
+                                          screenUV).g;
                 half b = SAMPLE_TEXTURE2D(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture,
-                    screenUV - offset + split).b;
+                                          screenUV - offset + split).b;
 
                 return half4(r, g, b, 1);
             }
