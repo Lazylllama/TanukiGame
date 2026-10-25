@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
     <Style src="project://database/Assets/StartScreen.uss?fileID=7433441132597879392&amp;guid=73a629037fa84c54ba4be960139a1b8e&amp;type=3#StartScreen"/>
-    <ui:VisualElement name="" enabled="true" style="flex-grow: 1; flex-basis: auto; width: 30%; background-color: rgba(0, 0, 0, 0); padding-top: 6px; padding-right: 6px; padding-bottom: 49px; padding-left: 6px; justify-content: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+    <ui:VisualElement name="" enabled="true" style="flex-grow: 1; flex-basis: auto; width: 30%; background-color: rgba(0, 0, 0, 0); padding-top: 6px; padding-right: 6px; padding-bottom: 49px; padding-left: 4px; justify-content: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
         <ui:VisualElement name="VisualElement" style="flex-grow: initial; width: initial; height: initial; flex-direction: column; align-items: flex-start; padding-left: 32px; padding-top: 32px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
             <ui:Image source="project://database/Assets/Art/UI/Main%20Menu/ExpContainer.png?fileID=2800000&amp;guid=a3769bce5f326014295432510e3d26dd&amp;type=3#ExpContainer" name="Image" style="padding-top: 0; padding-left: 0; height: 176px; width: 538px;">
                 <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; height: 127px; width: 354px; top: 24px; left: 157px; justify-content: center; align-items: stretch; align-self: stretch;">
@@ -29,6 +29,6 @@
                 <ui:Label text="Start" class="button-title"/>
             </ui:Button>
         </ui:VisualElement>
-        <ui:Image source="project://database/Assets/Art/UI/TANUKI%20GAME.png?fileID=2800000&amp;guid=7886379483e91b942b2d27c4092e443a&amp;type=3#TANUKI GAME" style="padding-left: 52px; width: auto; height: 136px;"/>
+        <ui:Image source="project://database/Assets/Art/UI/TANUKI%20GAME.png?fileID=2800000&amp;guid=7886379483e91b942b2d27c4092e443a&amp;type=3#TANUKI GAME" style="padding-left: 52px; width: auto; height: 96px; background-position-x: center;"/>
     </ui:VisualElement>
 </ui:UXML>

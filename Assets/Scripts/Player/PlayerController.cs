@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Logic;
 using Player;
 using UnityEngine;
@@ -6,7 +7,8 @@ using UnityEngine.InputSystem;
 
 namespace Player {
 	public class PlayerController : MonoBehaviour {
-		public static PlayerController Instance;
+		public static           PlayerController Instance;
+		private static readonly int              FlashAmount = Shader.PropertyToID("_FlashAmount");
 
 		#region Fields
 
@@ -24,6 +26,7 @@ namespace Player {
 
 		[Header("Misc settings")]
 		[SerializeField] private float groundCheckDistance;
+		[SerializeField] private float flashDuration = 0.15f;
 
 		//? Getters and setters
 		[field: SerializeField] public MovingStates MovingState      { get; set; }
@@ -39,6 +42,7 @@ namespace Player {
 		private                  float coyoteTimer;
 		[SerializeField] private float jumpBufferTimer;
 		private                  float fallSpeedDampingChangeThreshold;
+		private                  float hitFlash;
 
 		//? Private ints
 
@@ -50,6 +54,7 @@ namespace Player {
 		//? Components
 		private CapsuleCollider2D  playerCollider;
 		private CameraFollowObject cameraFollowObject;
+		private Material[]         hitFlashMaterials;
 
 		//? Private vectors
 		private Vector2 moveVector;
@@ -82,10 +87,11 @@ namespace Player {
 			PlayerRb           = GetComponent<Rigidbody2D>();
 			playerCollider     = GetComponent<CapsuleCollider2D>();
 			cameraFollowObject = FindAnyObjectByType<CameraFollowObject>();
+			hitFlashMaterials  = GetComponentsInChildren<SpriteRenderer>().Select(sr => sr.material).ToArray();
 		}
 
 		private void Start() {
-			fallSpeedDampingChangeThreshold = CameraManager.Instance.fallSpeedDampingChangeThreshold;
+			fallSpeedDampingChangeThreshold     =  CameraManager.Instance.fallSpeedDampingChangeThreshold;
 		}
 
 		private void Update() {
@@ -97,6 +103,8 @@ namespace Player {
 			} else if (PlayerRb.linearVelocityY >= 0f) {
 				CameraManager.Instance.LerpYDamping(false);
 			}
+
+
 		}
 
 		private void FixedUpdate() {
@@ -126,7 +134,6 @@ namespace Player {
 			dashActive  = true;
 			var currentFacingDirection = IsLookingRight ? 1 : -1;
 			var dashLengthTimer        = dashLength;
-			StartCoroutine(Lib.Combat.TimeStop(0.02f));
 
 			while (dashLengthTimer > 0) {
 				dashLengthTimer -= Time.deltaTime;
@@ -136,7 +143,6 @@ namespace Player {
 				yield return null;
 			}
 
-			StartCoroutine(Lib.Combat.TimeStop(0.02f));
 			PlayerRb.gravityScale = normalGravity;
 			dashActive            = false;
 			dashCoroutine         = null;

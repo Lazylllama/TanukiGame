@@ -18,6 +18,7 @@ namespace UI {
 
 		private CardUpgradeManager cardUpgradeManager;
 		private Action             onCardUpgrade;
+		private Color              defaultTimerColor;
 
 		#endregion
 
@@ -35,6 +36,7 @@ namespace UI {
 		private void Start() {
 			cardUpgradeManager = FindAnyObjectByType<CardUpgradeManager>();
 			timerText.enabled  = false;
+			defaultTimerColor  = timerText.color;
 			UpdateHeartsUI();
 		}
 
@@ -70,14 +72,14 @@ namespace UI {
 		public void UpdateTimerUI(float timeLeft) {
 			timerText.enabled = true;
 
-			var minutes = Mathf.FloorToInt(timeLeft / 60f);
-			var seconds = timeLeft - (minutes * 60f);
+			var tenths  = Mathf.CeilToInt(Mathf.Max(0f, timeLeft) * 10f);
+			var minutes = tenths        / 600f;
+			var seconds = tenths % 600f / 10f;
 
-			timerText.text = $"{minutes:00}:{seconds:F1}";
+			timerText.text = $"{minutes:00}:{seconds:00.0}";
 
-			if (timeLeft <= 0f) {
-				timerText.color = new Color(1f, 0.4f, 0.4f);
-			}
+
+			timerText.color = tenths == 0 ? new Color(1f, 0.4f, 0.4f) : defaultTimerColor;
 		}
 
 		#endregion

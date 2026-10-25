@@ -37,7 +37,9 @@ public static class Lib {
 
 			yield return null;
 		}
+	}
 
+	public static class Feel {
 		public static IEnumerator TimeStop(float timeStopLength) {
 			var timeStopTimer = timeStopLength;
 
@@ -49,6 +51,16 @@ public static class Lib {
 
 			Time.timeScale = 1f;
 			yield return null;
+		}
+
+		public static void Punch(Transform target, Vector3 baseScale, float amount, float time = 0.4f,
+		                         bool      ignoreTimeScale = true) {
+			LeanTween.cancel(target.gameObject);
+			LeanTween.value(target.gameObject, 0f, 1f, time)
+			         .setIgnoreTimeScale(ignoreTimeScale)
+			         .setOnUpdate(value => {
+				                      target.localScale = baseScale * (1f + value * LeanTween.punch.Evaluate(value));
+			                      });
 		}
 	}
 }

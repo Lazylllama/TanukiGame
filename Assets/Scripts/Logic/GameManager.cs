@@ -4,14 +4,14 @@ using RNG;
 using Room;
 using UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace Logic {
 	public class GameManager : MonoBehaviour {
 		public static GameManager Instance;
 		public        PlayerStats PlayerStats;
 		public        RngHandler  RngHandler;
+
+		public Action OnPlayerDamaged;
 
 		public  float MaxHearts      => PlayerStats.Get(Stat.ExtraHearts, defaultHearts);
 		private bool  IsInvulnerable => invulnerabilityTimer > 0;
@@ -22,7 +22,7 @@ namespace Logic {
 		[SerializeField] private int       xpPerEnemyHealth        = 10;
 		[SerializeField] private bool      useDeathShatter;
 
-	// state
+		// state
 		public  bool  inRoom, dead;
 		public  float roomTimeLeft;
 		public  float playerHealth;
@@ -67,19 +67,22 @@ namespace Logic {
 		[ContextMenu("Loose")]
 		private void LooseGame() {
 			dead = true;
+
+			if (useDeathShatter) DeathShatterManager.instance.GrabScreenshot(Transition);
+			else Transition();
+			return;
+
 			void Transition() {
 				SceneTransition.Instance.TransitionToScene("PreGameScene", () => {
 					                                                           PlayerStats  = new PlayerStats();
 					                                                           playerHealth = MaxHearts;
 
 					                                                           KeepOnLoad.DestroyAll();
-					                                                           PlayerController.Instance.transform.position = new Vector3(0f, 1f, 0f);
+					                                                           PlayerController.Instance.transform
+						                                                           .position = new Vector3(0f, 1f, 0f);
 					                                                           dead = false;
 				                                                           });
 			}
-
-			if (useDeathShatter) DeathShatterManager.instance.GrabScreenshot(Transition);
-			else Transition();
 		}
 
 		//? player health
@@ -88,6 +91,7 @@ namespace Logic {
 			playerHealth -= damage;
 
 			GameUIManager.Instance.UpdateHeartsUI();
+			OnPlayerDamaged?.Invoke();
 
 			invulnerabilityTimer = invulnerabilityDuration;
 			if (playerHealth <= 0) LooseGame();

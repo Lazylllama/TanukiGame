@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: KnifeSharpening
   m_EditorClassIdentifier: Assembly-CSharp::Data.CardData
   cardName: Knife Sharpening
-  cardDescription: Give your knife a bit of love. Lorem Ipsum (+1 damage)
+  cardDescription: Give your knife a bit of love. (+1 damage)
+  cardHoloDescription: Give your knife a bit of love. (+20% damage)
   cardImage: {fileID: 21300000, guid: 13db48505bd09464ea4a06ceb45b8429, type: 3}
   cardType: 4
   statModifiers:
   - stat: 7
     flat: 1
     percent: 0
-  oneInEveryHolo: 2
+  statHoloModifiers:
+  - stat: 7
+    flat: 0
+    percent: 20
+  oneInEveryHolo: 20

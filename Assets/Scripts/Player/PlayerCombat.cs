@@ -150,14 +150,16 @@ namespace Player {
 			var recoilDirection = new Vector2(PlayerController.Instance.IsLookingRight ? -1 : 1, 0f);
 			StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
+			CameraManager.Instance.ShakeCamera(1f, CameraManager.CameraShakeType.Bounce);
+
 			var playerDamage = GameManager.Instance.PlayerStats.Get(Stat.MeleeDamage, slashDamage);
 			foreach (var enemy in enemies) {
-				enemy.GetComponent<EnemyHealth>().ChangeHealth(-slashDamage);
+				Debug.Log($"Dealing {playerDamage} to {enemy.name}");
+				enemy.GetComponent<EnemyHealth>().ChangeHealth(-playerDamage);
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
 				StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), enemy.gameObject,
 				                                             knockbackDirection,
 				                                             slashKnockbackForce, slashKnockbackLength));
-				StartCoroutine(Lib.Combat.TimeStop(0.05f));
 			}
 		}
 
@@ -232,11 +234,12 @@ namespace Player {
 
 			IsParrying = true;
 
+
 			while (parryLengthTimer > 0f) {
 				parryLengthTimer -= Time.deltaTime;
 				var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
 				if (parriedColliders.Length > 0) {
-					StartCoroutine(Lib.Combat.TimeStop(0.05f));
+					CameraManager.Instance.ShakeCamera(1f, CameraManager.CameraShakeType.Bounce);
 					parryHit         = true;
 					parryLengthTimer = 0f;
 					foreach (var parriedCollider in parriedColliders) {

@@ -1,6 +1,7 @@
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Logic {
 	public class CameraManager : MonoBehaviour {
@@ -12,11 +13,19 @@ namespace Logic {
 		[SerializeField] private float fallPanAmount = 0.25f;
 		[SerializeField] private float fallPanTime = 0.35f;
 
+		[Header("Effects")]
+		[SerializeField] private float hurtPulseDuration = 0.5f;
+
 		public float fallSpeedDampingChangeThreshold = -15f;
 
 		private CinemachineCamera           currentCinemachineCamera;
 		private CinemachineCamera[]         allCinemachineCameras;
 		private CinemachinePositionComposer currentPositionComposer;
+
+		[SerializeField] private CinemachineImpulseSource recoilImpulseSource;
+		[SerializeField] private CinemachineImpulseSource bounceImpulseSource;
+
+		[SerializeField] private Volume hurtVolume;
 
 		private float normPanYAmount;
 
@@ -71,7 +80,32 @@ namespace Logic {
 				                        lerpedFromPlayerFall = isPlayerFalling;
 			                        });
 		}
-		
+
+		public enum CameraShakeType {
+			Bounce,
+			Recoil
+		}
+
+		public void ShakeCamera(float force, CameraShakeType type = CameraShakeType.Recoil) {
+			switch (type) {
+				case CameraShakeType.Bounce:
+					bounceImpulseSource.GenerateImpulseWithForce(force);
+					break;
+				case CameraShakeType.Recoil:
+					recoilImpulseSource.GenerateImpulseWithForce(force);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(type), type, null);
+			}
+		}
+
+		public void HurtPulse() {
+			LeanTween.cancel(hurtVolume.gameObject);
+			LeanTween.value(hurtVolume.gameObject, 1f, 0f, hurtPulseDuration)
+			         .setOnUpdate((value) => hurtVolume.weight = value)
+			         .setEaseOutQuad();
+		}
+
 		#endregion
 	}
 }

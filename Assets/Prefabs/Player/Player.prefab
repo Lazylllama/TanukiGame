@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3579560135169989607}
   - component: {fileID: 8124614188786182174}
   - component: {fileID: 3323223644452939853}
+  - component: {fileID: 6952407748252079359}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -155,6 +156,7 @@ MonoBehaviour:
   dashCooldown: 0.5
   dashLength: 0.2
   groundCheckDistance: 0.001
+  flashDuration: 0.15
   <MovingState>k__BackingField: 0
   <KnockbackActive>k__BackingField: 0
   jumpBufferTimer: 0
@@ -208,6 +210,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeepOnLoad
   checkForDuplicates: 1
+--- !u!114 &6952407748252079359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971116764315696844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c703ea8de1f4a008a2d6c30e3e2cb8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerFeedback
+  hurtCamShakeForce: 1
+  hitFlashDuration: 0.2
+  hitStopLength: 0.4
+  invulnFlashInterval: 1
 --- !u!1 &3125316258531813285
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +407,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c53990e1af72837458d74b29c4e3c294, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

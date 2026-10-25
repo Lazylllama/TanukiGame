@@ -72,21 +72,25 @@ namespace Cards {
 			var randUpgrade      = Random.Range(0, upgradesWithType.Length);
 
 			var oneInChance   = upgradesWithType[randUpgrade].OneInEveryHolo;
-			var IsHolographic = oneInChance >= 1 && Random.Range(1, oneInChance + 1) == 1;
+			var isHolographic = oneInChance >= 1 && Random.Range(1, oneInChance + 1) == 1;
 
-			refs.cardName.text         = upgradesWithType[randUpgrade].CardName;
-			refs.cardImage.sprite      = upgradesWithType[randUpgrade].CardImage;
-			refs.cardDescription.text  = upgradesWithType[randUpgrade].CardDescription;
+			refs.cardName.text    = upgradesWithType[randUpgrade].CardName;
+			refs.cardImage.sprite = upgradesWithType[randUpgrade].CardImage;
+			refs.cardDescription.text = isHolographic
+				                            ? upgradesWithType[randUpgrade].CardHoloDescription
+				                            : upgradesWithType[randUpgrade].CardDescription;
 			refs.cardBackground.sprite = bg.cardBackgroundImage;
 
-			refs.cardBackground.material = IsHolographic ? holographicCardMaterial : normalCardMaterial;
-			refs.cardImage.material      = IsHolographic ? holographicCardMaterial : normalCardMaterial;
+			refs.cardBackground.material = isHolographic ? holographicCardMaterial : normalCardMaterial;
+			refs.cardImage.material      = isHolographic ? holographicCardMaterial : normalCardMaterial;
 
 			refs.cardName.color        = bg.titleColor;
 			refs.cardDescription.color = bg.descriptionColor;
 
-			if (refs.cardUIHandler != null)
-				refs.cardUIHandler.selectedCard = upgradesWithType[randUpgrade];
+			if (refs.cardUIHandler != null) {
+				refs.cardUIHandler.isHolographic = isHolographic;
+				refs.cardUIHandler.selectedCard  = upgradesWithType[randUpgrade];
+			}
 
 
 			card.SetActive(true);

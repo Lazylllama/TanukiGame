@@ -8,12 +8,13 @@ using UnityEngine;
 namespace UI {
 	public class CardUIHandler : MonoBehaviour {
 		public CardData selectedCard;
+		public bool     isHolographic;
 
 		static bool cardSelected = false;
 
 		public void SelectCard() {
 			if (cardSelected) return;
-			foreach (var modifier in selectedCard.StatModifiers) {
+			foreach (var modifier in (isHolographic ? selectedCard.StatHoloModifiers : selectedCard.StatModifiers)) {
 				Debug.Log($"adding {modifier.stat} with flat {modifier.flat} and percent {modifier.percent}");
 				GameManager.Instance.PlayerStats.AddStatModifier(modifier);
 			}

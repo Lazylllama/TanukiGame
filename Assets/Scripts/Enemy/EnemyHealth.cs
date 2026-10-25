@@ -7,6 +7,7 @@ using UnityEngine;
 namespace Enemy {
 	public class EnemyHealth : MonoBehaviour {
 		private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
+
 		[Header("General settings")]
 		[SerializeField] private float maxEnemyHealth;
 		[SerializeField] private float flashDuration = 0.15f;
