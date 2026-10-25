@@ -628,6 +628,55 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!1 &5699684691157854847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3838467662086655232}
+  - component: {fileID: 7866504771356581473}
+  m_Layer: 0
+  m_Name: Throw Slowmo Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3838467662086655232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5699684691157854847}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2843614610381946039}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7866504771356581473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5699684691157854847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 2
+  blendDistance: 0
+  weight: 0
+  sharedProfile: {fileID: 11400000, guid: 4c01bb9e546b27843978396e692c126a, type: 2}
 --- !u!1 &5908191830973882079
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,6 +714,7 @@ Transform:
   - {fileID: 4212467576766030725}
   - {fileID: 8542510486307961709}
   - {fileID: 8571366352617065020}
+  - {fileID: 3838467662086655232}
   - {fileID: 7885121808880702748}
   - {fileID: 1624508841120286584}
   - {fileID: 3724960480274403423}
@@ -685,10 +735,12 @@ MonoBehaviour:
   fallPanAmount: 0.25
   fallPanTime: 0.35
   hurtPulseDuration: 0.5
+  throwSlowmoSpeed: 6
   fallSpeedDampingChangeThreshold: -15
   recoilImpulseSource: {fileID: 5699288932044020661}
   bounceImpulseSource: {fileID: 253629657275465354}
   hurtVolume: {fileID: 5716001783195585898}
+  throwSlowmoVolume: {fileID: 7866504771356581473}
   isLerpingYDamping: 0
   lerpedFromPlayerFall: 0
 --- !u!114 &6070672335755248561

@@ -1,4 +1,5 @@
 using System;
+using Player;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -15,6 +16,7 @@ namespace Logic {
 
 		[Header("Effects")]
 		[SerializeField] private float hurtPulseDuration = 0.5f;
+		[SerializeField] private float throwSlowmoSpeed = 6f;
 
 		public float fallSpeedDampingChangeThreshold = -15f;
 
@@ -26,6 +28,7 @@ namespace Logic {
 		[SerializeField] private CinemachineImpulseSource bounceImpulseSource;
 
 		[SerializeField] private Volume hurtVolume;
+		[SerializeField] private Volume throwSlowmoVolume;
 
 		private float normPanYAmount;
 
@@ -55,6 +58,12 @@ namespace Logic {
 			}
 
 			normPanYAmount = currentPositionComposer.Damping.y;
+		}
+
+		private void Update() {
+			var chargingThrow = PlayerCombat.Instance && PlayerCombat.Instance.IsChargingThrow;
+			throwSlowmoVolume.weight = Mathf.MoveTowards(throwSlowmoVolume.weight, chargingThrow ? 1f : 0f,
+			                                             Time.unscaledDeltaTime * throwSlowmoSpeed);
 		}
 
 		#endregion

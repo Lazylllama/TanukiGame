@@ -16,6 +16,10 @@ namespace UI {
 		[SerializeField] private Image[]         heartBorderImages;
 		[SerializeField] private Image[]         heartFillImages;
 
+		[Header("Heart juice")]
+		[SerializeField] private float heartDrainTime = 0.4f;
+		[SerializeField] private float heartPunch = 0.4f;
+
 		private CardUpgradeManager cardUpgradeManager;
 		private Action             onCardUpgrade;
 		private Color              defaultTimerColor;
@@ -37,7 +41,7 @@ namespace UI {
 			cardUpgradeManager = FindAnyObjectByType<CardUpgradeManager>();
 			timerText.enabled  = false;
 			defaultTimerColor  = timerText.color;
-			UpdateHeartsUI();
+			UpdateHeartsUI(false);
 		}
 
 		#endregion
@@ -56,16 +60,31 @@ namespace UI {
 			onCardUpgrade = null;
 		}
 
-		public void UpdateHeartsUI() {
+		public void UpdateHeartsUI(bool animate = true) {
 			var playerHearts = GameManager.Instance.playerHealth;
-
-			for (var i = 0; i < heartFillImages.Length; i++) {
-				heartFillImages[i].fillAmount = playerHearts - i;
-			}
 
 			for (var i = 0; i < heartBorderImages.Length; i++) {
 				//? Shows always 3 containers, if health is over 3, then show what is needed
 				heartBorderImages[i].enabled = i <= 2 || playerHearts >= (i + 1);
+			}
+
+			for (var i = 0; i < heartFillImages.Length; i++) {
+				var image  = heartFillImages[i];
+				var target = Mathf.Clamp01(playerHearts - i);
+
+				if (!animate) {
+					image.fillAmount = target;
+					continue;
+				}
+
+				if (Mathf.Approximately(image.fillAmount, target)) continue;
+
+				LeanTween.cancel(image.gameObject);
+				LeanTween.value(image.gameObject, image.fillAmount, target, heartDrainTime)
+				         .setEaseOutQuad()
+				         .setOnUpdate(value => image.fillAmount = value);
+
+				Lib.Feel.Punch(image.transform.parent, Vector3.one, heartPunch);
 			}
 		}
 

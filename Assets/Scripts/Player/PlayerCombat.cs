@@ -11,7 +11,8 @@ namespace Player {
 
 		#region Fields
 
-		[SerializeField] private Transform mouseCircle;
+		[SerializeField] private Transform  mouseCircle;
+		[SerializeField] private GameObject parryShockwavePrefab;
 
 		[Header("Slash Settings")]
 		[SerializeField] private float slashRadius;
@@ -49,6 +50,8 @@ namespace Player {
 		[SerializeField] private GameObject slashVFX;
 		[SerializeField] private GameObject throwObject;
 		[SerializeField] private Camera     mainCamera;
+
+		public bool IsChargingThrow => throwAttackCoroutine != null;
 
 		//? Private floats
 		private float slashTimer;
@@ -240,8 +243,11 @@ namespace Player {
 				var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
 				if (parriedColliders.Length > 0) {
 					CameraManager.Instance.ShakeCamera(1f, CameraManager.CameraShakeType.Bounce);
+					Instantiate(parryShockwavePrefab, transform.position, Quaternion.identity);
+
 					parryHit         = true;
 					parryLengthTimer = 0f;
+
 					foreach (var parriedCollider in parriedColliders) {
 						if (parriedCollider.TryGetComponent(out ParryOrb orb)) orb.OnParry();
 						else Destroy(parriedCollider.gameObject);
