@@ -65,7 +65,7 @@ namespace UI {
 
 			for (var i = 0; i < heartBorderImages.Length; i++) {
 				//? Shows always 3 containers, if health is over 3, then show what is needed
-				heartBorderImages[i].enabled = i <= 2 || playerHearts >= (i + 1);
+				heartBorderImages[i].enabled = i <= 2 || playerHearts > i;
 			}
 
 			for (var i = 0; i < heartFillImages.Length; i++) {
@@ -96,7 +96,6 @@ namespace UI {
 			var seconds = tenths % 600f / 10f;
 
 			timerText.text = $"{minutes:00}:{seconds:00.0}";
-
 
 			timerText.color = tenths == 0 ? new Color(1f, 0.4f, 0.4f) : defaultTimerColor;
 		}

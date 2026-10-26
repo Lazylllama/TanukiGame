@@ -10,8 +10,9 @@ namespace Effects {
 		[SerializeField] private RainWindowController[] windows;
 		[SerializeField] private RainInputs             rainInput;
 		[SerializeField] private LightningController    lightningController;
-		private                  RainInputs             oldRainInput;
-		private                  float                  cameraWidth;
+		
+		private RainInputs oldRainInput;
+		private float      cameraWidth;
 
 		#endregion
 

@@ -12,6 +12,8 @@ namespace Enemy {
 		[SerializeField] private float maxEnemyHealth;
 		[SerializeField] private float flashDuration = 0.15f;
 
+		[SerializeField] private DamageIndicator damageIndicatorPrefab;
+
 		private SpriteRenderer[]      spriteRenderers;
 		private MaterialPropertyBlock propertyBlock;
 		private float                 flash;
@@ -42,7 +44,8 @@ namespace Enemy {
 		public void ChangeHealth(float amount) {
 			if (IsDead) return;
 			currentEnemyHealth += amount;
-
+			if (amount < 0f && damageIndicatorPrefab)
+				DamageIndicator.Spawn(damageIndicatorPrefab, transform.position, -amount);
 			flash = 1f;
 
 			if (currentEnemyHealth <= 0) {
@@ -56,6 +59,7 @@ namespace Enemy {
 				Destroy(gameObject);
 			}
 
+			
 			if (currentEnemyHealth > maxEnemyHealth) currentEnemyHealth = maxEnemyHealth;
 		}
 	}

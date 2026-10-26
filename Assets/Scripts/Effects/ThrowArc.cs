@@ -5,11 +5,12 @@ using UnityEngine;
 namespace Effects {
 	[RequireComponent(typeof(LineRenderer))]
 	public class ThrowArc : MonoBehaviour {
-		private static readonly  int       ArcLength    = Shader.PropertyToID("_ArcLength");
-		private static readonly  int       LineWidth    = Shader.PropertyToID("_LineWidth");
-		private static readonly  int       Charge       = Shader.PropertyToID("_Charge");
-		private static readonly  int       UnscaledTime = Shader.PropertyToID("_UnscaledTime");
-		[SerializeField] private int       maxSteps     = 90;
+		private static readonly int ArcLength    = Shader.PropertyToID("_ArcLength");
+		private static readonly int LineWidth    = Shader.PropertyToID("_LineWidth");
+		private static readonly int Charge       = Shader.PropertyToID("_Charge");
+		private static readonly int UnscaledTime = Shader.PropertyToID("_UnscaledTime");
+
+		[SerializeField] private int       maxSteps = 90;
 		[SerializeField] private LayerMask groundMask;
 
 		private Rigidbody2D           throwableRb;
@@ -42,7 +43,7 @@ namespace Effects {
 			materialPropertyBlock.SetFloat(UnscaledTime, Time.unscaledTime);
 			line.SetPropertyBlock(materialPropertyBlock);
 		}
-
+		
 		private float DrawArc(Vector2 position, Vector2 velocity) {
 			var gravity   = Physics2D.gravity * throwableRb.gravityScale;
 			var deltaTime = Time.fixedDeltaTime;
