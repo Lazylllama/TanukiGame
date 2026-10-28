@@ -15,6 +15,7 @@ namespace Effects {
 		[SerializeField] private float       flipAngle;
 		[SerializeField] private GameObject  backImage, icon;
 		[SerializeField] private CanvasGroup contentGroup;
+		[SerializeField] private float       flipDuration = 0.25f, tiltSpeedOnCard = 5.0f, tiltSpeedOffCard = 2.0f;
 
 		private RectTransform rectTransform, iconRectTransform;
 		private Material      mat,   iconMat;
@@ -77,9 +78,9 @@ namespace Effects {
 			LeanTween.cancel(gameObject);
 			backImage.SetActive(true);
 
-			LeanTween.value(gameObject, 0f, 90f, 0.25f).setOnUpdate(e => flipAngle = e).setOnComplete(() => {
+			LeanTween.value(gameObject, 0f, 90f, flipDuration).setOnUpdate(e => flipAngle = e).setOnComplete(() => {
 							 backImage.SetActive(false);
-							 LeanTween.value(gameObject, -90f, 0f, 0.25f).setOnUpdate(e => flipAngle = e);
+							 LeanTween.value(gameObject, -90f, 0f, flipDuration).setOnUpdate(e => flipAngle = e);
 						 });
 		}
 
@@ -99,7 +100,7 @@ namespace Effects {
 			localPos.y /= rectTransform.sizeDelta.y / 2.0f;
 
 			var isOnCard = (localPos is { x: <= 1.0f and >= -1.0f, y: <= 1.0f and >= -1.0f });
-			var t        = 1.0f - Mathf.Exp((isOnCard ? -05.0f : -2.0f) * Time.deltaTime);
+			var t        = 1.0f - Mathf.Exp((isOnCard ? tiltSpeedOnCard : tiltSpeedOffCard) * Time.deltaTime);
 
 			if (firstFrame) {
 				currentMouse = isOnCard ? localPos : Vector2.zero;

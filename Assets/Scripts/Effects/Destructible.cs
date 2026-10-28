@@ -16,7 +16,7 @@ namespace Effects {
 		[SerializeField] private bool debug;
 		[SerializeField] private PhysicsMaterial2D shardMat;
 		[SerializeField] private float             explosionForce = 1.0f, fadeTime = 2.0f, fadeDelay = 2.0f;
-		[SerializeField] private int               seedCount      = 3;
+		[SerializeField, Min(1)] private int               seedCount      = 3;
 
 		private SpriteRenderer spriteRenderer;
 		private Vector2[]      seeds;
@@ -77,15 +77,15 @@ namespace Effects {
 			Shatter(dir);
 		}
 
-		/*
+		
 		private void OnDrawGizmos() {
 			if (!isRunning || !debug) return;
 			for (int i = 0; i < rubberBandPoints.Count; i++) {
 				var points = this.rubberBandPoints[i];
 				Gizmos.color = Color.HSVToRGB(Mathf.Repeat(seeds[i].x * 43176.1746f, 1f), 1f, 1f);
 				for (int j = 0; j < points.Count; j++) {
-					Gizmos.DrawLine(transform.TransformPoint(points[j]),
-					                transform.TransformPoint(points[(j + 1) % points.Count]));
+					Gizmos.DrawLine(transform.TransformPoint(points[0][j]),
+					                transform.TransformPoint(points[0][(j + 1) % points.Count]));
 				}
 			}
 
@@ -105,7 +105,6 @@ namespace Effects {
 				Gizmos.DrawSphere(transform.TransformPoint(point), 0.01f);
 			}
 		}
-		*/
 
 		#endregion
 

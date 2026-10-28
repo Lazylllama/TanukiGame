@@ -3,16 +3,21 @@ Shader "Custom/HOLO"
     Properties
     {
         [MainTexture] _MainTex("Sprite Texture", 2D) = "white" {}
-        _BurnColor("Burn Color", Color) = (0.9, 0.4, 0.2, 1.0)
+        
+        [Header(Holo)]
         _HoloStrength("Holo Strength", Range(0, 1)) = 1.0
         _MaskLow("Mask Low", Range(0, 1)) = 0.0
         _MaskHigh("Mask High", Range(0, 1)) = 0.375
-        _Point("Point", float) = 0.5
         _Tilt("Tilt", Vector) = (0, 0, 0, 0)
         _Aspect("Aspect Ratio", float) = 1.0
+        
+        [Header(Sparkle)]
         _SparkleStrength("Sparkle Strength", float) = 4.0
         _FlakeCount("Flake Count", int) = 30
         _GlowWidth("Glow Width", Float) = 0.4
+        
+        [Header(Burn)]
+        _BurnColor("Burn Color", Color) = (0.9, 0.4, 0.2, 1.0)
         _Burn("Burn", Range(0, 1)) = 0
         _BurnBrightness("Burn Brightness", Float) = 4.0
         _GlowThickness("Glow Thickness", Range(0, 1)) = 0.1

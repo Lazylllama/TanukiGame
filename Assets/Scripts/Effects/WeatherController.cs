@@ -34,6 +34,11 @@ namespace Effects {
 			oldRainInput = rainInput;
 		}
 
+		private void OnValidate() {
+			if(minDelay > maxDelay) minDelay = maxDelay;
+			Debug.LogWarning("Tried to set minDelay to a value lesser than maxDelay, minDelay was set to MaxDelay");
+		}
+
 		#endregion
 
 		#region Custom Functions
