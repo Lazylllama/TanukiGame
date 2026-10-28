@@ -9,7 +9,6 @@ using Piece = System.Collections.Generic.List<UnityEngine.Vector2>;
 using Random = UnityEngine.Random;
 
 public class DeathShatterManager : MonoBehaviour {
-	
 	public static DeathShatterManager instance;
 
 	[SerializeField, Min(1)] private int            seedCount = 10;
@@ -19,13 +18,12 @@ public class DeathShatterManager : MonoBehaviour {
 	private SpriteRenderer spriteRenderer;
 	private List<Vector2>  spritePoints = new List<Vector2>();
 	private Texture2D      screenShot;
-	private Vector3 tanukiPos;
+	private Vector3        tanukiPos;
 	private Vector2[]      seeds;
 	private Camera mainCamera;
 	private List<Sprite> sprites = new List<Sprite>();
 	
 
-	
 	private void Awake() {
 		if (instance == null) {
 			instance = this;
@@ -41,7 +39,7 @@ public class DeathShatterManager : MonoBehaviour {
 			Destroy(sprite);
 		}
 	}
-	
+
 	[ContextMenu("Grab Screenshot")]
 	public void GrabScreenshot(Action callback = null) {
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -56,7 +54,7 @@ public class DeathShatterManager : MonoBehaviour {
 
 	IEnumerator GrabScreenShot() {
 		yield return new WaitForEndOfFrame();
-		
+
 		screenShot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGBA32, false);
 		screenShot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
 		screenShot.Apply();
@@ -66,20 +64,18 @@ public class DeathShatterManager : MonoBehaviour {
 		spriteRenderer.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f), pixelsPerUnit, 0, SpriteMeshType.FullRect);
 		tanukiPos = transform.InverseTransformPoint(PlayerController.Instance.transform.position);
 		yield return null;
-		
+
 		Shatter();
 	}
 
 	private void Shatter() {
 		seeds = new Vector2[seedCount];
-		
+
 		for (int i = 0; i < seedCount; i++) {
 			var angle  = Random.Range(0, 360);
 			var offset = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
 			offset *= Mathf.Pow(Random.Range(0f, 1f), 2) * mainCamera.orthographicSize * mainCamera.aspect * seedSpread / transform.localScale.x;
 
-			
-			
 			seeds[i] = new Vector2(offset.x + tanukiPos.x, offset.y + tanukiPos.y);
 		}
 
@@ -88,7 +84,7 @@ public class DeathShatterManager : MonoBehaviour {
 		spritePoints.Add(new Vector2(spriteRenderer.sprite.bounds.max.x, spriteRenderer.sprite.bounds.min.y));
 		spritePoints.Add(spriteRenderer.sprite.bounds.min);
 		spritePoints.Add(new Vector2(spriteRenderer.sprite.bounds.min.x, spriteRenderer.sprite.bounds.max.y));
-		
+
 		var listOfListOfShards = GenShards(spritePoints);
 		
 		foreach (var listOfShards in listOfListOfShards) {
@@ -103,42 +99,43 @@ public class DeathShatterManager : MonoBehaviour {
 			for (int i = 0; i < vertices.Count; i++) {
 				vertices[i] = vertices[i] * spriteRenderer.sprite.pixelsPerUnit + spriteRenderer.sprite.pivot;
 			}
-			
+
 			List<ushort> triangles = new List<ushort>();
-			for(int i = 1; i <= vertices.Count - 2; i++) {
+			for (int i = 1; i <= vertices.Count - 2; i++) {
 				triangles.Add(0);
 				triangles.Add((ushort)i);
 				triangles.Add((ushort)(i + 1));
 			}
-			
+
 			var pos = Vector2.zero;
 			foreach (var vert in shard) {
 				pos.x += vert.x;
 				pos.y += vert.y;
 			}
-			
+
 			pos /= shard.Count;
-			
-			
-			var obj       = new GameObject("shard");
+
+
+			var obj = new GameObject("shard");
 			obj.transform.SetParent(transform, false);
 			obj.transform.localPosition = pos;
-			
+
 			var rigidbody = obj.AddComponent<Rigidbody2D>();
 			var renderer  = obj.AddComponent<SpriteRenderer>();
 			var sprite = Sprite.Create(spriteRenderer.sprite.texture, spriteRenderer.sprite.rect,
-			                           spriteRenderer.sprite.pivot / spriteRenderer.sprite.rect.size + pos * spriteRenderer.sprite.pixelsPerUnit / spriteRenderer.sprite.rect.size,
+			                           spriteRenderer.sprite.pivot               / spriteRenderer.sprite.rect.size +
+			                           pos * spriteRenderer.sprite.pixelsPerUnit / spriteRenderer.sprite.rect.size,
 			                           spriteRenderer.sprite.pixelsPerUnit, 0, SpriteMeshType.FullRect
 			                          );
 			sprites.Add(sprite);
 			sprite.OverrideGeometry(vertices.ToArray(), triangles.ToArray());
-			renderer.sprite  = sprite;
-			
+			renderer.sprite = sprite;
+
 			LeanTween.delayedCall(Vector3.Distance(obj.transform.localPosition, tanukiPos) * shatterSpeed,
 			                      () => { renderer.color   = Random.ColorHSV(1f, 1f, 0f, 0f, shardTintLow, 1f); });
 
 			renderer.sortingLayerID = SortingLayer.NameToID("DeathShatter");
-			
+
 			var dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 			var ang = Random.Range(-1f, 1f);
 			rigidbody.AddForce(dir * shatterForce, ForceMode2D.Impulse);
@@ -146,9 +143,11 @@ public class DeathShatterManager : MonoBehaviour {
 
 			rigidbody.simulated = false;
 
-			LeanTween.delayedCall(Vector3.Distance(obj.transform.localPosition, tanukiPos) * shatterSpeed + shatterDelay,
+			LeanTween.delayedCall(Vector3.Distance(obj.transform.localPosition, tanukiPos) * shatterSpeed +
+			                      shatterDelay,
 			                      () => { rigidbody.simulated = true; });
 		}
+
 		spriteRenderer.enabled = false;
 
 		GameUIManager.Instance.gameObject.SetActive(false);
@@ -160,7 +159,7 @@ public class DeathShatterManager : MonoBehaviour {
 		background.transform.localScale = new Vector3((mainCamera.orthographicSize) * mainCamera.aspect,
 		                                              mainCamera.orthographicSize, 1f);
 	}
-	
+
 	private List<List<Piece>> GenShards(Piece points) {
 		var result = new List<List<Piece>>();
 		var list   = new Piece(points);
@@ -181,7 +180,7 @@ public class DeathShatterManager : MonoBehaviour {
 
 		return result;
 	}
-	
+
 	private List<Piece> Cut(Piece points, Vector2 A, Vector2 B) {
 		// Indexes for entry and exit, used to make multiple polygons if there's a gap in the mesh.
 		List<int> eIndex = new List<int>(), xIndex = new List<int>();
@@ -242,7 +241,7 @@ public class DeathShatterManager : MonoBehaviour {
 
 		return result;
 	}
-	
+
 	private Vector2 GetLine(Vector2 A, Vector2 B, Vector2 P0, Vector2 P1) {
 		var arrow    = B - A;
 		var mid      = new Vector2(A.x + B.x, A.y + B.y) / 2;
@@ -255,10 +254,11 @@ public class DeathShatterManager : MonoBehaviour {
 	}
 
 	private void OnDrawGizmos() {
-		if(seeds == null) return;
+		if (seeds == null) return;
 		foreach (var seed in seeds) {
 			Gizmos.DrawSphere(transform.TransformPoint(seed), 0.1f);
 		}
+
 		Gizmos.color = Color.red;
 		foreach (var point in spritePoints) {
 			Gizmos.DrawSphere(transform.TransformPoint(point), 0.1f);

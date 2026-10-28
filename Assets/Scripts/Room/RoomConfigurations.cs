@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 
-namespace Data.Rooms {
+namespace Room {
 	[Serializable]
 	public struct RoomConfigurationData {
+		public string         name;
 		public GameObject     levelPrefab;
 		public RoomDifficulty difficulty;
 		public RoomType       type;

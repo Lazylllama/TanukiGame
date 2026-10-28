@@ -234,6 +234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy.EnemyHealth
   maxEnemyHealth: 2
+  flashDuration: 0.15
+  damageIndicatorPrefab: {fileID: 4553332119397363268, guid: 6a48a68b1e865df42aa821f2d450f878, type: 3}
 --- !u!114 &4777245734712846369
 MonoBehaviour:
   m_ObjectHideFlags: 0

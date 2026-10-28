@@ -11,7 +11,8 @@ namespace Player {
 
 		#region Fields
 
-		[SerializeField] private Transform mouseCircle;
+		[SerializeField] private Transform  mouseCircle;
+		[SerializeField] private GameObject parryShockwavePrefab;
 
 		[Header("Slash Settings")]
 		[SerializeField] private float slashRadius;
@@ -47,14 +48,19 @@ namespace Player {
 
 		[Header("Drag and Drop")]
 		[SerializeField] private GameObject slashVFX;
-		[SerializeField] private GameObject throwObject;
 		[SerializeField] private Camera     mainCamera;
+		[SerializeField] public  GameObject throwObject;
+
+		public bool    IsChargingThrow => throwAttackCoroutine != null;
+		public float   ThrowCharge     => Mathf.InverseLerp(throwMinForce, throwMaxForce, currentThrowForce);
+		public Vector2 ThrowImpulse    => ((Vector2)(mouseVector - transform.position).normalized) * currentThrowForce;
 
 		//? Private floats
 		private float slashTimer;
 		private float parryTimer;
 		private float throwTimer;
 		private float throwHeldInputTimer;
+		private float currentThrowForce;
 
 		//? Getters and setters
 		public bool IsParrying { get; private set; }
@@ -150,14 +156,16 @@ namespace Player {
 			var recoilDirection = new Vector2(PlayerController.Instance.IsLookingRight ? -1 : 1, 0f);
 			StartCoroutine(ExtraForce(slashRecoilForce, recoilDirection, slashRecoilDuration));
 
+			CameraManager.Instance.ShakeCamera(1f, CameraManager.CameraShakeType.Bounce);
+
 			var playerDamage = GameManager.Instance.PlayerStats.Get(Stat.MeleeDamage, slashDamage);
 			foreach (var enemy in enemies) {
-				enemy.GetComponent<EnemyHealth>().ChangeHealth(-slashDamage);
+				Debug.Log($"Dealing {playerDamage} to {enemy.name}");
+				enemy.GetComponent<EnemyHealth>().ChangeHealth(-playerDamage);
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
 				StartCoroutine(Lib.Combat.PreformedKnockback(enemy.GetComponent<Rigidbody2D>(), enemy.gameObject,
 				                                             knockbackDirection,
 				                                             slashKnockbackForce, slashKnockbackLength));
-				StartCoroutine(Lib.Combat.TimeStop(0.05f));
 			}
 		}
 
@@ -167,7 +175,7 @@ namespace Player {
 		}
 
 		private IEnumerator ThrowAttackIEnumerator() {
-			var forceToApply       = throwMinForce;
+			currentThrowForce = throwMinForce;
 			var inAriTimeSlowTimer = inAirTimeSlowLength;
 			var stopTimeScaling    = false;
 
@@ -183,8 +191,8 @@ namespace Player {
 					Time.timeScale += Time.unscaledDeltaTime * 5;
 				}
 
-				if (forceToApply < throwMaxForce) {
-					forceToApply += throwChargeSpeed;
+				if (currentThrowForce < throwMaxForce) {
+					currentThrowForce += throwChargeSpeed * Time.fixedDeltaTime;
 				}
 
 				yield return null;
@@ -197,12 +205,10 @@ namespace Player {
 			var direction            = (mouseVector - transform.position);
 			direction.Normalize();
 
-			instantiatedObjectRb.AddForce(forceToApply * direction,
-			                              ForceMode2D.Impulse);
+			instantiatedObjectRb.AddForce(ThrowImpulse, ForceMode2D.Impulse);
 			StartCoroutine(ExtraForce(throwRecoilForce, direction * -1, throwRecoilLength));
 			throwTimer = throwCooldown;
 
-			Debug.Log(forceToApply);
 			throwAttackCoroutine = null;
 			yield return null;
 		}
@@ -232,13 +238,17 @@ namespace Player {
 
 			IsParrying = true;
 
+
 			while (parryLengthTimer > 0f) {
 				parryLengthTimer -= Time.deltaTime;
 				var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
 				if (parriedColliders.Length > 0) {
-					StartCoroutine(Lib.Combat.TimeStop(0.05f));
+					CameraManager.Instance.ShakeCamera(1f, CameraManager.CameraShakeType.Bounce);
+					Instantiate(parryShockwavePrefab, transform.position, Quaternion.identity);
+
 					parryHit         = true;
 					parryLengthTimer = 0f;
+
 					foreach (var parriedCollider in parriedColliders) {
 						if (parriedCollider.TryGetComponent(out ParryOrb orb)) orb.OnParry();
 						else Destroy(parriedCollider.gameObject);

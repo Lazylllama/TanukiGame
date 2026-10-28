@@ -17,11 +17,19 @@ namespace Cards {
 		[SerializeField] private Material holographicCardMaterial;
 		[SerializeField] private Material normalCardMaterial;
 
+		[Header("dealer")]
+		[SerializeField] private float dealOffset = 900f;
+		[SerializeField] private float dealTime    = 0.45f;
+		[SerializeField] private float dealStagger = 0.08f;
+
+		private Vector3[] selectableCardHomes;
+
 		#endregion
 
 		#region Unity Functions
 
 		private void Start() {
+			selectableCardHomes = selectableCards.Select(card => card.transform.localPosition).ToArray();
 			HideCards();
 
 			if (fakeCards.Length == 0 || selectableCards.Length == 0) {
@@ -41,8 +49,10 @@ namespace Cards {
 			foreach (var card in fakeCards)
 				RollCardWithLuck(card, 10f);
 
-			foreach (var card in selectableCards)
-				RollCardWithLuck(card, GameManager.Instance.PlayerStats.Get(Stat.Luck, 1f));
+			for (var i = 0; i < selectableCards.Length; i++) {
+				RollCardWithLuck(selectableCards[i], GameManager.Instance.PlayerStats.Get(Stat.Luck, 1f));
+				DealIn(selectableCards[i].transform, selectableCardHomes[i], i * dealStagger);
+			}
 		}
 
 		/// <summary>
@@ -72,24 +82,36 @@ namespace Cards {
 			var randUpgrade      = Random.Range(0, upgradesWithType.Length);
 
 			var oneInChance   = upgradesWithType[randUpgrade].OneInEveryHolo;
-			var IsHolographic = oneInChance >= 1 && Random.Range(1, oneInChance + 1) == 1;
+			var isHolographic = oneInChance >= 1 && Random.Range(1, oneInChance + 1) == 1;
 
-			refs.cardName.text         = upgradesWithType[randUpgrade].CardName;
-			refs.cardImage.sprite      = upgradesWithType[randUpgrade].CardImage;
-			refs.cardDescription.text  = upgradesWithType[randUpgrade].CardDescription;
+			refs.cardName.text    = upgradesWithType[randUpgrade].CardName;
+			refs.cardImage.sprite = upgradesWithType[randUpgrade].CardImage;
+			refs.cardDescription.text = isHolographic
+				                            ? upgradesWithType[randUpgrade].CardHoloDescription
+				                            : upgradesWithType[randUpgrade].CardDescription;
 			refs.cardBackground.sprite = bg.cardBackgroundImage;
 
-			refs.cardBackground.material = IsHolographic ? holographicCardMaterial : normalCardMaterial;
-			refs.cardImage.material      = IsHolographic ? holographicCardMaterial : normalCardMaterial;
+			refs.cardBackground.material = isHolographic ? holographicCardMaterial : normalCardMaterial;
+			refs.cardImage.material      = isHolographic ? holographicCardMaterial : normalCardMaterial;
 
 			refs.cardName.color        = bg.titleColor;
 			refs.cardDescription.color = bg.descriptionColor;
 
-			if (refs.cardUIHandler != null)
-				refs.cardUIHandler.selectedCard = upgradesWithType[randUpgrade];
+			if (refs.cardUIHandler != null) {
+				refs.cardUIHandler.isHolographic = isHolographic;
+				refs.cardUIHandler.selectedCard  = upgradesWithType[randUpgrade];
+			}
 
 
 			card.SetActive(true);
+		}
+
+		private void DealIn(Transform card, Vector3 home, float stagger = 0f) {
+			card.localPosition = home + Vector3.down * dealOffset;
+			LeanTween.moveLocal(card.gameObject, home, dealTime)
+			         .setDelay(stagger)
+			         .setEaseOutBack()
+			         .setIgnoreTimeScale(true);
 		}
 
 		#endregion
