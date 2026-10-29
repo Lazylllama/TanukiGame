@@ -183,7 +183,7 @@ MonoBehaviour:
   slashKnockbackForce: 5
   slashKnockbackLength: 0.2
   slashDamage: 1
-  throwChargeSpeed: 0.5
+  throwChargeSpeed: 6
   throwMinForce: 10
   throwMaxForce: 50
   throwCooldown: 1
@@ -404,10 +404,6 @@ LineRenderer:
   m_MaskInteraction: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 2, y: 2.4, z: 0}
-  - {x: 4, y: 3.2, z: 0}
-  - {x: 6, y: 2.4, z: 0}
-  - {x: 8, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.3
@@ -478,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff40cdc13fca423782215d82eb7d32c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Effects.ThrowArc
-  maxSteps: 90
+  maxSteps: 30
   groundMask:
     serializedVersion: 2
     m_Bits: 64

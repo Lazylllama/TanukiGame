@@ -20,6 +20,10 @@ namespace UI {
 		[SerializeField] private float heartDrainTime = 0.4f;
 		[SerializeField] private float heartPunch = 0.4f;
 
+		[Header("Banner")]
+		[SerializeField] private CanvasGroup bannerGroup;
+		[SerializeField] private TextMeshProUGUI bannerText;
+
 		private CardUpgradeManager cardUpgradeManager;
 		private Action             onCardUpgrade;
 		private Color              defaultTimerColor;
@@ -92,12 +96,27 @@ namespace UI {
 			timerText.enabled = true;
 
 			var tenths  = Mathf.CeilToInt(Mathf.Max(0f, timeLeft) * 10f);
-			var minutes = tenths        / 600f;
+			var minutes = tenths / 600;
+
 			var seconds = tenths % 600f / 10f;
 
-			timerText.text = $"{minutes:00}:{seconds:00.0}";
-
+			timerText.text  = $"{minutes:00}:{seconds:00.0}";
 			timerText.color = tenths == 0 ? new Color(1f, 0.4f, 0.4f) : defaultTimerColor;
+		}
+
+		public void ShowBanner(string text, float delay = 0f) {
+			var rect = (RectTransform)bannerGroup.transform;
+
+			LeanTween.cancel(bannerGroup.gameObject);
+			
+			bannerText.text   = text;
+			bannerGroup.alpha = 0f;
+			
+			rect.localScale = Vector3.one * 2f;
+
+			LeanTween.alphaCanvas(bannerGroup, 1f, 0.15f).setDelay(delay).setIgnoreTimeScale(true);
+			LeanTween.scale(rect, Vector3.one, 0.35f).setDelay(delay).setEaseOutBack().setIgnoreTimeScale(true);
+			LeanTween.alphaCanvas(bannerGroup, 0f, 0.4f).setDelay(delay + 1.4f).setIgnoreTimeScale(true);
 		}
 
 		#endregion
