@@ -29,12 +29,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BubbleAmount: 0.672
+    - _BubbleDepth: 6.79
+    - _BubbleMirrorStrength: 0.37
+    - _BubbleRiseSpeed: 0.1
+    - _BubbleSize: 1.63
+    - _BubbleWobbleAmount: 0.05
     - _FadeDistance: 0.88
     - _FoamBubbleScale: 2.11
     - _FoamBubbleSpeed: 0
+    - _FoamNoiseScale: 1
+    - _FoamNoiseSpeed: 1
     - _FoamSoftness: 0.16
-    - _FoamThickness: 0.03
+    - _FoamThickness: 0.44
     - _FoamWobble: 0.3
+    - _FresnelPow: 3.3
+    - _FresnelStrength: 1
+    - _LensStrength: 0.41
+    - _MirrorVisibility: 0.73
     - _ReflectionStrength: 1.23
     - _RippleFreq: 9.2
     - _RippleSpeed: 1
