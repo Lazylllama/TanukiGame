@@ -43,7 +43,7 @@ namespace Effects {
 			materialPropertyBlock.SetFloat(UnscaledTime, Time.unscaledTime);
 			line.SetPropertyBlock(materialPropertyBlock);
 		}
-		
+
 		private float DrawArc(Vector2 position, Vector2 velocity) {
 			var gravity   = Physics2D.gravity * throwableRb.gravityScale;
 			var deltaTime = Time.fixedDeltaTime;
@@ -52,7 +52,7 @@ namespace Effects {
 			line.positionCount = maxSteps + 1;
 			line.SetPosition(0, position);
 
-			for (var i = 0; i <= maxSteps; i++) {
+			for (var i = 0; i < maxSteps; i++) {
 				velocity += gravity * deltaTime;
 				var next = position + velocity * deltaTime;
 
@@ -60,13 +60,12 @@ namespace Effects {
 				if (hit) next = hit.point;
 
 				length += Vector2.Distance(position, next);
-				line.SetPosition(i, next);
+				line.SetPosition(i + 1, next);
 				position = next;
 
-				if (hit) {
-					line.positionCount = i + 1;
-					break;
-				}
+				if (!hit) continue;
+				line.positionCount = i + 2;
+				break;
 			}
 
 			return length;

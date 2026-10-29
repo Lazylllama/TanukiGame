@@ -2,16 +2,15 @@
     <ui:Template name="MainMenuScreen" src="project://database/Assets/UIDocs/Screens/MainMenuScreen.uxml?fileID=9197481963319205126&amp;guid=5c2ca7cb6d0358a47b508cc8a4a2ad4a&amp;type=3#MainMenuScreen"/>
     <ui:Template name="OptionsScreen" src="project://database/Assets/UIDocs/Screens/OptionsScreen.uxml?fileID=9197481963319205126&amp;guid=ca6329e5dcac85247b55dbe7211d16ef&amp;type=3#OptionsScreen"/>
     <Style src="project://database/Assets/UIDocs/StyleSheet.uss?fileID=7433441132597879392&amp;guid=ef7d3e02e35b11a4ca1dd2e645fb08f7&amp;type=3#StyleSheet"/>
+    <Style src="project://database/Assets/StartScreen.uss?fileID=7433441132597879392&amp;guid=73a629037fa84c54ba4be960139a1b8e&amp;type=3#StartScreen"/>
+    <ui:Image source="project://database/Assets/Art/UI/Frame%2030.png?fileID=2800000&amp;guid=94acd55e47ce25042a3a7f4c6819929b&amp;type=3#Frame 30" enabled="true" name="Image" style="position: absolute; height: 100%; width: 100%;"/>
     <ui:VisualElement name="VisualElement" style="flex-grow: 1;">
-        <ui:Image source="project://database/Assets/Art/UI/Frame%2030.png?fileID=2800000&amp;guid=94acd55e47ce25042a3a7f4c6819929b&amp;type=3#Frame 30" style="position: absolute; height: 100%; width: 100%;"/>
         <ui:VisualElement name="Information" style="flex-grow: 1; right: 45px; bottom: 60px; position: absolute;">
             <ui:Label text="v1.0.0-dev" name="GameVersion" style="-unity-text-align: upper-right; color: rgb(255, 255, 255); font-size: 32px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Dead%20Font%20Walking.otf?fileID=12800000&amp;guid=bfbff4b0a0b3d07409bc5aac58fc593a&amp;type=3#Dead Font Walking&quot;); filter: opacity(0.15);"/>
             <ui:Image name="StudioBranding" source="project://database/Assets/Art/UI/FallenInteractive.png?fileID=2800000&amp;guid=0f6a7bd99f42a1e4fbcd8b796af92b1b&amp;type=3#FallenInteractive" class="mix-overlay" style="position: relative; right: auto; bottom: auto; background-color: rgba(0, 0, 0, 0); filter: opacity(0.15);"/>
         </ui:VisualElement>
         <ui:VisualElement name="MainScreen" class="screen" style="flex-grow: 1;">
-            <ui:Instance template="MainMenuScreen" name="StartScreen" class="screen">
-                <ui:Image source="project://database/Assets/Art/UI/The-City-at-Night-Under-Cloudy-Skies_3AEsb%201.png?fileID=2800000&amp;guid=428a85309b215bc44864aa3df9628af0&amp;type=3#The-City-at-Night-Under-Cloudy-Skies_3AEsb 1" scale-mode="ScaleAndCrop" name="Background" style="position: absolute; flex-wrap: nowrap; flex-direction: column; align-items: auto; align-self: center; justify-content: space-around; align-content: auto; top: -1px; width: 100%; height: 100%; left: 2px;"/>
-            </ui:Instance>
+            <ui:Instance template="MainMenuScreen" name="StartScreen" class="screen"/>
             <ui:Instance template="OptionsScreen" name="OptionsScreen" class="screen screen--hidden"/>
         </ui:VisualElement>
     </ui:VisualElement>
