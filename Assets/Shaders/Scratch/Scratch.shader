@@ -4,6 +4,7 @@ Shader "Custom/Scratch"
     {
         [MainTexture] _MainTex("Sprite Texture", 2D) = "white" {}
         [MaskTexture] _MaskTex("Mask Texture ", 2D) = "white" {}
+        [PrintTexture] _PrintTex("Print Texture", 2D) = "white" {}
         _Tilt("Tilt", Vector) = (0, 0, 0, 0)
     }
 
@@ -43,10 +44,14 @@ Shader "Custom/Scratch"
             
             TEXTURE2D(_MaskTex);
             SAMPLER(sampler_MaskTex);
+            
+            TEXTURE2D(_PrintTex);
+            SAMPLER(sampler_PrintTex);
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
                 float4 _MaskTex_ST;
+                float4 _PrintTex_ST;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -85,7 +90,9 @@ Shader "Custom/Scratch"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color;
+                float print = 1 - SAMPLE_TEXTURE2D(_PrintTex, sampler_PrintTex, IN.uv).r;
+                print = saturate(print + 0.5);
+                half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color * print;
                 float alpha = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv);
                 
                 color.a = step(alpha, noise2D(IN.uv * 300));

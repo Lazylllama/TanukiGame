@@ -29,10 +29,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Aspect: 2.3004591
+    - _Aspect: 1.0362984
     - _BrushRadius: 0.05
     m_Colors:
-    - _BrushUV: {r: -0.37369007, g: 1.2684162, b: 0, a: 0}
-    - _PrevBrushUV: {r: -0.38193774, g: 1.2684162, b: 0, a: 0}
+    - _BrushUV: {r: 0.6312427, g: -0.30152524, b: 0, a: 0}
+    - _PrevBrushUV: {r: 0.6312427, g: -0.30152524, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
