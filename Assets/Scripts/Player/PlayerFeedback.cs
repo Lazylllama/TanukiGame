@@ -47,7 +47,6 @@ namespace Player {
 			//* lowkey jus feels like the game is lagging rn
 			//StartCoroutine(Lib.Feel.TimeStop(hitStopLength));
 
-
 			CameraManager.Instance.ShakeCamera(hurtCamShakeForce);
 			CameraManager.Instance.HurtPulse();
 		}

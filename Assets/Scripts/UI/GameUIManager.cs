@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cards;
 using Logic;
 using Player;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace UI {
@@ -23,6 +27,7 @@ namespace UI {
 		[Header("Banner")]
 		[SerializeField] private CanvasGroup bannerGroup;
 		[SerializeField] private TextMeshProUGUI bannerText;
+		[SerializeField] private RawImage        bannerFade;
 
 		private CardUpgradeManager cardUpgradeManager;
 		private Action             onCardUpgrade;
@@ -46,6 +51,8 @@ namespace UI {
 			timerText.enabled  = false;
 			defaultTimerColor  = timerText.color;
 			UpdateHeartsUI(false);
+
+			ShowBanner("Training Grounds", 3f);
 		}
 
 		#endregion
@@ -108,15 +115,27 @@ namespace UI {
 			var rect = (RectTransform)bannerGroup.transform;
 
 			LeanTween.cancel(bannerGroup.gameObject);
-			
-			bannerText.text   = text;
+
+			var layoutGroup = bannerGroup.GetComponentInChildren<HorizontalLayoutGroup>();
+			var layoutGroupChildren = layoutGroup.GetComponentsInChildren<RectTransform>()
+			                                     .Where(rectTransform => rectTransform != layoutGroup.transform)
+			                                     .ToList();
+
+			bannerText.text = text;
+			bannerText.rectTransform.sizeDelta =
+				new Vector2(bannerText.preferredWidth, bannerText.rectTransform.sizeDelta.y);
 			bannerGroup.alpha = 0f;
-			
+
+			var totalWidth = layoutGroupChildren.Sum(layoutGroupChild => layoutGroupChild.sizeDelta.x);
+
+			totalWidth                         += layoutGroup.spacing * (layoutGroupChildren.Count - 1);
+			bannerFade.rectTransform.sizeDelta =  new Vector2(totalWidth, bannerFade.rectTransform.sizeDelta.y);
+
 			rect.localScale = Vector3.one * 2f;
 
 			LeanTween.alphaCanvas(bannerGroup, 1f, 0.15f).setDelay(delay).setIgnoreTimeScale(true);
 			LeanTween.scale(rect, Vector3.one, 0.35f).setDelay(delay).setEaseOutBack().setIgnoreTimeScale(true);
-			LeanTween.alphaCanvas(bannerGroup, 0f, 0.4f).setDelay(delay + 1.4f).setIgnoreTimeScale(true);
+			LeanTween.alphaCanvas(bannerGroup, 0f, 0.4f).setDelay(delay + 3f).setIgnoreTimeScale(true);
 		}
 
 		#endregion

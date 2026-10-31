@@ -238,7 +238,6 @@ namespace Player {
 
 			IsParrying = true;
 
-
 			while (parryLengthTimer > 0f) {
 				parryLengthTimer -= Time.deltaTime;
 				var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
