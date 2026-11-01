@@ -228,7 +228,7 @@ public class ScratchCard : MonoBehaviour {
 		rb.AddForce(Vector2.right * Random.Range(-1f, 1f), ForceMode2D.Impulse);
 
 		//? Destroy the crumb after 1.5 seconds.
-		LeanTween.delayedCall(1.5f, () => Destroy(crumb));
+		Destroy(crumb, 1.5f);
 	}
 
 	#endregion
