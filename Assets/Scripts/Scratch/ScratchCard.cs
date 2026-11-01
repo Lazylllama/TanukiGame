@@ -192,7 +192,7 @@ public class ScratchCard : MonoBehaviour {
 		RenderTexture.active = active;
 		dissolveTimer        = 0f;
 		revealing            = false;
-		StopCoroutine(scratchCountRoutine);
+		if (scratchCountRoutine != null) StopCoroutine(scratchCountRoutine);
 		scratchCountRoutine = StartCoroutine(ReadScratchAmount());
 		LeanTween.cancel(prize);
 	}

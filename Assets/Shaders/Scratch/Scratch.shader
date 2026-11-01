@@ -72,7 +72,7 @@ Shader "Custom/Scratch"
                 print = saturate(print + 0.5);
                 
                 // Gets the color and modifies it by the prints value.
-                half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color * print;
+                half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color * float4(print.xxx, 1.0);
                 
                 // Gets the scratch value from the mask texture.
                 float alpha = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv);
