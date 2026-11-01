@@ -3,9 +3,9 @@ Shader "Custom/Scratch"
     Properties
     {
         [MainTexture] _MainTex("Sprite Texture", 2D) = "white" {}
-        [MaskTexture] _MaskTex("Mask Texture ", 2D) = "white" {}
-        [PrintTexture] _PrintTex("Print Texture", 2D) = "white" {}
+        _MaskTex("Mask Texture ", 2D) = "white" {}
         _Tilt("Tilt", Vector) = (0, 0, 0, 0)
+        _Aspect("Aspect", Float) = 1
     }
 
     SubShader
@@ -52,7 +52,7 @@ Shader "Custom/Scratch"
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
                 float4 _MaskTex_ST;
-                float4 _PrintTex_ST;
+                float  _Aspect;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -63,13 +63,20 @@ Shader "Custom/Scratch"
                 OUT.color = IN.color;
                 return OUT;
             }
+            
+            bool GetPrint(float2 uv)
+            {
+                float dia1 = uv.x + uv.y;
+                float dia2 = uv.x - uv.y;
+                dia1 *= 8;
+                dia2 *= 8;
+                return frac((floor(dia1) + floor(dia2)) / 2) < 0.5;
+            }
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // Gets the print from the print texture.
-                float print = 1 - SAMPLE_TEXTURE2D(_PrintTex, sampler_PrintTex, IN.uv).r;
-                // Modifies it to be the right value.
-                print = saturate(print + 0.5);
+                float print = 1;
+                if (GetPrint(float2(IN.uv.x * _Aspect, IN.uv.y))) print = 0.85;
                 
                 // Gets the color and modifies it by the prints value.
                 half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color * float4(print.xxx, 1.0);

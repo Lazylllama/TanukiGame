@@ -30,9 +30,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Aspect: 1
-    - _Stripes: 10
+    - _Stripes: 4.74
     m_Colors:
-    - _Color1: {r: 1, g: 1, b: 1, a: 1}
-    - _Color2: {r: 0, g: 0, b: 0, a: 1}
+    - _Color1: {r: 0.47843137, g: 0.05882353, b: 0.101960786, a: 1}
+    - _Color2: {r: 0.2901961, g: 0.03529412, b: 0.0627451, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
