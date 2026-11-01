@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logic;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -297,6 +298,7 @@ namespace Scratch {
 
 					//? If a function has been given call it after a small delay.
 					LeanTween.delayedCall(1f, () => {
+						                          GameManager.Instance?.PlayerStats.AddStatModifier(chosenPrize.modifier);
 						                          callOnFinish?.Invoke();
 						                          callOnFinish = null;
 					                          });
