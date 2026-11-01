@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -23,7 +22,7 @@ public class ScratchCard : MonoBehaviour {
 	private RenderTexture rt, readTexture, dissolveRt;
 	private RectTransform rectTransform;
 	private Coroutine     scratchCountRoutine;
-	private Material      mat;
+	private Material      mat, brushMat;
 	private Vector2       lastLocalPos, lastMousePos;
 	private Action        callOnFinish;
 	private float         dissolveTimer;
@@ -39,6 +38,9 @@ public class ScratchCard : MonoBehaviour {
 		rectTransform  = gameObject.GetComponent<RectTransform>();
 		mat            = new Material(image.material);
 		image.material = mat;
+		
+		//? Copy the brush material.
+		brushMat = new Material(scratchBrushMaterial);
 
 		//? Creates all the needed RenderTextures.
 		rt = new RenderTexture(512, (int)(512f * rectTransform.rect.height / rectTransform.rect.width), 0,
@@ -61,7 +63,7 @@ public class ScratchCard : MonoBehaviour {
 		mat.SetTexture("_MaskTex", rt);
 
 		//? Assigns the aspect ratio of the scratch zone to the ScratchBrush so that the scratch isn't shaped like an egg.
-		scratchBrushMaterial.SetFloat("_Aspect", rectTransform.rect.width / rectTransform.rect.height);
+		brushMat.SetFloat("_Aspect", rectTransform.rect.width / rectTransform.rect.height);
 		
 		//? Hide the card until needed.
 		parent.SetActive(false);
@@ -105,11 +107,11 @@ public class ScratchCard : MonoBehaviour {
 		}
 
 		//? Assign values for the brush shader so it know where to draw.
-		scratchBrushMaterial.SetVector("_PrevBrushUV", lastLocalPos);
-		scratchBrushMaterial.SetVector("_BrushUV",     localPos);
+		brushMat.SetVector("_PrevBrushUV", lastLocalPos);
+		brushMat.SetVector("_BrushUV",     localPos);
 
 		//? Draw the scratch to the Texture
-		Graphics.Blit(Texture2D.whiteTexture, rt, scratchBrushMaterial);
+		Graphics.Blit(Texture2D.whiteTexture, rt, brushMat);
 
 		//? Get how many crumbles to produce based on the distance the mouse moved.
 		var distanceMoved = Vector2.Distance(lastLocalPos, localPos);
