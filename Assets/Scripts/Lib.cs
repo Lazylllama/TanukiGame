@@ -59,7 +59,7 @@ public static class Lib {
 			LeanTween.value(target.gameObject, 0f, 1f, time)
 			         .setIgnoreTimeScale(ignoreTimeScale)
 			         .setOnUpdate(value => {
-				                      target.localScale = baseScale * (1f + value * LeanTween.punch.Evaluate(value));
+				                      target.localScale = baseScale * (1f + amount * LeanTween.punch.Evaluate(value));
 			                      });
 		}
 	}

@@ -248,7 +248,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 939002085
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -450,7 +450,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 939002085
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: -9
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -1019,7 +1019,7 @@ MonoBehaviour:
   priority: 1
   blendDistance: 0
   weight: 0
-  sharedProfile: {fileID: 11400000, guid: 4c01bb9e546b27843978396e692c126a, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 3ce7bcccbe9f26044abe509030dfbf23, type: 2}
 --- !u!1001 &3848468659875786883
 PrefabInstance:
   m_ObjectHideFlags: 0
