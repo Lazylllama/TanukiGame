@@ -3,8 +3,7 @@ Shader "Custom/Scratch"
     Properties
     {
         [MainTexture] _MainTex("Sprite Texture", 2D) = "white" {}
-        [MaskTexture] _MaskTex("Mask Texture ", 2D) = "white" {}
-        _Tilt("Tilt", Vector) = (0, 0, 0, 0)
+        _MaskTex("Mask Texture ", 2D) = "white" {}
     }
 
     SubShader
@@ -23,6 +22,7 @@ Shader "Custom/Scratch"
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Assets/Shaders/Lib/Noise.hlsl"
 
             struct Attributes
             {
@@ -58,38 +58,35 @@ Shader "Custom/Scratch"
                 return OUT;
             }
 
-            float2 hash2(float2 input)
-            {
-                float a = input.x * 127.1 + input.y * 311.7;
-                float b = input.x * 265.7 + input.y * 945.3;
-
-                a = frac(sin(a) * 43758.5453);
-                b = frac(cos(b) * 83712.8374);
-
-                return float2(a, b);
-            }
-
-            float noise2D(float2 p)
-            {
-                float2 i = floor(p);
-                float2 f = frac(p);
-                f = f * f * (3.0 - 2.0 * f);
-
-                float a = hash2(i).x;
-                float b = hash2(i + float2(1.0, 0.0)).x;
-                float c = hash2(i + float2(0.0, 1.0)).x;
-                float d = hash2(i + float2(1.0, 1.0)).x;
-
-                return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y);
-            }
-
             half4 frag(Varyings IN) : SV_Target
             {
+                // Gets the color of the foil.
                 half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color;
+                
+                // Gets the scratch value of the mask texture.
                 float alpha = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv);
                 
-                color.a = step(alpha, noise2D(IN.uv * 300));
-
+                // Modifies the scratch value with noise
+                float d = alpha - noise2D(IN.uv * 300) * 0.6;
+                
+                // Samples another value up and to the left and also modifies it by the noise.
+                float dur = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, IN.uv + 0.005) - noise2D((IN.uv + 0.005) * 300) * 0.6;
+                
+                // Check if the current and up to the left pixel is scratched or not.
+                bool isfoil = d <= 0.2;
+                bool durisfoil = dur <= 0.2;
+                
+                // If both arent scratched return normal foil.
+                if (isfoil && durisfoil) return color;
+                
+                // If the current isn't scratched but the sampled one is return a brighter higlight color.
+                if (isfoil && !durisfoil) return float4(color.rgb * 1.6, color.a);
+                
+                // If the current is scratched but the sampled one isn't return a darker shadow color.
+                if (!isfoil && durisfoil) return float4(0.0, 0.0, 0.0, 0.35);
+                
+                // If both are scratched make it see through.
+                if (!isfoil && !durisfoil) color.a = 0.0;
                 return color;
             }
             ENDHLSL

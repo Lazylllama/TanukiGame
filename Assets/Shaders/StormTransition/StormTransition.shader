@@ -44,6 +44,7 @@ Shader "Custom/StormTransition"
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Assets/Shaders/Lib/Noise.hlsl"
 
             struct Attributes
             {
@@ -78,7 +79,6 @@ Shader "Custom/StormTransition"
             CBUFFER_END
 
             float hash1D(float n) { return frac(sin(n * 127.1) * 43758.5453); }
-            float hash2D(float2 p) { return frac(sin(dot(p, float2(127.1, 311.7))) * 43758.5453); }
 
             float noise1D(float x)
             {
@@ -86,21 +86,6 @@ Shader "Custom/StormTransition"
                 float f = frac(x);
                 f = f * f * (3.0 - 2.0 * f);
                 return lerp(hash1D(i), hash1D(i + 1.0), f);
-            }
-
-            //? value noise not perlin noise
-            float noise2D(float2 p)
-            {
-                float2 i = floor(p);
-                float2 f = frac(p);
-                f = f * f * (3.0 - 2.0 * f);
-
-                float a = hash2D(i);
-                float b = hash2D(i + float2(1.0, 0.0));
-                float c = hash2D(i + float2(0.0, 1.0));
-                float d = hash2D(i + float2(1.0, 1.0));
-
-                return lerp(lerp(a, b, f.x), lerp(c, d, f.x), f.y);
             }
 
             float wobble(float y, float t)

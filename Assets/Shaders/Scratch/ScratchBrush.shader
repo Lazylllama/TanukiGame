@@ -62,20 +62,25 @@ Shader "Custom/ScratchBrush"
                 OUT.color = IN.color;
                 return OUT;
             }
-            
-           
 
             half4 frag(Varyings IN) : SV_Target
             {
+                // Convert the uv to include aspect ratio.
                 float2 uvWithAspect = float2(IN.uv.x * _Aspect, IN.uv.y);
+                
+                // Gets the start of the line.
                 float2 start = float2(_BrushUV.x * _Aspect, _BrushUV.y);
+                
+                // Gets the end of the line.
                 float2 end = float2(_PrevBrushUV.x * _Aspect, _PrevBrushUV.y);
+                
+                // Gets the closest point on the line.
                 float distAlongLine = dot(uvWithAspect - start, end - start) / dot(end - start, end - start);
                 distAlongLine = clamp(distAlongLine, 0, 1);
                 float2 pointOnLine = start + distAlongLine * (end - start);
                 
-                //float lit = step(distance(pointOnLine, uvWithAspect), _BrushRadius);
-                float lit = 1 - smoothstep(_BrushRadius, _BrushRadius + 0.02, distance(pointOnLine, uvWithAspect));
+                // Sets the scratch value based on the distance from the line.
+                float lit = 1 - smoothstep(_BrushRadius, _BrushRadius + 0.06, distance(pointOnLine, uvWithAspect));
                 
                 return half4(lit.xxxx);
             }
