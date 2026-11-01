@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 517800632}
   - component: {fileID: 517800634}
   - component: {fileID: 517800633}
+  - component: {fileID: 517800635}
   m_Layer: 5
   m_Name: PrizeBackground
   m_TagString: Untagged
@@ -272,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 1a07a5e4120c13543bd20d38644f6b11, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -295,6 +296,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 517800631}
   m_CullTransparentMesh: 1
+--- !u!114 &517800635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517800631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff5729607b1bc24f9f3eaca25ccc198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AspectRatioSetter
 --- !u!1 &521583564
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,6 +687,23 @@ MonoBehaviour:
   canvas: {fileID: 155708407}
   crumbPerUV: 50
   revealSpeed: 50
+  prizes:
+  - label: Luck
+    modifier:
+      stat: 2
+      flat: 0
+      percent: 0
+  - label: HP
+    modifier:
+      stat: 0
+      flat: 0
+      percent: 0
+  - label: XP
+    modifier:
+      stat: 1
+      flat: 0
+      percent: 0
+  prizeText: {fileID: 1568797125}
 --- !u!1 &1568797123
 GameObject:
   m_ObjectHideFlags: 0

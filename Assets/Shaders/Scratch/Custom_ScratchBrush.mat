@@ -32,7 +32,7 @@ Material:
     - _Aspect: 1.036708
     - _BrushRadius: 0.05
     m_Colors:
-    - _BrushUV: {r: 0.67455375, g: 0.7055431, b: 0, a: 0}
-    - _PrevBrushUV: {r: 0.6532019, g: 0.6707589, b: 0, a: 0}
+    - _BrushUV: {r: 0.107209146, g: 0.65811, b: 0, a: 0}
+    - _PrevBrushUV: {r: 0.16821405, g: 0.6328124, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
