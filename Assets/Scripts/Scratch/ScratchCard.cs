@@ -267,6 +267,13 @@ public class ScratchCard : MonoBehaviour {
 			//? If more that 99% of the prize is revealed stop revealing automatically and make the prize pop. 
 			if (adjusted >= 0.99f) {
 				revealing = false;
+				
+				//? Clears the mask to white to remove any leftover foil.
+				var active = RenderTexture.active;
+				RenderTexture.active = rt;
+				GL.Clear(true, true, Color.white);
+				RenderTexture.active = active;
+				
 				RevealPrize();
 
 				//? If a function has been given call it after a small delay.
