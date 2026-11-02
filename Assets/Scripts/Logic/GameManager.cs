@@ -10,6 +10,7 @@ namespace Logic {
 		public static GameManager Instance;
 		public        PlayerStats PlayerStats;
 		public        RngHandler  RngHandler;
+		public        GameData    GameData;
 
 		public Action OnPlayerDamaged;
 
@@ -40,6 +41,7 @@ namespace Logic {
 
 			PlayerStats = new PlayerStats();
 			RngHandler  = new RngHandler(rngTables);
+			GameData    = new GameData();
 		}
 
 		private void Start() {
@@ -86,15 +88,20 @@ namespace Logic {
 		}
 
 		//? player health
-		public void DamagePlayer(float damage) {
+		public void DamagePlayer(float damage, string source = "Unknown") {
 			if (IsInvulnerable || dead) return;
 			playerHealth -= damage;
 
+			GameData.TakeDamage(damage);
 			GameUIManager.Instance.UpdateHeartsUI();
 			OnPlayerDamaged?.Invoke();
 
 			invulnerabilityTimer = invulnerabilityDuration;
-			if (playerHealth <= 0) LooseGame();
+
+			if (playerHealth <= 0) {
+				LooseGame();
+				GameData.PlayerDied(source);
+			}
 		}
 
 		//? rooms

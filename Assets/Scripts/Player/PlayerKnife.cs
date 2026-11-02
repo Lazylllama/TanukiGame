@@ -1,4 +1,5 @@
 using Enemy;
+using Logic;
 using UnityEngine;
 
 namespace Player {
@@ -12,6 +13,7 @@ namespace Player {
 			if (enemy.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
 				Debug.Log("Enemy hit with ranged knife");
 				enemy.GetComponent<EnemyHealth>().ChangeHealth(-damage);
+				GameManager.Instance.GameData.DealDamage(-damage, true);
 
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
 				FindAnyObjectByType<PlayerController>()

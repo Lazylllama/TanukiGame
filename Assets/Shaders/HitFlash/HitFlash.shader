@@ -3,6 +3,8 @@ Shader "Custom/HitFlash"
     Properties
     {
         [MainColor] _MainTex ("Sprite Texture", 2D) = "white" {} // SpriteRenderer wants this, not used
+        _MaskTex ("Mask Texture", 2D) = "white" {}
+        _NormalMap ("Normal Map", 2D) = "bump" {}
         _FlashColor ("Flash Color", Color) = (1, 0, 0, 1)
         _FlashAmount ("Flash Amount", Range(0, 1)) = 0.5
     }
@@ -16,34 +18,41 @@ Shader "Custom/HitFlash"
             "RenderPipeline" = "UniversalPipeline"
         }
 
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
         ZWrite Off
         Cull Off
 
         Pass
         {
+            Tags
+            {
+                "LightMode" = "Universal2D"
+            }
+
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/Core2D.hlsl"
+
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/ShapeLightShared.hlsl"
+
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ DEBUG_DISPLAY
 
             struct Attributes
             {
-                float4 positionOS : POSITION;
-                float2 uv : TEXCOORD0;
-                float4 color : COLOR;
+                COMMON_2D_INPUTS
+                half4 color : COLOR;
             };
 
             struct Varyings
             {
-                float4 positionHCS : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                COMMON_2D_LIT_OUTPUTS
                 float4 color : COLOR;
             };
 
-            TEXTURE2D(_MainTex);
-            SAMPLER(sampler_MainTex);
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/Lit2DCommon.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _FlashColor;
@@ -52,9 +61,11 @@ Shader "Custom/HitFlash"
 
             Varyings vert(Attributes IN)
             {
-                Varyings OUT;
+                SetUpSpriteInstanceProperties();
+
                 IN.positionOS.xy *= unity_SpriteProps.xy;
-                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
+
+                Varyings OUT = CommonLitVertex(IN);
                 OUT.uv = IN.uv;
                 OUT.color = IN.color * unity_SpriteColor;
                 return OUT;
@@ -63,9 +74,9 @@ Shader "Custom/HitFlash"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * IN.color;
-                color.rgb = lerp(color.rgb, _FlashColor.rgb, _FlashAmount);
-                return color;
+                half4 lit = CommonLitFragment(IN, IN.color);
+                lit.rgb = lerp(lit.rgb, _FlashColor.rgb, _FlashAmount);
+                return lit;
             }
             ENDHLSL
         }

@@ -17,7 +17,7 @@ namespace Enemy {
 				.StartCoroutine(Lib.Combat.PreformedKnockback(player.GetComponent<Rigidbody2D>(), player.gameObject,
 				                                              knockbackDirection,
 				                                              knockbackForce, knockbackLength));
-			GameManager.Instance.DamagePlayer(damage);
+			GameManager.Instance.DamagePlayer(damage, "Lantern");
 			Destroy(gameObject);
 		}
 	}

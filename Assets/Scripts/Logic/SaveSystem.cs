@@ -71,6 +71,7 @@ namespace Logic {
 		public static bool HasSkill(string   id)    => SaveSystem.Data.unlockedSkills.Contains(id);
 
 		public static void AddXp(float xp) {
+			if (GameManager.Instance) GameManager.Instance.GameData.GainExperience(Mathf.RoundToInt(xp));
 			SaveSystem.Data.totalXp += Mathf.RoundToInt(xp);
 			SaveSystem.Save();
 		}

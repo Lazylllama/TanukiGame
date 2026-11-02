@@ -19,6 +19,8 @@ namespace UI {
 				GameManager.Instance.PlayerStats.AddStatModifier(modifier);
 			}
 
+			GameManager.Instance.GameData.SelectCard(selectedCard);
+
 			var cards = FindObjectsByType<CardTilt>(FindObjectsSortMode.None);
 			Debug.Log(cards.Length);
 

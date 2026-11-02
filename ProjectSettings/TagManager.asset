@@ -45,6 +45,9 @@ TagManager:
   - name: PlayerReflection
     uniqueID: 91742541
     locked: 0
+  - name: Background
+    uniqueID: 3210845859
+    locked: 0
   - name: Level
     uniqueID: 3497946639
     locked: 0

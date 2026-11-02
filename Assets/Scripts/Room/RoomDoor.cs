@@ -10,7 +10,7 @@ namespace Room {
 		[SerializeField] private Sprite unlockedTopSprite;
 		[SerializeField] private Sprite unlockedBottomSprite;
 
-		private bool isUnlocked;
+		private bool                  isUnlocked;
 
 		public void UnlockDoor() {
 			topSpriteRenderer.sprite    = unlockedTopSprite;

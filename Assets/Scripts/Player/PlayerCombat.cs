@@ -221,10 +221,8 @@ namespace Player {
 		private IEnumerator ExtraForce(float force, Vector2 direction, float duration) {
 			playerRb.linearVelocity = Vector2.zero;
 			while (duration > 0) {
-				duration -= Time.deltaTime;
-
-				PlayerController.Instance.ExtraForce = force * direction;
-
+				duration                             -= Time.deltaTime;
+				PlayerController.Instance.ExtraForce =  force * direction;
 				yield return null;
 			}
 
@@ -242,6 +240,7 @@ namespace Player {
 				parryLengthTimer -= Time.deltaTime;
 				var parriedColliders = Physics2D.OverlapCircleAll(transform.position, parryRadius, parriableLayer);
 				if (parriedColliders.Length > 0) {
+					GameManager.Instance.GameData.Parry();
 					CameraManager.Instance.ShakeCamera(1f, CameraManager.CameraShakeType.Bounce);
 					Instantiate(parryShockwavePrefab, transform.position, Quaternion.identity);
 

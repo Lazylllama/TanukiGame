@@ -43,7 +43,9 @@ namespace Room {
 		public void OnEnemyDeath() {
 			if (FindObjectsByType<EnemyHealth>().All(enemy => enemy.IsDead)) {
 				selectedRoomRefs.roomDoor.UnlockDoor();
+				GameManager.Instance.GameData.FinishRoom(selectedRoomConfiguration, selectedRoomConfiguration.secondLimit - GameManager.Instance.roomTimeLeft);
 				GameUIManager.Instance.ShowBanner("VICTORY");
+				Debug.Log(JsonUtility.ToJson(GameManager.Instance.GameData.GetStats()));
 			}
 		}
 	}
