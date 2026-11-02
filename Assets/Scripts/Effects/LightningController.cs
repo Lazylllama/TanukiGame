@@ -55,6 +55,9 @@ namespace Effects {
 		}
 
 		private IEnumerator PlayThunderSound(float dist) {
+			if (thunderSound.IsNull)
+				yield break;
+			
 			yield return new WaitForSeconds(dist / 343.0f);
 
 			var instance = RuntimeManager.CreateInstance(thunderSound);

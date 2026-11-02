@@ -248,7 +248,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 939002085
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -278,6 +278,10 @@ MonoBehaviour:
   background: {fileID: 6145229050191527900}
   shatterSpeed: 0.08
   shatterDelay: 0.2
+  transitionDelay: 5
+  shatterForce: 3
+  seedSpread: 1.2
+  shardTintLow: 0.7
 --- !u!1 &1808424830760782494
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,7 +454,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 939002085
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: -9
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -510,7 +514,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.054334287, g: 0.07334748, b: 0.103773594, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1207,7 +1211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
+  attenuationObject: {fileID: 4677614423687487766}
 --- !u!1001 &9018454940939973387
 PrefabInstance:
   m_ObjectHideFlags: 0

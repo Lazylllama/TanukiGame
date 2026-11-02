@@ -9,7 +9,8 @@ namespace Enemy {
 
 		private float aliveTimer;
 
-		private void Update() {
+
+		private void FixedUpdate() {
 			aliveTimer += Time.deltaTime;
 			transform.Translate(Vector3.forward * (speed * Time.deltaTime));
 

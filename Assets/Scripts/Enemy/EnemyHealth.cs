@@ -59,7 +59,6 @@ namespace Enemy {
 				Destroy(gameObject);
 			}
 
-			
 			if (currentEnemyHealth > maxEnemyHealth) currentEnemyHealth = maxEnemyHealth;
 		}
 	}
