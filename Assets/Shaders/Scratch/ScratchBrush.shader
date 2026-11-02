@@ -75,7 +75,7 @@ Shader "Custom/ScratchBrush"
                 float2 end = float2(_PrevBrushUV.x * _Aspect, _PrevBrushUV.y);
                 
                 // Gets the closest point on the line.
-                float distAlongLine = dot(uvWithAspect - start, end - start) / dot(end - start, end - start);
+                float distAlongLine = dot(uvWithAspect - start, end - start) / max(dot(end - start, end - start), 0.000001);
                 distAlongLine = clamp(distAlongLine, 0, 1);
                 float2 pointOnLine = start + distAlongLine * (end - start);
                 

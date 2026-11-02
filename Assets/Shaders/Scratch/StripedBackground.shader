@@ -27,7 +27,6 @@ Shader "Custom/StripedBackground"
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Assets/Shaders/Lib/Noise.hlsl"
 
             struct Attributes
             {
@@ -75,7 +74,7 @@ Shader "Custom/StripedBackground"
                 
                 float colorValue = smoothstep(0.48, 0.52, frac(diagonal));
                 
-                half4 color = lerp(_Color1, _Color2, colorValue);
+                half4 color = lerp(_Color1, _Color2, colorValue) * IN.color;
                 
                 return half4(color);
             }

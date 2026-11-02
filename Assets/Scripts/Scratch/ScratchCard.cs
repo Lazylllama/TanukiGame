@@ -13,8 +13,8 @@ using Random = UnityEngine.Random;
 namespace Scratch {
 	[Serializable]
 	internal class ScratchPrize {
-		[SerializeField] public string       label;
-		[SerializeField] public StatModifier modifier;
+		public string       label;
+		public StatModifier modifier;
 	}
 
 	public class ScratchCard : MonoBehaviour {
@@ -23,8 +23,8 @@ namespace Scratch {
 		[SerializeField]                    private Material           scratchBrushMaterial, dissolveMaterial;
 		[SerializeField]                    private GameObject         crumbPrefab,          prize, parent;
 		[SerializeField]                    private Canvas             canvas;
-		[SerializeField] [Range(5f,  100f)] private float              crumbPerUV = 10f;
-		[SerializeField] [Range(10f, 100f)] private float              revealSpeed;
+		[SerializeField] [Range(5f,  100f)] private float              crumbPerUV  = 10f;
+		[SerializeField] [Range(10f, 100f)] private float              revealSpeed = 50f;
 		[SerializeField]                    private List<ScratchPrize> prizes;
 		[SerializeField]                    private TextMeshProUGUI    prizeText;
 
@@ -41,6 +41,7 @@ namespace Scratch {
 		private Action        callOnFinish;
 		private float         dissolveTimer;
 		private bool          revealing;
+		private byte[]        readBack;
 
 		#endregion
 
@@ -145,7 +146,7 @@ namespace Scratch {
 
 				//? If the position is inside the scratch zone spawn it.
 				if (spawnLocalPos.x is <= 1.0f and >= 0.0f && spawnLocalPos.y is <= 1.0f and >= 0.0f)
-					SpawnCrumb(spawnPos, cam);
+					SpawnCrumb(spawnPos, spawnLocalPos, cam);
 			}
 
 			//? Set the positions for next frame.
@@ -179,7 +180,7 @@ namespace Scratch {
 		#region Custom Functions
 
 		[ContextMenu("Reveal")]
-		private void ShowScratchCard() => ShowScratchCard(() => { Debug.Log("Test"); });
+		private void TestShow() => ShowScratchCard(() => { Debug.Log("Test"); });
 
 		public void ShowScratchCard(Action callback) {
 			//? Shows the card.
@@ -223,7 +224,15 @@ namespace Scratch {
 			LeanTween.scale(prize, new Vector3(1f, 1f, 1f), 0.4f).setEaseOutBack();
 		}
 
-		private void SpawnCrumb(Vector2 mousePos, Camera cam) {
+		private void SpawnCrumb(Vector2 mousePos, Vector2 scratchUV, Camera cam) {
+			var x     = Math.Clamp(Mathf.FloorToInt(scratchUV.x * 32f), 0, 31);
+			var y     = Math.Clamp(Mathf.FloorToInt(scratchUV.y * 32f), 0, 31);
+			var index = y * 32 + x;
+
+			var value = readBack[index];
+
+			if (value > 128) return;
+			
 			//? Get the position of the mouse relative to the canvas.
 			RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), mousePos, cam,
 			                                                        out var localPos);
@@ -269,8 +278,9 @@ namespace Scratch {
 				//? Try again if the request has an error
 				if (request.hasError) continue;
 
-				//? Gets the readback data.
+				//? Gets the readback data and save it.
 				var data = request.GetData<byte>();
+				readBack = data.ToArray();
 
 				//? Counts the amount of bytes in the texture.
 				var count = 0;
@@ -298,7 +308,8 @@ namespace Scratch {
 
 					//? If a function has been given call it after a small delay.
 					LeanTween.delayedCall(1f, () => {
-						                          GameManager.Instance?.PlayerStats.AddStatModifier(chosenPrize.modifier);
+						                          GameManager.Instance?.PlayerStats
+						                                     .AddStatModifier(chosenPrize.modifier);
 						                          callOnFinish?.Invoke();
 						                          callOnFinish = null;
 					                          });
