@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4512195222224526888}
   - component: {fileID: 5363860561325036795}
   - component: {fileID: 4366512722152716426}
+  - component: {fileID: 2806141306962993074}
   m_Layer: 8
   m_Name: TestDummie
   m_TagString: Enemy
@@ -127,6 +128,19 @@ MonoBehaviour:
   maxEnemyHealth: 3
   flashDuration: 0.15
   damageIndicatorPrefab: {fileID: 4553332119397363268, guid: 6a48a68b1e865df42aa821f2d450f878, type: 3}
+--- !u!114 &2806141306962993074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956480603546028028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c7e8fe6c8ba154783a03f8668ea9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  dropPrefab: {fileID: 6710760927224895578, guid: 4c65769438366dd41a4515062a23616c, type: 3}
 --- !u!1 &1316573059449897477
 GameObject:
   m_ObjectHideFlags: 0

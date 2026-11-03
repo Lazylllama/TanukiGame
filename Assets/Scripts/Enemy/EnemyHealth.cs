@@ -14,6 +14,7 @@ namespace Enemy {
 
 		[SerializeField] private DamageIndicator damageIndicatorPrefab;
 
+		public  Action                OnDeathEvent;
 		private SpriteRenderer[]      spriteRenderers;
 		private MaterialPropertyBlock propertyBlock;
 		private float                 flash;
@@ -55,6 +56,8 @@ namespace Enemy {
 					dest.gameObject.transform.parent = null;
 					dest.Shatter((transform.position - PlayerController.Instance.transform.position).normalized);
 				}
+
+				OnDeathEvent?.Invoke();
 
 				Destroy(gameObject);
 			}

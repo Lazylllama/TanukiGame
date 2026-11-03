@@ -2,6 +2,7 @@ using System;
 using Player;
 using RNG;
 using Room;
+using Scratch;
 using UI;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ namespace Logic {
 		public  bool  inRoom, dead;
 		public  float roomTimeLeft;
 		public  float playerHealth;
+		public  int   cardCount;
 		private float invulnerabilityTimer;
 
 		#region Unity Functions
@@ -78,6 +80,8 @@ namespace Logic {
 				SceneTransition.Instance.TransitionToScene("PreGameScene", () => {
 					                                                           PlayerStats  = new PlayerStats();
 					                                                           playerHealth = MaxHearts;
+					                                                           cardCount    = 0;
+					                                                           GameUIManager.Instance.UpdateScratchCardUI();
 
 					                                                           KeepOnLoad.DestroyAll();
 					                                                           PlayerController.Instance.transform
@@ -106,10 +110,17 @@ namespace Logic {
 
 		//? rooms
 		public void LoadRoom() {
+			cardCount = 0;
+			GameUIManager.Instance.UpdateScratchCardUI();
 			SceneTransition.Instance.TransitionToScene("RoomScene", () => { inRoom = true; });
 		}
 
 		public void FinishRoom() {
+			if (cardCount > 0) {
+				cardCount--;
+				ScratchCard.Instance.ShowScratchCard(FinishRoom);
+				return;
+			}
 			inRoom = false;
 			GameUIManager.Instance.ShowCardUI(LoadRoom);
 		}

@@ -20,6 +20,10 @@ namespace UI {
 		[SerializeField] private Image[]         heartBorderImages;
 		[SerializeField] private Image[]         heartFillImages;
 
+		[Header("Card counter")]
+		[SerializeField] private GameObject cardParent;
+		[SerializeField] private TextMeshProUGUI cardCountText;
+
 		[Header("Heart juice")]
 		[SerializeField] private float heartDrainTime = 0.4f;
 		[SerializeField] private float heartPunch = 0.4f;
@@ -51,7 +55,7 @@ namespace UI {
 			timerText.enabled  = false;
 			defaultTimerColor  = timerText.color;
 			UpdateHeartsUI(false);
-
+			UpdateScratchCardUI();
 			ShowBanner("Training Grounds", 3f);
 		}
 
@@ -69,6 +73,11 @@ namespace UI {
 			cardUpgradeManager.HideCards();
 			onCardUpgrade?.Invoke();
 			onCardUpgrade = null;
+		}
+
+		public void UpdateScratchCardUI() {
+			cardParent.SetActive(GameManager.Instance.cardCount > 0);
+			cardCountText.text = $"x{GameManager.Instance.cardCount}";
 		}
 
 		public void UpdateHeartsUI(bool animate = true) {

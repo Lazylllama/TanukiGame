@@ -18,6 +18,9 @@ namespace Scratch {
 	}
 
 	public class ScratchCard : MonoBehaviour {
+		
+		public static ScratchCard Instance;
+		
 		#region Fields
 
 		[SerializeField]                    private Material           scratchBrushMaterial, dissolveMaterial;
@@ -46,6 +49,14 @@ namespace Scratch {
 		#endregion
 
 		#region Unity Functions
+
+		private void Awake() {
+			if (Instance == null) {
+				Instance = this;
+			} else {
+				Destroy(gameObject);
+			}
+		}
 
 		private void Start() {
 			//? Gets the material from the image component and makes copy. Then assigns the copy to the image.
