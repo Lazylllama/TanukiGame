@@ -64,6 +64,9 @@ TagManager:
   - name: water
     uniqueID: 1
     locked: 0
+  - name: UI
+    uniqueID: 2013780061
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

@@ -2269,11 +2269,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 426491696586520048, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6458073469563312916, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
       propertyPath: m_Name
       value: ScratchCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6458073469563312916, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6969986992764035159, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
       propertyPath: m_Pivot.x
@@ -2359,6 +2363,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 70670616}
+    - target: {fileID: 7785780013203745157, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2013780061
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17683,7 +17691,7 @@ MonoBehaviour:
   m_CastsShadows: 1
   m_SelfShadows: 0
   m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 4de177050f6e7ed0bf1d21fa00000000fb4fa4aa01000000a39e61bf
+  m_ApplyToSortingLayers: 4de177050f6e7ed0bf1d21fa00000000fb4fa4aa01000000a39e61bf5dd80778
   m_ShapePath:
   - {x: -0.78, y: -0.75, z: 0}
   - {x: -0.78, y: 0.75, z: 0}

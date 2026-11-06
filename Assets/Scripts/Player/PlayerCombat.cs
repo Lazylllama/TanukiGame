@@ -182,7 +182,7 @@ namespace Player {
 			while (throwInputHeld) {
 				inAriTimeSlowTimer -= Time.unscaledDeltaTime;
 				if (Time.timeScale > 0.1 && !stopTimeScaling) {
-					Time.timeScale -= Time.unscaledDeltaTime * 10;
+					Time.timeScale = Mathf.Max( Time.timeScale - Time.unscaledDeltaTime * 10f, 0.01f) ;
 				} else if (inAriTimeSlowTimer <= 0f) {
 					stopTimeScaling = true;
 				}
