@@ -321,8 +321,11 @@ namespace Scratch {
 					LeanTween.delayedCall(1f, () => {
 						                          GameManager.Instance?.PlayerStats
 						                                     .AddStatModifier(chosenPrize.modifier);
-						                          callOnFinish?.Invoke();
+						                          parent.SetActive(false);
+						                          var temp = callOnFinish;
 						                          callOnFinish = null;
+						                          temp?.Invoke();
+						                          
 					                          });
 
 					//? Stop the coroutine as it no longer needs to count how much is scratched.

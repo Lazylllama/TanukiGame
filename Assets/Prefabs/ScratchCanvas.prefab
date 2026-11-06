@@ -999,6 +999,7 @@ GameObject:
   - component: {fileID: 7785780013203745157}
   - component: {fileID: 6963002929955066782}
   - component: {fileID: 8669730511986641721}
+  - component: {fileID: 507936085334889683}
   m_Layer: 5
   m_Name: ScratchCanvas
   m_TagString: Untagged
@@ -1090,6 +1091,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &507936085334889683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6458073469563312916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7068479783b20f4b928d7ee68534fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KeepOnLoad
+  checkForDuplicates: 1
 --- !u!1 &6471825549231449533
 GameObject:
   m_ObjectHideFlags: 0

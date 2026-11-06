@@ -10,7 +10,8 @@ namespace Room {
 		[SerializeField] private Sprite unlockedTopSprite;
 		[SerializeField] private Sprite unlockedBottomSprite;
 
-		private bool                  isUnlocked;
+		private bool isUnlocked;
+		private bool entered;
 
 		public void UnlockDoor() {
 			topSpriteRenderer.sprite    = unlockedTopSprite;
@@ -19,7 +20,8 @@ namespace Room {
 		}
 
 		private void OnTriggerEnter2D(Collider2D other) {
-			if (!other.CompareTag("Player") || !isUnlocked) return;
+			if (!other.CompareTag("Player") || !isUnlocked || entered) return;
+			entered = true;
 			if (!GameManager.Instance.inRoom) GameManager.Instance.LoadRoom();
 			else GameManager.Instance.FinishRoom();
 		}

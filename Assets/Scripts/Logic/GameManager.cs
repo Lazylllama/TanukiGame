@@ -118,6 +118,7 @@ namespace Logic {
 		public void FinishRoom() {
 			if (cardCount > 0) {
 				cardCount--;
+				GameUIManager.Instance.UpdateScratchCardUI();
 				ScratchCard.Instance.ShowScratchCard(FinishRoom);
 				return;
 			}
