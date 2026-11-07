@@ -403,7 +403,7 @@ MonoBehaviour:
     tiles: []
     textureSizeX: 0
     textureSizeY: 0
-  - speedMultiplier: 0.831
+  - speedMultiplier: 1
     speedMultiplierY: 1
     infiniteHorizontal: 1
     infiniteVertical: 0
@@ -2269,7 +2269,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 426491696586520048, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6458073469563312916, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
       propertyPath: m_Name
@@ -2277,7 +2277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6458073469563312916, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6969986992764035159, guid: 1abacfba075e9704ea83b040884e1f9d, type: 3}
       propertyPath: m_Pivot.x
@@ -17523,6 +17523,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8447272200423503441, guid: 797bec4d49a33c04692fb484dc4b2dd3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17882,6 +17886,8 @@ SceneRoots:
   - {fileID: 157736412}
   - {fileID: 499162622}
   - {fileID: 1348433533}
+  - {fileID: 4031720703594700218}
+  - {fileID: 1663254075}
   - {fileID: 62456566}
   - {fileID: 2033222726}
   - {fileID: 2841414791467691585}
@@ -17896,6 +17902,4 @@ SceneRoots:
   - {fileID: 309858346}
   - {fileID: 1398568100}
   - {fileID: 5244864552344420688}
-  - {fileID: 4031720703594700218}
   - {fileID: 301063014}
-  - {fileID: 1663254075}
