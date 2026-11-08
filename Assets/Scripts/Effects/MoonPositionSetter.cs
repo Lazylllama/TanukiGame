@@ -9,6 +9,6 @@ public class MoonPositionSetter : MonoBehaviour {
 	[ExecuteAlways]
     void Update()
     {
-        sr.sharedMaterial.SetVector("_MoonPos", moon.GetComponent<SpriteRenderer>().bounds.center);
+	    Shader.SetGlobalVector("_MoonPos", moon.GetComponent<SpriteRenderer>().bounds.center);
     }
 }

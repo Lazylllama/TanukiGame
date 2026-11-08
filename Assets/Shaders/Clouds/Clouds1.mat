@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Clouds
+  m_Name: Clouds1
   m_Shader: {fileID: 4800000, guid: 677a1b11a5419f344aba523487829502, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SDFTexture:
-        m_Texture: {fileID: 2800000, guid: e079c7a00e062f54eac4be875b5f1b10, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6c7206f7ea5b4a4469042967d6c7c60b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -36,15 +36,15 @@ Material:
     - _BackDensity: 7.18
     - _DistFromMoon: 0.69
     - _Radius: 5.79
+    - _SoftRadius: 2
     - _StartDepth: 1
     - _T1: 0.15
     - _T2: 0.37
     - _T3: 0.94
     m_Colors:
-    - _Col1: {r: 0.09019608, g: 0.121568635, b: 0.2627451, a: 1}
-    - _Col2: {r: 0.098039225, g: 0.14901961, b: 0.3647059, a: 1}
-    - _Col3: {r: 0.03529412, g: 0.18039216, b: 0.49803925, a: 1}
-    - _Col4: {r: 0.121568635, g: 0.427451, b: 0.73333335, a: 1}
-    - _MoonPos: {r: -8.99, g: 22.1, b: 0, a: 0}
+    - _Col1: {r: 0.0720897, g: 0.09378077, b: 0.18867922, a: 1}
+    - _Col2: {r: 0.084905654, g: 0.13296548, b: 0.33962262, a: 1}
+    - _Col3: {r: 0.03720184, g: 0.15221252, b: 0.41509432, a: 1}
+    - _Col4: {r: 0.030838378, g: 0.31629628, b: 0.5943396, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
