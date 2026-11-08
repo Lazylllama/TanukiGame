@@ -16,12 +16,12 @@ MonoBehaviour:
   - name: CardUpgrade
     items:
     - name: 4
-      weight: 60
+      weight: 30
     - name: 3
-      weight: 20
+      weight: 15
     - name: 2
       weight: 5
     - name: 1
-      weight: 3
+      weight: 2
     - name: 0
       weight: 1

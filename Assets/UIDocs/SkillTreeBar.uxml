@@ -1,12 +1,12 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="BottomSkillList" src="project://database/Assets/BottomSkillList.uxml?fileID=9197481963319205126&amp;guid=724830cafb4fc7140b393b3ce3d058db&amp;type=3#BottomSkillList"/>
     <ui:Template name="ExperienceCard" src="project://database/Assets/UIDocs/Templates/ExperienceCard.uxml?fileID=9197481963319205126&amp;guid=2392ac3be16b6f145b21c9587b95a088&amp;type=3#ExperienceCard"/>
-    <ui:Template name="SkillUiButton" src="project://database/Assets/UIDocs/Templates/SkillUiButton.uxml?fileID=9197481963319205126&amp;guid=87b2b1271b5b4e54aac293598022dc29&amp;type=3#SkillUiButton"/>
     <ui:Template name="SkillUiList" src="project://database/Assets/UIDocs/Templates/SkillUiList.uxml?fileID=9197481963319205126&amp;guid=1af6089b22164f448bc66b385b44e8bd&amp;type=3#SkillUiList"/>
     <Style src="project://database/Assets/SharedStyles.uss?fileID=7433441132597879392&amp;guid=08208a9d17dec58469cd7fbcc6711042&amp;type=3#SharedStyles"/>
     <ui:VisualElement style="flex-grow: initial; height: auto; flex-shrink: initial; flex-direction: row; justify-content: space-between; margin-left: 64px; margin-right: 64px; margin-top: 64px; margin-bottom: 64px;">
         <ui:VisualElement name="VisualElement" style="flex-grow: initial;">
             <ui:Label text="Skill tree" class="drop-shadow" style="font-size: 82px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); color: rgb(220, 216, 207);"/>
-            <ui:Label text="Description of skill tree" class="drop-shadow" style="font-size: 40px; color: rgb(220, 216, 207); -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); opacity: 0.45;"/>
+            <ui:Label text="get better at being yourself? hmm" class="drop-shadow" style="font-size: 40px; color: rgb(220, 216, 207); -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); opacity: 0.45; height: 52px;"/>
         </ui:VisualElement>
         <ui:Instance template="ExperienceCard" name="ExperienceContainer"/>
     </ui:VisualElement>
@@ -15,8 +15,5 @@
         <ui:Image source="project://database/Assets/Art/SkillTreeImage.png?fileID=2800000&amp;guid=1976e885109eda7469104b7f3b5b96aa&amp;type=3#SkillTreeImage" name="Tanuki" style="filter: drop-shadow(0 0 41.21 rgb(0, 0, 0));"/>
         <ui:Instance template="SkillUiList" name="SkillUiList" style="margin-left: 256px;"/>
     </ui:VisualElement>
-    <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: center;">
-        <ui:Instance template="SkillUiButton" style="margin-right: 32px;"/>
-        <ui:Instance template="SkillUiButton" style="margin-left: 32px;"/>
-    </ui:VisualElement>
+    <ui:Instance template="BottomSkillList" name="BottomSkillList"/>
 </ui:UXML>
