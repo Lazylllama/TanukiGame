@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/SharedStyles.uss?fileID=7433441132597879392&amp;guid=08208a9d17dec58469cd7fbcc6711042&amp;type=3#SharedStyles"/>
+    <ui:Image source="project://database/Assets/Art/UI/Components/ExperienceContainer.png?fileID=2800000&amp;guid=de3182a53925de6449f9ae996574f357&amp;type=3#ExperienceContainer" name="Image" class="drop-shadow" style="padding-top: 0; padding-left: 0; height: 162px; width: 491px; flex-direction: column; align-items: flex-start; justify-content: center;">
+        <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: space-between; width: 100%; padding-right: 32px; padding-left: 32px; flex-direction: row; align-self: auto; align-content: auto; height: 100%;">
+            <ui:Image source="project://database/Assets/Art/UI/Components/ExprienceLevelContainer.png?fileID=2800000&amp;guid=428c8d7a2a17e10448df8a063924e90c&amp;type=3#ExprienceLevelContainer" name="Image" style="width: 88px; height: 90px; margin-left: 0;">
+                <ui:Label text="4" name="LevelLabel" style="left: auto; top: 0; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); font-size: 92px; -unity-text-align: middle-center; white-space: pre; -unity-font-style: normal; width: 100%; text-overflow: clip; height: 100%; color: rgb(27, 60, 48); padding-left: 0; padding-bottom: 0; margin-bottom: 0; padding-top: 10px; margin-top: 0; padding-right: 0; margin-right: 0; position: absolute; margin-left: 0;"/>
+            </ui:Image>
+            <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: relative; height: 69px; width: auto; top: 0; left: 0; justify-content: center; align-items: stretch; align-self: auto; flex-direction: column; padding-left: 32px;">
+                <ui:VisualElement style="flex-grow: initial; flex-direction: row; justify-content: space-between;">
+                    <ui:Label text="EXP" style="color: rgb(75, 175, 139); -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); height: 10px; -unity-text-align: middle-left; font-size: 23px; white-space: nowrap;"/>
+                    <ui:Label text="6,700/10,000EXP" name="ExpLabel" style="color: rgb(220, 216, 207); -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); height: 10px; -unity-text-align: middle-left; font-size: 18px; white-space: nowrap;"/>
+                </ui:VisualElement>
+                <ui:ProgressBar value="22" title="" name="ExpBar" style="flex-direction: column; justify-content: flex-start; align-items: stretch;"/>
+                <ui:Label text="2 skill points available" name="SkillPointsLabel" style="color: rgb(217, 169, 58); -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); height: 10px; -unity-text-align: middle-left; font-size: 23px;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:Image>
+</ui:UXML>

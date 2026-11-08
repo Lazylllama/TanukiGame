@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="SkillUiButton" src="project://database/Assets/UIDocs/Templates/SkillUiButton.uxml?fileID=9197481963319205126&amp;guid=87b2b1271b5b4e54aac293598022dc29&amp;type=3#SkillUiButton"/>
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Instance template="SkillUiButton"/>
+        <ui:Instance template="SkillUiButton"/>
+        <ui:Instance template="SkillUiButton"/>
+    </ui:VisualElement>
+</ui:UXML>

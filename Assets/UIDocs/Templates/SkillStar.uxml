@@ -1,0 +1,3 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Image source="project://database/Assets/Art/UI/Components/StarOutline.png?fileID=2800000&amp;guid=5e10c8364f8c7af4c99a3c3466f81def&amp;type=3#StarOutline" name="Star" scale-mode="ScaleToFit" style="flex-shrink: initial; flex-grow: initial; width: 23px; height: 23px; margin-left: 6px; margin-right: 0;"/>
+</ui:UXML>

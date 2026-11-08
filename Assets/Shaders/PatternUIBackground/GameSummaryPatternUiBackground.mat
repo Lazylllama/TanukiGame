@@ -37,7 +37,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BottomColor: {r: 0.16470589, g: 0.101960786, b: 0.039215688, a: 1}
-    - _PatternColor: {r: 1, g: 1, b: 1, a: 0.2}
+    - _PatternColor: {r: 1, g: 1, b: 1, a: 0.101960786}
     - _PatternScrollSpeed: {r: 0.03, g: 0.03, b: 0, a: 0}
     - _TopColor: {r: 0.41960785, g: 0.24313726, b: 0.07058824, a: 1}
   m_BuildTextureStacks: []

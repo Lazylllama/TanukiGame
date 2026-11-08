@@ -1,0 +1,17 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="SkillStar" src="project://database/Assets/UIDocs/Templates/SkillStar.uxml?fileID=9197481963319205126&amp;guid=ea155e5765f02db4f955e944b538af9d&amp;type=3#SkillStar"/>
+    <Style src="project://database/Assets/SkillTree.uss?fileID=7433441132597879392&amp;guid=8b0eb3f3263cbae4c822e0eb4ab1a6f6&amp;type=3#SkillTree"/>
+    <Style src="project://database/Assets/SharedStyles.uss?fileID=7433441132597879392&amp;guid=08208a9d17dec58469cd7fbcc6711042&amp;type=3#SharedStyles"/>
+    <ui:Button name="Button" class="drop-shadow" style="display: flex; background-color: rgba(0, 0, 0, 0); background-image: url(&quot;project://database/Assets/Art/UI/Components/SkillCard.png?fileID=2800000&amp;guid=fee9f74d6dd54e04b8576fe098c5d86c&amp;type=3#SkillCard&quot;); background-size: 100% 100%; width: 491px; height: 117px; padding-left: 16px; padding-right: 16px; padding-top: 14px; padding-bottom: 14px; margin-top: 42px; margin-left: 0; margin-right: 0; margin-bottom: 42px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+        <ui:VisualElement name="TextStars" style="flex-grow: initial; flex-direction: row; align-items: center; justify-content: flex-start; align-self: flex-start;">
+            <ui:Label text="Bullshit" style="font-size: 36px; -unity-text-align: middle-left; white-space: normal; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); height: auto; margin-top: 0; margin-right: 8px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(220, 216, 207);"/>
+            <ui:VisualElement name="Stars" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center;">
+                <ui:Instance template="SkillStar" name="SkillStar"/>
+                <ui:Instance template="SkillStar" name="SkillStar"/>
+                <ui:Instance template="SkillStar" name="SkillStar"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label text="Lorem ipsum dolor sit amet, blah blahg vlah ahgoajs" name="Description" style="font-size: 15px; -unity-text-align: middle-left; white-space: normal; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); height: auto; margin-top: 4px; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(220, 216, 207); opacity: 0.75;"/>
+        <ui:Label text="+15% attack speed" name="Description" style="font-size: 20px; -unity-text-align: middle-left; white-space: normal; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Gaegu-Bold.ttf?fileID=12800000&amp;guid=ff250c4a0b8146c4386e547691509241&amp;type=3#Gaegu-Bold&quot;); height: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(75, 175, 139); opacity: 0.75;"/>
+    </ui:Button>
+</ui:UXML>
