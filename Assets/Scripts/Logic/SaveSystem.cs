@@ -43,7 +43,13 @@ namespace Logic {
 			var temp = FilePath + ".tmp";
 			File.WriteAllText(temp, JsonUtility.ToJson(Data, true));
 
-			if (File.Exists(FilePath)) File.Replace(temp, FilePath, null);
+			if (File.Exists(FilePath)) {
+				try {
+					File.Replace(temp, FilePath, null);
+				} catch (Exception e) {
+					Debug.LogError($"Failed to save save data to {FilePath}. Exception: {e}");
+				}
+			}
 			else File.Move(temp, FilePath);
 		}
 
