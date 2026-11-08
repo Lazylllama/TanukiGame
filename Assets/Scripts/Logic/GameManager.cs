@@ -81,7 +81,8 @@ namespace Logic {
 					                                                           PlayerStats  = new PlayerStats();
 					                                                           playerHealth = MaxHearts;
 					                                                           cardCount    = 0;
-					                                                           GameUIManager.Instance.UpdateScratchCardUI();
+					                                                           GameUIManager.Instance
+						                                                           .UpdateScratchCardUI();
 
 					                                                           KeepOnLoad.DestroyAll();
 					                                                           PlayerController.Instance.transform
@@ -119,9 +120,10 @@ namespace Logic {
 			if (cardCount > 0) {
 				cardCount--;
 				GameUIManager.Instance.UpdateScratchCardUI();
-				ScratchCard.Instance.ShowScratchCard(FinishRoom);
+				if (ScratchCard.Instance) ScratchCard.Instance.ShowScratchCard(FinishRoom);
 				return;
 			}
+
 			inRoom = false;
 			GameUIManager.Instance.ShowCardUI(LoadRoom);
 		}

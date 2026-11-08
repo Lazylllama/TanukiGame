@@ -21,7 +21,7 @@ namespace Cards {
 					return cardBackground;
 				}
 			}
-
+			
 			return default(CardBackground);
 		}
 	}
