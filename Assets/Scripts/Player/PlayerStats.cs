@@ -12,7 +12,7 @@ namespace Player {
 		MoveSpeed,
 		ExtraHearts,
 		ThrowDamage,
-		MeleeDamage
+		MeleeDamage,
 	}
 
 	[Serializable]
