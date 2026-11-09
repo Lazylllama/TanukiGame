@@ -85,6 +85,7 @@ namespace Logic {
 				                                           "PreGameScene",
 				                                           () => {
 					                                           PlayerStats  = new PlayerStats();
+					                                           PlayerStats.OnStatsChanged += OnStatsChangedHandler;
 					                                           playerHealth = MaxHearts;
 					                                           cardCount    = 0;
 					                                           GameUIManager.Instance

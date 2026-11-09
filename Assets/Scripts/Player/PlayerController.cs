@@ -118,7 +118,7 @@ namespace Player {
 			if (dashActive) return;
 
 			if (MovingState == MovingStates.Knockback) return;
-			PlayerRb.linearVelocityX = moveVector.x * moveSpeed + ExtraForce.x;
+			PlayerRb.linearVelocityX = moveVector.x * GameManager.Instance.PlayerStats.Get(Stat.MoveSpeed, moveSpeed) + ExtraForce.x;
 			if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
 
 			if (!(jumpBufferTimer >= 0) || !(coyoteTimer > 0)) return;

@@ -16844,6 +16844,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c82ba2274890845948f6796be0ced6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  skillObjects:
+  - {fileID: 11400000, guid: e0e63ce43c17a7444a3122e807bf52ea, type: 2}
+  - {fileID: 11400000, guid: 3239a494d5b094e42bb6e8fdf99e670e, type: 2}
+  - {fileID: 11400000, guid: 8e20e02eb3cc38f40b99c4d271829bb2, type: 2}
+  - {fileID: 11400000, guid: 0b63fc4afab994f46a259d80b1405cf9, type: 2}
   rngTables: {fileID: 11400000, guid: e792056e1a2a22d46bf754087d67e3c9, type: 2}
   defaultHearts: 3
   invulnerabilityDuration: 0.5

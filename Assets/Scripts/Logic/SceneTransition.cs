@@ -95,7 +95,7 @@ namespace Logic {
 				yield return new WaitForSecondsRealtime(holdTime);
 
 				while (loadScene.progress < 0.9f) yield return null;
-
+				
 				Flash();
 				onScreenCovered?.Invoke();
 				yield return null; // render frame
@@ -114,6 +114,7 @@ namespace Logic {
 			}
 		}
 
+		
 		private void TestTransition()        => TransitionToScene("PreGameScene", () => { });
 		private void TestTransitionReverse() => TweenProgress(false, coverTime);
 	}

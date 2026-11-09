@@ -12,7 +12,7 @@ namespace Player {
 		private void OnTriggerEnter2D(Collider2D enemy) {
 			if (enemy.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
 				Debug.Log("Enemy hit with ranged knife");
-				enemy.GetComponent<EnemyHealth>().ChangeHealth(-damage);
+				enemy.GetComponent<EnemyHealth>().ChangeHealth(-GameManager.Instance.PlayerStats.Get(Stat.ThrowDamage, damage));
 				GameManager.Instance.GameData.DealDamage(-damage, true);
 
 				var knockbackDirection = Mathf.Sign(enemy.transform.position.x - transform.position.x);
