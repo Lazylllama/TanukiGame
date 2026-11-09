@@ -132,7 +132,7 @@ namespace Enemy {
 			LeanTween.value(gameObject, 0f, force, duration)
 			         .setEaseOutQuart().setOnUpdate(val => { forceToApply = val; });
 
-			while (transform.position != oldPosition || timer > 0f) {
+			while ((transform.position != oldPosition || timer > 0f) && timer > -1f) {
 				timer -= Time.deltaTime;
 
 				while (LeanTween.isTweening(gameObject)) {
@@ -182,10 +182,10 @@ namespace Enemy {
 			if (!playerTransform || !transform) return false; // idk wierd edge case thing
 			if (!(Vector2.Distance(transform.position, playerTransform.position) < detectionRange)) return false;
 			var hit = Physics2D.Linecast(transform.position, playerTransform.position,
-			                             ~LayerMask.GetMask("Enemy"));
+			                             LayerMask.GetMask("Ground", "Player"));
 			isAwakened = true;
-
-			return hit.collider;
+			
+			return hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player");
 		}
 
 		#endregion

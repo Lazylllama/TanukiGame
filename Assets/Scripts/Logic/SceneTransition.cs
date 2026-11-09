@@ -23,6 +23,7 @@ namespace Logic {
 
 		private Material mat;
 		private bool     busy;
+		public  bool     Busy => busy;
 
 		private void Awake() {
 			if (Instance != null) {

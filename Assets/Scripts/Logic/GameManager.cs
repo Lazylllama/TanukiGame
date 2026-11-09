@@ -84,7 +84,8 @@ namespace Logic {
 				SceneTransition.Instance.TransitionToScene(
 				                                           "PreGameScene",
 				                                           () => {
-					                                           PlayerStats  = new PlayerStats();
+					                                           Time.timeScale = 1f; //? in case we died mid throw-slowmo
+					                                           PlayerStats    = new PlayerStats();
 					                                           PlayerStats.OnStatsChanged += OnStatsChangedHandler;
 					                                           playerHealth = MaxHearts;
 					                                           cardCount    = 0;
@@ -103,7 +104,7 @@ namespace Logic {
 
 		//? player health
 		public void DamagePlayer(float damage, string source = "Unknown") {
-			if (IsInvulnerable || dead) return;
+			if (IsInvulnerable || dead || (SceneTransition.Instance && SceneTransition.Instance.Busy)) return;
 			playerHealth -= damage;
 
 			GameData.TakeDamage(damage);
@@ -120,16 +121,18 @@ namespace Logic {
 
 		//? rooms
 		public void LoadRoom() {
+			if (dead) return;
 			cardCount = 0;
 			GameUIManager.Instance.UpdateScratchCardUI();
 			SceneTransition.Instance.TransitionToScene("RoomScene", () => { inRoom = true; });
 		}
 
 		public void FinishRoom() {
-			if (cardCount > 0) {
+			if (dead) return;
+			if (cardCount > 0 && ScratchCard.Instance) {
 				cardCount--;
 				GameUIManager.Instance.UpdateScratchCardUI();
-				if (ScratchCard.Instance) ScratchCard.Instance.ShowScratchCard(FinishRoom);
+				ScratchCard.Instance.ShowScratchCard(FinishRoom);
 				return;
 			}
 

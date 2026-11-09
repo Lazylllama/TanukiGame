@@ -260,7 +260,7 @@ MonoBehaviour:
   hoverLimit: 0.2
   recoilForce: 5
   recoilLength: 0.2
-  returnSpeed: 0
+  returnSpeed: 5
   <CurrentEnemyState>k__BackingField: 0
 --- !u!114 &6697899821449793935
 MonoBehaviour:
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 4de177050f6e7ed0bf1d21fa00000000fb4fa4aa01000000
+  m_ApplyToSortingLayers: 4de177050f6e7ed0bf1d21fa00000000fb4fa4aa01000000i
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -377,6 +377,9 @@ MonoBehaviour:
   m_ShadowSoftnessFalloffIntensity: 0.5
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}

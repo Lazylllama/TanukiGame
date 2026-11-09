@@ -147,7 +147,7 @@ namespace UI {
 
 		#region Actions
 
-		private void OnStart()     => StartCoroutine(HandleOnStart());
+		private void OnStart()     => SceneTransition.Instance.TransitionToScene("LoadingScreen");
 		private void OnOptions()   => ShowScreen(optionsScreen);
 		private void OnBack()      => ShowScreen(startScreen);
 		private void OnExit()      => Application.Quit();

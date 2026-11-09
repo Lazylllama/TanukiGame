@@ -100,7 +100,7 @@ namespace Effects {
 			localPos.y /= rectTransform.sizeDelta.y / 2.0f;
 
 			var isOnCard = (localPos is { x: <= 1.0f and >= -1.0f, y: <= 1.0f and >= -1.0f });
-			var t        = 1.0f - Mathf.Exp((isOnCard ? tiltSpeedOnCard : tiltSpeedOffCard) * Time.deltaTime);
+			var t        = 1.0f - Mathf.Exp(-(isOnCard ? tiltSpeedOnCard : tiltSpeedOffCard) * Time.deltaTime);
 
 			if (firstFrame) {
 				currentMouse = isOnCard ? localPos : Vector2.zero;

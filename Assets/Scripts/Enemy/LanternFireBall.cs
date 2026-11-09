@@ -9,6 +9,8 @@ namespace Enemy {
 		[SerializeField] private float knockbackForce;
 		[SerializeField] private float knockbackLength;
 
+		private void Start() => Destroy(gameObject, 5f);
+
 		private void OnTriggerEnter2D(Collider2D player) {
 			if (player.gameObject.layer != LayerMask.NameToLayer("Player")) return;
 
