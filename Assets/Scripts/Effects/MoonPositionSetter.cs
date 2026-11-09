@@ -7,8 +7,7 @@ public class MoonPositionSetter : MonoBehaviour {
 	[SerializeField] private SpriteRenderer sr;
 	
 	[ExecuteAlways]
-    void Update()
-    {
+    void Update() {
 	    Shader.SetGlobalVector("_MoonPos", moon.GetComponent<SpriteRenderer>().bounds.center);
     }
 }

@@ -16,6 +16,7 @@ Shader "Custom/Clouds"
         _T2("Band 2 start", float) = 0.66
         _T3("Band 3 start", float) = 0.99
         _SoftRadius("Soft Radius", float) = 2
+        _LumpStrength("Lump Strength", float) = 0.4
     }
 
     SubShader
@@ -74,6 +75,7 @@ Shader "Custom/Clouds"
                 float _T2;
                 float _T3;
                 float _SoftRadius;
+                float _LumpStrength;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -90,8 +92,10 @@ Shader "Custom/Clouds"
             {
                 float2 uv = (floor(IN.uv * _SDFTexture_TexelSize.zw) + 0.5) * _SDFTexture_TexelSize.xy;
                 
-                float d = SAMPLE_TEXTURE2D(_SDFTexture, sampler_SDFTexture, uv).r;
-                float thickness = sqrt(1 - pow(1 - d, 2));
+                float4 sample = SAMPLE_TEXTURE2D(_SDFTexture, sampler_SDFTexture, uv);
+                float d = sample.r;
+                float lump = sample.g;
+                float thickness = sqrt(1 - pow(1 - d, 2) + lump * _LumpStrength);
                 
                 float2 toMoon = _MoonPos.xy - IN.positionWS.xy;
                 toMoon = toMoon / sqrt(dot(toMoon, toMoon) + pow(_SoftRadius, 2));
@@ -106,8 +110,10 @@ Shader "Custom/Clouds"
                 for (int i = 1; i <= StepAmount; i++)
                 {
                     float3 pos = startPos + moonDir * i * stepSize;
-                    float shadowD = SAMPLE_TEXTURE2D_LOD(_SDFTexture, sampler_SDFTexture, pos.xy, 0).r;
-                    float shadowThickness = sqrt(1 - pow(1 - shadowD, 2)) * 0.04;
+                    float4 shadowSample = SAMPLE_TEXTURE2D_LOD(_SDFTexture, sampler_SDFTexture, pos.xy, 0);
+                    float shadowD = shadowSample.r;
+                    float shadowLump = shadowSample.g;
+                    float shadowThickness = sqrt(1 - pow(1 - shadowD, 2) + shadowLump * _LumpStrength) * 0.04;
                     if (abs(pos.z) < shadowThickness) sum += stepSize;
                 }
                 
