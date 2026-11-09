@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Data.Skills;
+using Logic;
 using Player;
-using Unity.Mathematics;
+using Logic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Random = UnityEngine.Random;
 
 namespace UI {
 	[ExecuteAlways]
@@ -19,10 +19,12 @@ namespace UI {
 		[SerializeField] private float overlap    = 0.5f;
 
 		[SerializeField] private List<SkillObject> leftSkills, rightSkills, bottomSkills;
+		[SerializeField] private Texture2D         starFilled, starOutline;
 
 		private PanelRenderer panelRenderer;
 		private VisualElement overlay;
 		private VisualElement tanuki;
+		private VisualElement root;
 		private List<Button>  leftCards, rightCards, bottomCards;
 		private int           uiVersion = -1;
 
@@ -33,16 +35,12 @@ namespace UI {
 			panelRenderer.RegisterUIReloadCallback(OnUIReload);
 		}
 
-		private void Start() {
-			SetupSkills();
-		}
+		private void Update() => overlay?.MarkDirtyRepaint();
 
-		private void Update()    => overlay?.MarkDirtyRepaint();
 		private void OnDestroy() => panelRenderer.UnregisterUIReloadCallback(OnUIReload);
 
 		private void OnUIReload(PanelRenderer _, VisualElement root, int version) {
 			if (root == null || root.childCount == 0 || version == uiVersion) return;
-			uiVersion = version;
 
 			var lists      = root.Query<TemplateContainer>("SkillUiList").ToList();
 			var bottomList = root.Query<TemplateContainer>("BottomSkillList").ToList()[0];
@@ -50,6 +48,8 @@ namespace UI {
 
 			if (tanukiWuki == null || bottomList == null || lists.Count < 2) return;
 
+			this.root   = root;
+			uiVersion   = version;
 			tanuki      = tanukiWuki;
 			leftCards   = lists[0].Query<Button>("Button").ToList();
 			rightCards  = lists[1].Query<Button>("Button").ToList();
@@ -61,51 +61,69 @@ namespace UI {
 			root.Insert(0, overlay);
 
 			initialized = true;
+			SetupSkills();
 		}
 
 		private void SetupSkills() {
 			if (!initialized) return;
-			foreach (var card in leftCards) {
-				if (leftCards.IndexOf(card) >= leftSkills.Count) {
+			SetupCards(leftCards,   leftSkills);
+			SetupCards(rightCards,  rightSkills);
+			SetupCards(bottomCards, bottomSkills);
+			Lib.UI.UpdateExpUI(root);
+
+			root.Q<Button>("MainMenuButton").clickable =
+				new Clickable(() => { SceneTransition.Instance.TransitionToScene("MainMenu"); });
+		}
+
+		private void SetupCards(List<Button> cards, List<SkillObject> skills) {
+			for (var i = 0; i < cards.Count; i++) {
+				var card = cards[i];
+
+				if (i >= skills.Count || skills[i].levelStatModifiers.Length == 0) {
 					card.style.display = DisplayStyle.None;
 					continue;
 				}
 
-				var skill      = leftSkills[leftCards.IndexOf(card)];
-				var skillLevel = 0;
+				card.style.display = DisplayStyle.Flex;
 
-				var beforeSkillStat = skillLevel > 0 ? skill.levelStatModifiers[skillLevel - 1] : (StatModifier?)null;
-				var afterSkillStat  = skill.levelStatModifiers[skillLevel];
+				var skill      = skills[i];
+				var mods       = skill.levelStatModifiers;
+				var skillLevel = Progression.SkillLevel(skill.name);
 
-				var afterSkillMetric = afterSkillStat.percent > 0f
-					                       ? $"% {skill.statModifierMetricName}"
-					                       : $" {skill.statModifierMetricName}";
-
-				var beforeSkillMetric = beforeSkillStat?.percent > 0f
-					                        ? $"% {skill.statModifierMetricName}"
-					                        : $" {skill.statModifierMetricName}";
-
-				card.Q<Label>("SkillName").text        = skill.name;
+				card.Q<Label>("SkillName").text        = skill.skillName;
 				card.Q<Label>("SkillDescription").text = skill.skillDescription;
 
 				var arrow       = card.Q<Label>("Arrow");
 				var beforeValue = card.Q<Label>("BeforeValue");
 				var afterValue  = card.Q<Label>("AfterValue");
 
-				if (beforeSkillStat != null) {
-					beforeValue.text = $"+{skill.levelStatModifiers[skillLevel - 1]}{beforeSkillMetric}";
-				} else {
-					beforeValue.SetEnabled(false);
-					arrow.SetEnabled(false);
+				var hasBefore = skillLevel > 0;
+				var hasAfter  = skillLevel < mods.Length;
+
+				beforeValue.style.display = hasBefore ? DisplayStyle.Flex : DisplayStyle.None;
+				arrow.style.display       = hasBefore && hasAfter ? DisplayStyle.Flex : DisplayStyle.None;
+				afterValue.style.display  = hasAfter ? DisplayStyle.Flex : DisplayStyle.None;
+
+				if (hasBefore) beforeValue.text = FormatStat(mods[skillLevel - 1], skill.statModifierMetricName);
+				if (hasAfter) afterValue.text   = FormatStat(mods[skillLevel],     skill.statModifierMetricName);
+
+				var stars = card.Query<Image>("Star").ToList();
+				for (var starIndex = 0; starIndex < stars.Count; starIndex++) {
+					var star = stars[starIndex];
+					star.style.display = starIndex < mods.Length ? DisplayStyle.Flex : DisplayStyle.None;
+					star.image         = starIndex < skillLevel ? starFilled : starOutline;
 				}
 
-				if (skillLevel < skill.levelStatModifiers.Length) {
-					afterValue.text = $"+{afterSkillStat}{afterSkillMetric}";
-				}
-
-				afterValue.text = $"+{skill.levelStatModifiers}{skill.statModifierMetricName}";
+				card.clickable = new Clickable(() => {
+					                               if (Progression.TryUnlockSkill(skill.name, mods.Length))
+						                               SetupSkills();
+				                               });
 			}
 		}
+
+		private static string FormatStat(StatModifier mod, string metric) =>
+			mod.percent > 0f ? $"+{mod.percent}% {metric}" : $"+{mod.flat} {metric}";
+
 
 		private void Draw(MeshGenerationContext ctx) {
 			var painter    = ctx.painter2D;
@@ -115,50 +133,28 @@ namespace UI {
 			painter.lineWidth   = dotWidth;
 			painter.lineCap     = LineCap.Round;
 
-			foreach (var card in leftCards) {
-				var cardIndex = leftCards.IndexOf(card);
-				var positionAWithOffset =
-					new Vector2(card.worldBound.xMax, card.worldBound.center.y);
+			DrawLines(painter, leftCards, leftSkills, rect => new Vector2(rect.xMax, rect.center.y),
+			          tanukiRect.center);
+			DrawLines(painter, rightCards, rightSkills, rect => new Vector2(rect.xMin, rect.center.y),
+			          tanukiRect.center);
+			DrawLines(painter, bottomCards, bottomSkills, rect => new Vector2(rect.center.x, rect.yMin),
+			          tanukiRect.center);
+		}
 
-				var positionBWithOffset =
-					leftSkills.Count > cardIndex && leftSkills[cardIndex].drawLine
-						? new Vector2(tanukiRect.xMin, tanukiRect.center.y) + leftSkills[cardIndex].lineOffset
-						: new Vector2(tanukiRect.xMin, tanukiRect.center.y);
-
-				DrawDots(painter, positionAWithOffset, positionBWithOffset);
-			}
-
-			foreach (var card in rightCards) {
-				var cardIndex = rightCards.IndexOf(card);
-				var positionAWithOffset =
-					new Vector2(card.worldBound.xMin, card.worldBound.center.y);
-
-				var positionBWithOffset =
-					rightSkills.Count > cardIndex && rightSkills[cardIndex].drawLine
-						? new Vector2(tanukiRect.xMin, tanukiRect.center.y) + rightSkills[cardIndex].lineOffset
-						: new Vector2(tanukiRect.xMin, tanukiRect.center.y);
-
-				DrawDots(painter, positionAWithOffset, positionBWithOffset);
-			}
-
-
-			foreach (var card in bottomCards) {
-				var cardIndex = bottomCards.IndexOf(card);
-				var positionAWithOffset =
-					new Vector2(card.worldBound.xMin, card.worldBound.center.y);
-
-				var positionBWithOffset =
-					rightSkills.Count > cardIndex && rightSkills[cardIndex].drawLine
-						? new Vector2(tanukiRect.xMin, tanukiRect.center.y) + rightSkills[cardIndex].lineOffset
-						: new Vector2(tanukiRect.xMin, tanukiRect.center.y);
-
-				DrawDots(painter, positionAWithOffset, positionBWithOffset);
+		private void DrawLines(Painter2D           painter,    List<Button> cards, List<SkillObject> skills,
+		                       Func<Rect, Vector2> cardAnchor, Vector2      tanukiAnchor) {
+			for (var i = 0; i < cards.Count && i < skills.Count; i++) {
+				var skill = skills[i];
+				if (!skill.drawLine) continue;
+				var end = tanukiAnchor + skill.lineOffset;
+				DrawLine(painter, cardAnchor(cards[i].worldBound), end);
 			}
 		}
 
-		private void DrawDots(Painter2D painter, Vector2 posA, Vector2 posB) {
-			posA = new Vector2(posA.x + (posB.x - posA.x) * overlap, posA.y);
-			posB = new Vector2(posB.x - (posB.x - posA.x) * overlap, posB.y);
+		private void DrawLine(Painter2D painter, Vector2 posA, Vector2 posB) {
+			var d = posB - posA;
+			posA += d * overlap;
+			posB -= d * overlap;
 			var a = overlay.WorldToLocal(posA);
 			var b = overlay.WorldToLocal(posB);
 
@@ -175,5 +171,13 @@ namespace UI {
 
 			painter.Stroke();
 		}
+
+		#if UNITY_EDITOR
+		[ContextMenu("Reset Skills")]
+		public void ResetSkills() {
+			SaveSystem.Data.unlockedSkills.Clear();
+			SaveSystem.Save();
+		}
+		#endif
 	}
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Logic {
@@ -49,8 +50,7 @@ namespace Logic {
 				} catch (Exception e) {
 					Debug.LogError($"Failed to save save data to {FilePath}. Exception: {e}");
 				}
-			}
-			else File.Move(temp, FilePath);
+			} else File.Move(temp, FilePath);
 		}
 
 		private static SaveData Load() {
@@ -72,9 +72,10 @@ namespace Logic {
 		public static int Level       => LevelFromXp(SaveSystem.Data.totalXp);
 		public static int SkillPoints => Level - 1 - SaveSystem.Data.unlockedSkills.Count;
 
-		public static int  LevelFromXp(float xp)    => Mathf.FloorToInt(Mathf.Sqrt(xp / XpScale)) + 1;
-		public static int  XpForLevel(int    level) => Mathf.RoundToInt(XpScale * (level - 1) * (level - 1));
-		public static bool HasSkill(string   id)    => SaveSystem.Data.unlockedSkills.Contains(id);
+		public static  int LevelFromXp(float xp)    => Mathf.FloorToInt(Mathf.Sqrt(xp / XpScale)) + 1;
+		public static  int XpForLevel(int    level) => Mathf.RoundToInt(XpScale * (level - 1) * (level - 1));
+		public static int SkillLevel(string id)    => SaveSystem.Data.unlockedSkills.Count(s => s == id);
+
 
 		public static void AddXp(float xp) {
 			if (GameManager.Instance) GameManager.Instance.GameData.GainExperience(Mathf.RoundToInt(xp));
@@ -82,8 +83,8 @@ namespace Logic {
 			SaveSystem.Save();
 		}
 
-		public static bool TryUnlockSkill(string id) {
-			if (SkillPoints <= 0 || HasSkill(id)) return false;
+		public static bool TryUnlockSkill(string id, int maxLevel) {
+			if (SkillPoints <= 0 || SkillLevel(id) >= maxLevel) return false;
 
 			SaveSystem.Data.unlockedSkills.Add(id);
 			SaveSystem.Save();

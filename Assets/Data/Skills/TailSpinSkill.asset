@@ -25,3 +25,5 @@ MonoBehaviour:
     flat: 0
     percent: 25
   statModifierMetricName: crit chance
+  drawLine: 1
+  lineOffset: {x: 0, y: 87.95}

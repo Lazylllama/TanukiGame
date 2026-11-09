@@ -1,4 +1,5 @@
 using System;
+using Data.Skills;
 using Player;
 using RNG;
 using Room;
@@ -18,11 +19,12 @@ namespace Logic {
 		public  float MaxHearts      => PlayerStats.Get(Stat.ExtraHearts, defaultHearts);
 		private bool  IsInvulnerable => invulnerabilityTimer > 0;
 
-		[SerializeField] private RngTables rngTables;
-		[SerializeField] public  int       defaultHearts           = 3;
-		[SerializeField] public  float     invulnerabilityDuration = 0.5f;
-		[SerializeField] private int       xpPerEnemyHealth        = 10;
-		[SerializeField] private bool      useDeathShatter;
+		[SerializeField] private SkillObject[] skillObjects;
+		[SerializeField] private RngTables     rngTables;
+		[SerializeField] public  int           defaultHearts           = 3;
+		[SerializeField] public  float         invulnerabilityDuration = 0.5f;
+		[SerializeField] private int           xpPerEnemyHealth        = 10;
+		[SerializeField] private bool          useDeathShatter;
 
 		// state
 		public  bool  inRoom, dead;
@@ -44,6 +46,8 @@ namespace Logic {
 			PlayerStats = new PlayerStats();
 			RngHandler  = new RngHandler(rngTables);
 			GameData    = new GameData();
+
+			ApplySkills();
 		}
 
 		private void Start() {
@@ -77,18 +81,22 @@ namespace Logic {
 			return;
 
 			void Transition() {
-				SceneTransition.Instance.TransitionToScene("PreGameScene", () => {
-					                                                           PlayerStats  = new PlayerStats();
-					                                                           playerHealth = MaxHearts;
-					                                                           cardCount    = 0;
-					                                                           GameUIManager.Instance
-						                                                           .UpdateScratchCardUI();
+				SceneTransition.Instance.TransitionToScene(
+				                                           "PreGameScene",
+				                                           () => {
+					                                           PlayerStats  = new PlayerStats();
+					                                           playerHealth = MaxHearts;
+					                                           cardCount    = 0;
+					                                           GameUIManager.Instance
+					                                                        .UpdateScratchCardUI();
 
-					                                                           KeepOnLoad.DestroyAll();
-					                                                           PlayerController.Instance.transform
-						                                                           .position = new Vector3(0f, 1f, 0f);
-					                                                           dead = false;
-				                                                           });
+					                                           KeepOnLoad.DestroyAll();
+					                                           PlayerController.Instance.transform
+					                                                           .position = new Vector3(0f, 1f, 0f);
+					                                           dead = false;
+
+					                                           ApplySkills();
+				                                           });
 			}
 		}
 
@@ -126,6 +134,13 @@ namespace Logic {
 
 			inRoom = false;
 			GameUIManager.Instance.ShowCardUI(LoadRoom);
+		}
+
+		private void ApplySkills() {
+			foreach (var skill in skillObjects) {
+				var level = Progression.SkillLevel(skill.name);
+				if (level > 0) PlayerStats.AddStatModifier(skill.levelStatModifiers[level - 1]);
+			}
 		}
 
 		#endregion

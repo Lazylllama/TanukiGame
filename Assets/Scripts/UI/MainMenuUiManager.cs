@@ -42,17 +42,18 @@ namespace UI {
 			startScreen   = root.Q<TemplateContainer>("StartScreen");
 			optionsScreen = root.Q<TemplateContainer>("OptionsScreen");
 
-			root.Q<Button>("StartButton").clickable.clicked   += OnStart;
-			root.Q<Button>("OptionsButton").clickable.clicked += OnOptions;
-			root.Q<Button>("BackButton").clickable.clicked    += OnBack;
-			root.Q<Button>("ExitButton").clickable.clicked    += OnExit;
+			root.Q<Button>("StartButton").clickable.clicked     += OnStart;
+			root.Q<Button>("OptionsButton").clickable.clicked   += OnOptions;
+			root.Q<Button>("SkilltreeButton").clickable.clicked += OnSkilltree;
+			root.Q<Button>("BackButton").clickable.clicked      += OnBack;
+			root.Q<Button>("ExitButton").clickable.clicked      += OnExit;
 
 			optionsContainer = optionsScreen.Q<VisualElement>("Options");
 			optionsContainer.Clear();
 
 			LoadOptionsScreen(settingsPage);
 			ShowScreen(startScreen);
-			UpdateExpUI();
+			Lib.UI.UpdateExpUI(startScreen);
 		}
 
 		private void LoadOptionsScreen(SettingsPage page) {
@@ -142,31 +143,15 @@ namespace UI {
 			isLoading = false;
 		}
 
-		private void UpdateExpUI() {
-			var xp     = SaveSystem.Data.totalXp;
-			var level  = Progression.Level;
-			var start  = Progression.XpForLevel(level);
-			var end    = Progression.XpForLevel(level + 1);
-			var points = Progression.SkillPoints;
-
-			startScreen.Q<Label>("ExpLabel").text         = $"{xp - start}/{end - start}";
-			startScreen.Q<Label>("LevelLabel").text       = level.ToString();
-			startScreen.Q<Label>("SkillPointsLabel").text = points > 0 ? $"{points} skill points available" : "";
-
-			var bar = startScreen.Q<ProgressBar>("ExpBar");
-			bar.lowValue  = 0;
-			bar.highValue = end - start;
-			bar.value     = xp  - start;
-		}
-
 		#endregion
 
 		#region Actions
 
-		private void OnStart()   => StartCoroutine(HandleOnStart());
-		private void OnOptions() => ShowScreen(optionsScreen);
-		private void OnBack()    => ShowScreen(startScreen);
-		private void OnExit()    => Application.Quit();
+		private void OnStart()     => StartCoroutine(HandleOnStart());
+		private void OnOptions()   => ShowScreen(optionsScreen);
+		private void OnBack()      => ShowScreen(startScreen);
+		private void OnExit()      => Application.Quit();
+		private void OnSkilltree() => SceneTransition.Instance.TransitionToScene("Skilltree");
 
 		#endregion
 	}

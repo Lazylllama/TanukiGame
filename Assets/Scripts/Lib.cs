@@ -1,7 +1,9 @@
 using System.Collections;
 using Enemy;
+using Logic;
 using Player;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class Lib {
 	public static class Combat {
@@ -36,6 +38,25 @@ public static class Lib {
 
 
 			yield return null;
+		}
+	}
+
+	public static class UI {
+		public static void UpdateExpUI(VisualElement root) {
+			var xp     = SaveSystem.Data.totalXp;
+			var level  = Progression.Level;
+			var start  = Progression.XpForLevel(level);
+			var end    = Progression.XpForLevel(level + 1);
+			var points = Progression.SkillPoints;
+
+			root.Q<Label>("ExpLabel").text         = $"{xp - start}/{end - start}";
+			root.Q<Label>("LevelLabel").text       = level.ToString();
+			root.Q<Label>("SkillPointsLabel").text = points > 0 ? $"{points} skill points available" : "";
+
+			var bar = root.Q<ProgressBar>("ExpBar");
+			bar.lowValue  = 0;
+			bar.highValue = end - start;
+			bar.value     = xp  - start;
 		}
 	}
 

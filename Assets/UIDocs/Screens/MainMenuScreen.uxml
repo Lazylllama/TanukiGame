@@ -11,9 +11,13 @@
                 <ui:VisualElement class="arrow"/>
                 <ui:Label text="Quit" class="button-title-red"/>
             </ui:Button>
-            <ui:Button name="OptionsButton" class="button" style="align-items: center; justify-content: space-around; align-self: auto; white-space: normal; flex-direction: row;">
+            <ui:Button name="OptionsButton" enabled="true" class="button" style="align-items: center; justify-content: space-around; align-self: auto; white-space: normal; flex-direction: row; display: none;">
                 <ui:VisualElement class="arrow"/>
                 <ui:Label text="Options" class="button-title"/>
+            </ui:Button>
+            <ui:Button name="SkilltreeButton" enabled="true" class="button" style="align-items: center; justify-content: space-around; align-self: auto; white-space: normal; flex-direction: row; display: flex;">
+                <ui:VisualElement class="arrow"/>
+                <ui:Label text="Skilltree" class="button-title"/>
             </ui:Button>
             <ui:Button name="StartButton" class="button">
                 <ui:VisualElement name="" class="arrow"/>

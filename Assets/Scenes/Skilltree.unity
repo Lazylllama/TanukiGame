@@ -489,6 +489,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0e63ce43c17a7444a3122e807bf52ea, type: 2}
   bottomSkills:
   - {fileID: 11400000, guid: 8e20e02eb3cc38f40b99c4d271829bb2, type: 2}
+  starFilled: {fileID: 2800000, guid: f3267fa1ac8e7cb4ea2b16d0a7938e12, type: 3}
+  starOutline: {fileID: 2800000, guid: 5e10c8364f8c7af4c99a3c3466f81def, type: 3}
 --- !u!1 &2141596197
 GameObject:
   m_ObjectHideFlags: 0

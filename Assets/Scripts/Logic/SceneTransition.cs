@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using JetBrains.Annotations;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -50,7 +51,7 @@ namespace Logic {
 			if (Keyboard.current.rKey.wasPressedThisFrame) TestTransitionReverse();
 		}
 
-		public void TransitionToScene(string sceneName, Action onScreenCovered) {
+		public void TransitionToScene(string sceneName, [CanBeNull] Action onScreenCovered = null) {
 			if (busy) return;
 			StartCoroutine(TransitionCoroutine(sceneName, onScreenCovered));
 		}
@@ -96,7 +97,7 @@ namespace Logic {
 				while (loadScene.progress < 0.9f) yield return null;
 
 				Flash();
-				onScreenCovered.Invoke();
+				onScreenCovered?.Invoke();
 				yield return null; // render frame
 
 				loadScene.allowSceneActivation = true;

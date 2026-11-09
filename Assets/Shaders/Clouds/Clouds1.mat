@@ -35,6 +35,7 @@ Material:
     m_Floats:
     - _BackDensity: 7.18
     - _DistFromMoon: 0.69
+    - _LumpStrength: 0.4
     - _Radius: 5.79
     - _SoftRadius: 2
     - _StartDepth: 1
