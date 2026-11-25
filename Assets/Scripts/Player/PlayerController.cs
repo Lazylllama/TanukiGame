@@ -30,7 +30,7 @@ namespace Player {
 
 		//? Getters and setters
 		[field: SerializeField] public MovingStates MovingState      { get; set; }
-		public                         bool         IsLookingRight   { get; private set; }
+		public                         bool         IsLookingRight   { get; private set; } = true;
 		public                         bool         GetIsGrounded()  => IsGrounded();
 		[field: SerializeField] public bool         KnockbackActive  { get;         set; }
 		public                         Vector2      ExtraForce       { private get; set; }
@@ -134,6 +134,7 @@ namespace Player {
 			dashActive  = true;
 			var currentFacingDirection = IsLookingRight ? 1 : -1;
 			var dashLengthTimer        = dashLength;
+			Lib.Feel.TimeStop(0.1f);
 
 			while (dashLengthTimer > 0) {
 				dashLengthTimer -= Time.deltaTime;
@@ -149,6 +150,7 @@ namespace Player {
 		}
 
 		private void CheckSpriteFlip() {
+			if (dashActive) return;
 			var oldDirection = IsLookingRight;
 			IsLookingRight = moveVector.x switch {
 				> 0 => true,

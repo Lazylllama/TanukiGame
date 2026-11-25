@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Enemy {
 
 		#region Fields
 
-		[Header("Lantern Settings")]
+		[Header("Combat Settings")]
 		[SerializeField] private float attackCooldown;
 		[SerializeField] private float      fireBallSpeed;
 		[SerializeField] private float      attackWindup;
@@ -20,9 +21,16 @@ namespace Enemy {
 		[SerializeField] private Transform  attackPointTransform;
 		[SerializeField] private GameObject fireBall;
 
+		[Header("Movement Settings")]
+		[SerializeField] private float moveSpeed;
+		[SerializeField] private float followRadius;
+		[SerializeField] private float fleeRadius;
+		[SerializeField] private bool  following;
+		[SerializeField] private bool  fleeing;
+
 		[Header("Hover Settings")]
 		[SerializeField] private float hoverSpeed;
-		[SerializeField] private float hoverLimit;
+		[SerializeField] private float hoverLimitY;
 
 		[Header("Recoil Settings")]
 		[SerializeField] private float recoilForce;
@@ -71,6 +79,10 @@ namespace Enemy {
 			StateChanger();
 		}
 
+		private void FixedUpdate() {
+			Movement();
+		}
+
 		#endregion
 
 		#region Functions
@@ -78,12 +90,30 @@ namespace Enemy {
 		private void Hover() {
 			speedCurve += Time.deltaTime * hoverSpeed;
 
-			hoverPosition.y          = CosCurve      * hoverLimit;
+			hoverPosition.y          = CosCurve      * hoverLimitY;
 			lanternRb.linearVelocity = hoverPosition * hoverSpeed;
 		}
 
+		private void Movement() {
+			if (!isAwakened || CurrentEnemyState == EnemyStates.Knockback) return;
+			if ((Vector2.Distance(transform.position, playerTransform.position) > followRadius)) {
+				gameObject.transform.position =
+					Vector2.MoveTowards(transform.position, playerTransform.position, moveSpeed * Time.deltaTime);
+				following = true;
+			} else following = false;
+
+			if ((Vector2.Distance(transform.position, playerTransform.position) < fleeRadius)) {
+				var fleeDirection = (playerTransform.position - gameObject.transform.position).normalized;
+				lanternRb.linearVelocity = fleeDirection * moveSpeed * -1;
+				fleeing                  = true;
+			}
+
+			fleeing = false;
+		}
+
+
 		private void Shooting() {
-			if (!PlayerDetected()) return;
+			if (!isAwakened || following || fleeing) return;
 			if (attackTimer <= 0f && shootCoroutine == null) {
 				shootCoroutine = StartCoroutine(Shoot());
 			}
@@ -118,7 +148,7 @@ namespace Enemy {
 			isShooting                  = false;
 
 			//StartCoroutine(EnemyExtraForce(recoilForce, -shootDirection, recoilLength));
-			StartCoroutine(LanternRecoil(recoilForce, -shootDirection, recoilLength));
+			//StartCoroutine(LanternRecoil(recoilForce, -shootDirection, recoilLength));
 
 
 			shootCoroutine = null;
@@ -184,10 +214,19 @@ namespace Enemy {
 			var hit = Physics2D.Linecast(transform.position, playerTransform.position,
 			                             LayerMask.GetMask("Ground", "Player"));
 			isAwakened = true;
-			
+
 			return hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player");
 		}
 
 		#endregion
+
+		private void OnDrawGizmos() {
+			if (playerTransform == null) return;
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireSphere(playerTransform.position, fleeRadius);
+
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireSphere(playerTransform.position, followRadius);
+		}
 	}
 }
