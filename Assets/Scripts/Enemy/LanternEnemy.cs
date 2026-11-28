@@ -33,7 +33,10 @@ namespace Enemy {
 
 		[Header("Hover Settings")]
 		[SerializeField] private float hoverSpeed;
-		[SerializeField] private float hoverLimitY;
+		[SerializeField] private float curveScale;
+		[SerializeField] private float curveSpeed;
+		[SerializeField] private float time;
+
 
 		[Header("Recoil Settings")]
 		[SerializeField] private float recoilForce;
@@ -46,9 +49,6 @@ namespace Enemy {
 
 		//? Private floats
 		private float attackTimer;
-		private float positionChangeTimer;
-		private float speedCurve;
-		private float CosCurve => Mathf.Cos(speedCurve);
 
 		//? Private bools
 		private bool isLookingRight;
@@ -91,10 +91,14 @@ namespace Enemy {
 		#region Functions
 
 		private void Hover() {
-			speedCurve += Time.deltaTime * hoverSpeed;
+			time += curveSpeed * Time.deltaTime;
 
-			hoverPosition.y          = CosCurve      * hoverLimitY;
-			lanternRb.linearVelocity = hoverPosition * hoverSpeed;
+			var curveValueY = Mathf.PerlinNoise(time * -1, 0) * curveScale;
+
+			var curveY = curveValueY * hoverSpeed;
+
+
+			lanternRb.AddForce(curveY * Vector2.up);
 		}
 
 		private void Movement() {

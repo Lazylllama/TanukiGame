@@ -1485,6 +1485,14 @@ PrefabInstance:
       value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: curveScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
+      propertyPath: curveSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777245734712846369, guid: 78d7c533a48c8714eafce8bcdcb8e784, type: 3}
       propertyPath: fleeRadius
       value: 6
       objectReference: {fileID: 0}
