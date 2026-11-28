@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using Logic;
@@ -18,6 +19,9 @@ namespace Player {
 		[SerializeField] private float normalGravity;
 		[SerializeField] private float coyoteTime;
 		[SerializeField] private float jumpBufferTime;
+		[SerializeField] private float acceleration;
+		[SerializeField] private float deceleration;
+		[SerializeField] private float velPower;
 
 		[Header("Dash settings")]
 		[SerializeField] private float dashForce;
@@ -91,7 +95,7 @@ namespace Player {
 		}
 
 		private void Start() {
-			fallSpeedDampingChangeThreshold     =  CameraManager.Instance.fallSpeedDampingChangeThreshold;
+			fallSpeedDampingChangeThreshold = CameraManager.Instance.fallSpeedDampingChangeThreshold;
 		}
 
 		private void Update() {
@@ -103,8 +107,6 @@ namespace Player {
 			} else if (PlayerRb.linearVelocityY >= 0f) {
 				CameraManager.Instance.LerpYDamping(false);
 			}
-
-
 		}
 
 		private void FixedUpdate() {
@@ -118,7 +120,17 @@ namespace Player {
 			if (dashActive) return;
 
 			if (MovingState == MovingStates.Knockback) return;
-			PlayerRb.linearVelocityX = moveVector.x * GameManager.Instance.PlayerStats.Get(Stat.MoveSpeed, moveSpeed) + ExtraForce.x;
+			var targetSpeed = moveVector.x * GameManager.Instance.PlayerStats.Get(Stat.MoveSpeed, moveSpeed);
+
+			var speedDif = targetSpeed - PlayerRb.linearVelocity.x;
+
+			var accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+
+			var movement = Mathf.Abs(speedDif) * accelRate * Mathf.Sign(speedDif);
+
+			PlayerRb.AddForce(movement * Vector2.right);
+
+			if (ExtraForce.x != 0) PlayerRb.linearVelocityX = ExtraForce.x;
 			if (ExtraForce.y != 0) PlayerRb.linearVelocityY = ExtraForce.y;
 
 			if (!(jumpBufferTimer >= 0) || !(coyoteTimer > 0)) return;
@@ -192,8 +204,8 @@ namespace Player {
 
 		private void StateChanger() {
 			if (!KnockbackActive) {
-				if (PlayerRb.linearVelocity.x == 0f && IsGrounded()) MovingState  = MovingStates.Idle;
-				if (PlayerRb.linearVelocity.x != 0f && IsGrounded()) MovingState  = MovingStates.Moving;
+				if (Mathf.Abs(PlayerRb.linearVelocity.x) < 0.01f && IsGrounded()) MovingState  = MovingStates.Idle;
+				if (Mathf.Abs(PlayerRb.linearVelocity.x) > 0.01f && IsGrounded()) MovingState  = MovingStates.Moving;
 				if (PlayerRb.linearVelocity.y > 0f  && !IsGrounded()) MovingState = MovingStates.Jumping;
 				if (PlayerRb.linearVelocity.y < 0f  && !IsGrounded()) MovingState = MovingStates.Falling;
 				if (dashActive) MovingState                                       = MovingStates.Dashing;

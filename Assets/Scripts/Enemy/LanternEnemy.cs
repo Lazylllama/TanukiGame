@@ -23,6 +23,9 @@ namespace Enemy {
 
 		[Header("Movement Settings")]
 		[SerializeField] private float moveSpeed;
+		[SerializeField] private float acceleration;
+		[SerializeField] private float deceleration;
+		[SerializeField] private float velPower;
 		[SerializeField] private float followRadius;
 		[SerializeField] private float fleeRadius;
 		[SerializeField] private bool  following;
@@ -72,7 +75,7 @@ namespace Enemy {
 		}
 
 		private void Update() {
-			Hover();
+			//Hover();
 			Shooting();
 			HandleCooldowns();
 			SpriteFlip();
@@ -96,19 +99,41 @@ namespace Enemy {
 
 		private void Movement() {
 			if (!isAwakened || CurrentEnemyState == EnemyStates.Knockback) return;
+			var playerDirection = (playerTransform.position - gameObject.transform.position).normalized;
+
 			if ((Vector2.Distance(transform.position, playerTransform.position) > followRadius)) {
-				gameObject.transform.position =
-					Vector2.MoveTowards(transform.position, playerTransform.position, moveSpeed * Time.deltaTime);
 				following = true;
+				Debug.Log("Following");
 			} else following = false;
 
-			if ((Vector2.Distance(transform.position, playerTransform.position) < fleeRadius)) {
-				var fleeDirection = (playerTransform.position - gameObject.transform.position).normalized;
-				lanternRb.linearVelocity = fleeDirection * moveSpeed * -1;
-				fleeing                  = true;
+			if (Vector2.Distance(transform.position, playerTransform.position) < followRadius &&
+			    Vector2.Distance(transform.position, playerTransform.position) > fleeRadius) {
+				playerDirection = Vector2.zero;
+				Debug.Log("Chill zone");
 			}
 
-			fleeing = false;
+			if ((Vector2.Distance(transform.position, playerTransform.position) < fleeRadius)) {
+				fleeing         =  true;
+				playerDirection *= -1;
+				Debug.Log("Fleeing");
+			} else fleeing = false;
+
+
+			var movementVector = new Vector2(XYAccelDeccel(playerDirection.x, true),
+			                                 XYAccelDeccel(playerDirection.y, false));
+			Debug.Log(movementVector);
+			lanternRb.AddForce(movementVector);
+		}
+
+		private float XYAccelDeccel(float playerDirection, bool xMovement) {
+			var targetSpeed = playerDirection * moveSpeed;
+
+			var speedDif = targetSpeed - (xMovement ? lanternRb.linearVelocity.x : lanternRb.linearVelocity.y);
+
+			var accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+
+			var movement = Mathf.Abs(speedDif) * accelRate * Mathf.Sign(speedDif);
+			return movement;
 		}
 
 
